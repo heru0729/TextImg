@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>TextImage Generator</title>
+<title>TextImg — Text Image Generator</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Serif+JP:wght@400;700&family=M+PLUS+Rounded+1c:wght@400;700&family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #0f0f0f; --panel: #1a1a1a; --border: #2e2e2e;
-    --text: #e8e8e8; --muted: #888; --accent: #d4ff00; --radius: 8px;
-  }
+  :root { --bg: #0f0f0f; --panel: #1a1a1a; --border: #2e2e2e; --text: #e8e8e8; --muted: #888; --accent: #d4ff00; --radius: 8px; }
   body { background: var(--bg); color: var(--text); font-family: 'Noto Sans JP', sans-serif; font-size: 13px; min-height: 100vh; display: flex; flex-direction: column; }
-  header { padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+  header { padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .header-left { display: flex; align-items: center; gap: 12px; }
   header h1 { font-family: 'Dela Gothic One', cursive; font-size: 18px; letter-spacing: 0.05em; color: var(--accent); }
   header span { color: var(--muted); font-size: 11px; }
+  .lang-btn { background: var(--panel); border: 1px solid var(--border); color: var(--muted); padding: 4px 12px; border-radius: 20px; font-size: 11px; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; transition: all 0.15s; }
+  .lang-btn:hover { border-color: var(--accent); color: var(--accent); }
   .main { display: flex; flex: 1; overflow: hidden; }
   .sidebar { width: 280px; flex-shrink: 0; border-right: 1px solid var(--border); overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 20px; }
   .section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
@@ -44,120 +44,44 @@
   .dl-btn:hover { opacity: 0.85; }
   input[type="range"] { width: 100%; accent-color: var(--accent); }
   .divider { border: none; border-top: 1px solid var(--border); }
-
-  .preview-area {
-    flex: 1;
-    overflow: hidden;
-    position: relative;
-    background: repeating-conic-gradient(#1c1c1c 0% 25%, #181818 0% 50%) 0 0 / 20px 20px;
-    cursor: grab;
-    user-select: none;
-    touch-action: none;
-  }
+  .preview-area { flex: 1; overflow: hidden; position: relative; background: repeating-conic-gradient(#1c1c1c 0% 25%, #181818 0% 50%) 0 0 / 20px 20px; cursor: grab; user-select: none; touch-action: none; }
   .preview-area:active { cursor: grabbing; }
-
-  .canvas-wrapper {
-    position: absolute;
-    transform-origin: center center;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
-  }
-
+  .canvas-wrapper { position: absolute; transform-origin: center center; box-shadow: 0 8px 40px rgba(0,0,0,0.6); }
   canvas { display: block; }
-
-  .zoom-hud {
-    position: absolute;
-    bottom: 16px;
-    right: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(26,26,26,0.92);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 6px 14px;
-    font-size: 12px;
-    font-family: 'Courier New', monospace;
-    color: var(--muted);
-    backdrop-filter: blur(8px);
-    pointer-events: auto;
-  }
-  .zoom-hud button {
-    background: none;
-    border: none;
-    color: var(--muted);
-    cursor: pointer;
-    font-size: 16px;
-    line-height: 1;
-    padding: 0 2px;
-    transition: color 0.15s;
-  }
+  .zoom-hud { position: absolute; bottom: 16px; right: 16px; display: flex; align-items: center; gap: 8px; background: rgba(26,26,26,0.92); border: 1px solid var(--border); border-radius: 20px; padding: 6px 14px; font-size: 12px; font-family: 'Courier New', monospace; color: var(--muted); backdrop-filter: blur(8px); pointer-events: auto; }
+  .zoom-hud button { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 16px; line-height: 1; padding: 0 2px; transition: color 0.15s; }
   .zoom-hud button:hover { color: var(--accent); }
   #zoomLabel { color: var(--text); min-width: 42px; text-align: center; }
-
-  .size-indicator {
-    position: absolute;
-    bottom: 16px;
-    left: 16px;
-    color: var(--muted);
-    font-size: 11px;
-    font-family: 'Courier New', monospace;
-    background: rgba(26,26,26,0.8);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 4px 10px;
-  }
-
-  .hint {
-    position: absolute;
-    top: 16px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 10px;
-    color: var(--muted);
-    background: rgba(26,26,26,0.7);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 3px 10px;
-    white-space: nowrap;
-    pointer-events: none;
-    opacity: 1;
-    transition: opacity 1s;
-  }
+  .size-indicator { position: absolute; bottom: 16px; left: 16px; color: var(--muted); font-size: 11px; font-family: 'Courier New', monospace; background: rgba(26,26,26,0.8); border: 1px solid var(--border); border-radius: 12px; padding: 4px 10px; }
+  .hint { position: absolute; top: 16px; left: 50%; transform: translateX(-50%); font-size: 10px; color: var(--muted); background: rgba(26,26,26,0.7); border: 1px solid var(--border); border-radius: 10px; padding: 3px 10px; white-space: nowrap; pointer-events: none; opacity: 1; transition: opacity 1s; }
   .hint.hidden { opacity: 0; }
 </style>
 </head>
 <body>
-
 <header>
-  <h1>TextImg</h1>
-  <span>テキスト画像ジェネレーター</span>
+  <div class="header-left">
+    <h1>TextImg</h1>
+    <span data-i18n="header.sub">Text Image Generator</span>
+  </div>
+  <button class="lang-btn" id="langBtn">日本語</button>
 </header>
-
 <div class="main">
   <aside class="sidebar">
     <div>
-      <div class="section-label">テキスト</div>
-      <label>入力</label>
-      <textarea id="textInput" placeholder="ここにテキストを入力...">Hello, World!</textarea>
+      <div class="section-label" data-i18n="sec.text">Text</div>
+      <label data-i18n="label.input">Input</label>
+      <textarea id="textInput" placeholder="Enter text here...">Hello, World!</textarea>
     </div>
     <div>
-      <div class="section-label">フォント</div>
-      <label>フォント種類</label>
-      <select id="fontFamily">
-        <option value="'Noto Sans JP', sans-serif">Noto Sans JP（ゴシック）</option>
-        <option value="'Noto Serif JP', serif">Noto Serif JP（明朝）</option>
-        <option value="'M PLUS Rounded 1c', sans-serif">M PLUS Rounded（丸ゴシック）</option>
-        <option value="'Dela Gothic One', cursive">Dela Gothic One（デコラティブ）</option>
-        <option value="'Zen Kaku Gothic New', sans-serif">Zen Kaku Gothic New</option>
-        <option value="serif">serif（システム）</option>
-        <option value="monospace">monospace</option>
-      </select>
+      <div class="section-label" data-i18n="sec.font">Font</div>
+      <label data-i18n="label.fontFamily">Font family</label>
+      <select id="fontFamily"></select>
       <div style="margin-top:8px">
-        <label>サイズ <span id="fontSizeVal">64</span>px</label>
+        <label><span data-i18n="label.fontSize">Size</span> <span id="fontSizeVal">64</span>px</label>
         <input type="range" id="fontSize" min="8" max="300" value="64">
       </div>
       <div style="margin-top:8px">
-        <label>行間 <span id="lineHeightVal">1.4</span></label>
+        <label><span data-i18n="label.lineHeight">Line height</span> <span id="lineHeightVal">1.4</span></label>
         <input type="range" id="lineHeight" min="0.8" max="3.0" step="0.1" value="1.4">
       </div>
       <div style="margin-top:8px" class="format-group">
@@ -166,15 +90,15 @@
       </div>
     </div>
     <div>
-      <div class="section-label">配置</div>
-      <label>水平</label>
+      <div class="section-label" data-i18n="sec.align">Alignment</div>
+      <label data-i18n="label.hAlign">Horizontal</label>
       <div class="align-group">
         <button class="align-btn active" data-align="left" onclick="setAlign('left')">&#9776;</button>
         <button class="align-btn" data-align="center" onclick="setAlign('center')">&#8801;</button>
         <button class="align-btn" data-align="right" onclick="setAlign('right')">&#9776;</button>
       </div>
       <div style="margin-top:8px">
-        <label>垂直</label>
+        <label data-i18n="label.vAlign">Vertical</label>
         <div class="align-group">
           <button class="align-btn active" data-valign="top" onclick="setVAlign('top')">↑</button>
           <button class="align-btn" data-valign="middle" onclick="setVAlign('middle')">↕</button>
@@ -183,325 +107,231 @@
       </div>
     </div>
     <div>
-      <div class="section-label">カラー</div>
-      <label>背景色</label>
+      <div class="section-label" data-i18n="sec.color">Color</div>
+      <label data-i18n="label.bgColor">Background</label>
       <div class="color-row">
-        <div class="color-swatch" id="bgSwatch" style="background:#ffffff">
-          <input type="color" id="bgColor" value="#ffffff">
-        </div>
+        <div class="color-swatch" id="bgSwatch" style="background:#ffffff"><input type="color" id="bgColor" value="#ffffff"></div>
         <input type="text" class="color-hex" id="bgHex" value="#ffffff" maxlength="7">
       </div>
       <div style="margin-top:8px">
-        <label>文字色</label>
+        <label data-i18n="label.fgColor">Text color</label>
         <div class="color-row">
-          <div class="color-swatch" id="fgSwatch" style="background:#000000">
-            <input type="color" id="fgColor" value="#000000">
-          </div>
+          <div class="color-swatch" id="fgSwatch" style="background:#000000"><input type="color" id="fgColor" value="#000000"></div>
           <input type="text" class="color-hex" id="fgHex" value="#000000" maxlength="7">
         </div>
       </div>
     </div>
     <div>
-      <div class="section-label">余白</div>
-      <label>パディング <span id="paddingVal">40</span>px</label>
+      <div class="section-label" data-i18n="sec.padding">Padding</div>
+      <label><span data-i18n="label.padding">Padding</span> <span id="paddingVal">40</span>px</label>
       <input type="range" id="padding" min="0" max="200" value="40">
     </div>
     <div>
-      <div class="section-label">画像サイズ</div>
+      <div class="section-label" data-i18n="sec.size">Image size</div>
       <div class="preset-grid">
-        <button class="preset-btn" onclick="setPreset(800,600)">800×600<br><span style="color:#666">汎用</span></button>
+        <button class="preset-btn" onclick="setPreset(800,600)">800×600<br><span style="color:#666" data-i18n="preset.general">General</span></button>
         <button class="preset-btn" onclick="setPreset(1200,630)">1200×630<br><span style="color:#666">OGP</span></button>
-        <button class="preset-btn" onclick="setPreset(1080,1080)">1080×1080<br><span style="color:#666">正方形</span></button>
+        <button class="preset-btn" onclick="setPreset(1080,1080)">1080×1080<br><span style="color:#666" data-i18n="preset.square">Square</span></button>
         <button class="preset-btn" onclick="setPreset(1920,1080)">1920×1080<br><span style="color:#666">FHD</span></button>
-        <button class="preset-btn" onclick="setPreset(1080,1920)">1080×1920<br><span style="color:#666">縦長</span></button>
-        <button class="preset-btn" onclick="setPreset(1500,500)">1500×500<br><span style="color:#666">横長</span></button>
+        <button class="preset-btn" onclick="setPreset(1080,1920)">1080×1920<br><span style="color:#666" data-i18n="preset.portrait">Portrait</span></button>
+        <button class="preset-btn" onclick="setPreset(1500,500)">1500×500<br><span style="color:#666" data-i18n="preset.wide">Wide</span></button>
       </div>
       <div class="row2" style="margin-top:8px">
-        <div>
-          <label>幅 (px)</label>
-          <input type="number" id="imgWidth" value="800" min="1" max="4000">
-        </div>
-        <div>
-          <label>高さ (px)</label>
-          <input type="number" id="imgHeight" value="600" min="1" max="4000">
-        </div>
+        <div><label data-i18n="label.width">Width (px)</label><input type="number" id="imgWidth" value="800" min="1" max="4000"></div>
+        <div><label data-i18n="label.height">Height (px)</label><input type="number" id="imgHeight" value="600" min="1" max="4000"></div>
       </div>
     </div>
     <hr class="divider">
     <div>
-      <div class="section-label">ダウンロード</div>
+      <div class="section-label" data-i18n="sec.download">Download</div>
       <div class="dl-row">
         <select id="dlFormat" style="width:90px">
           <option value="png">PNG</option>
           <option value="jpeg">JPEG</option>
           <option value="webp">WebP</option>
         </select>
-        <button class="dl-btn" onclick="download()">⬇ 保存</button>
+        <button class="dl-btn" onclick="download()" data-i18n="btn.save">⬇ Save</button>
       </div>
     </div>
   </aside>
-
   <div class="preview-area" id="previewArea">
-    <div class="canvas-wrapper" id="canvasWrapper">
-      <canvas id="canvas"></canvas>
-    </div>
+    <div class="canvas-wrapper" id="canvasWrapper"><canvas id="canvas"></canvas></div>
     <div class="size-indicator" id="sizeIndicator">800 × 600 px</div>
     <div class="zoom-hud">
       <button onclick="zoomStep(-1)">−</button>
       <span id="zoomLabel">100%</span>
       <button onclick="zoomStep(1)">＋</button>
-      <button onclick="resetZoom()" title="リセット">⌖</button>
+      <button onclick="resetZoom()">⌖</button>
     </div>
-    <div class="hint" id="hint">ホイール / ピンチ でズーム　ドラッグ でパン</div>
+    <div class="hint" id="hint" data-i18n="hint">Wheel / Pinch to zoom　Drag to pan</div>
   </div>
 </div>
-
 <script>
-  const canvas = document.getElementById('canvas');
-  const ctx = canvas.getContext('2d');
-  const wrapper = document.getElementById('canvasWrapper');
-  const previewArea = document.getElementById('previewArea');
-  const hint = document.getElementById('hint');
-
-  let zoom = 1;
-  let panX = 0, panY = 0;
-  const MIN_ZOOM = 0.05, MAX_ZOOM = 10;
-
-  setTimeout(() => hint.classList.add('hidden'), 4000);
-
-  function applyTransform() {
-    const rect = previewArea.getBoundingClientRect();
-    const cx = rect.width / 2;
-    const cy = rect.height / 2;
-    wrapper.style.left = cx + panX + 'px';
-    wrapper.style.top  = cy + panY + 'px';
-    wrapper.style.transform = `translate(-50%, -50%) scale(${zoom})`;
-    document.getElementById('zoomLabel').textContent = Math.round(zoom * 100) + '%';
+const STRINGS = {
+  en: {
+    'header.sub':'Text Image Generator',
+    'sec.text':'Text','label.input':'Input',
+    'sec.font':'Font','label.fontFamily':'Font family',
+    'label.fontSize':'Size','label.lineHeight':'Line height',
+    'sec.align':'Alignment','label.hAlign':'Horizontal','label.vAlign':'Vertical',
+    'sec.color':'Color','label.bgColor':'Background','label.fgColor':'Text color',
+    'sec.padding':'Padding','label.padding':'Padding',
+    'sec.size':'Image size','label.width':'Width (px)','label.height':'Height (px)',
+    'preset.general':'General','preset.square':'Square','preset.portrait':'Portrait','preset.wide':'Wide',
+    'sec.download':'Download','btn.save':'⬇ Save',
+    'hint':'Wheel / Pinch to zoom　Drag to pan',
+    'placeholder':'Enter text here...',
+  },
+  ja: {
+    'header.sub':'テキスト画像ジェネレーター',
+    'sec.text':'テキスト','label.input':'入力',
+    'sec.font':'フォント','label.fontFamily':'フォント種類',
+    'label.fontSize':'サイズ','label.lineHeight':'行間',
+    'sec.align':'配置','label.hAlign':'水平','label.vAlign':'垂直',
+    'sec.color':'カラー','label.bgColor':'背景色','label.fgColor':'文字色',
+    'sec.padding':'余白','label.padding':'パディング',
+    'sec.size':'画像サイズ','label.width':'幅 (px)','label.height':'高さ (px)',
+    'preset.general':'汎用','preset.square':'正方形','preset.portrait':'縦長','preset.wide':'横長',
+    'sec.download':'ダウンロード','btn.save':'⬇ 保存',
+    'hint':'ホイール / ピンチ でズーム　ドラッグ でパン',
+    'placeholder':'ここにテキストを入力...',
   }
+};
 
-  function clampZoom(z) { return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, z)); }
+const FONTS = [
+  { v:"'Noto Sans JP', sans-serif", en:'Noto Sans JP (Gothic)',    ja:'Noto Sans JP（ゴシック）' },
+  { v:"'Noto Serif JP', serif",     en:'Noto Serif JP (Mincho)',   ja:'Noto Serif JP（明朝）' },
+  { v:"'M PLUS Rounded 1c', sans-serif", en:'M PLUS Rounded',     ja:'M PLUS Rounded（丸ゴシック）' },
+  { v:"'Dela Gothic One', cursive", en:'Dela Gothic One',          ja:'Dela Gothic One（デコラティブ）' },
+  { v:"'Zen Kaku Gothic New', sans-serif", en:'Zen Kaku Gothic New', ja:'Zen Kaku Gothic New' },
+  { v:'serif',     en:'serif (system)', ja:'serif（システム）' },
+  { v:'monospace', en:'monospace',      ja:'monospace' },
+];
 
-  function resetZoom() {
-    zoom = 1; panX = 0; panY = 0;
-    applyTransform();
-  }
+let lang = 'en';
 
-  function zoomStep(dir) {
-    const steps = [0.1, 0.15, 0.25, 0.33, 0.5, 0.67, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10];
-    const cur = zoom;
-    if (dir > 0) {
-      const next = steps.find(s => s > cur + 0.001);
-      zoom = next || MAX_ZOOM;
-    } else {
-      const next = [...steps].reverse().find(s => s < cur - 0.001);
-      zoom = next || MIN_ZOOM;
-    }
-    applyTransform();
-  }
-
-  previewArea.addEventListener('wheel', e => {
-    e.preventDefault();
-    const rect = previewArea.getBoundingClientRect();
-    const cx = rect.width / 2;
-    const cy = rect.height / 2;
-    const mx = e.clientX - rect.left - cx;
-    const my = e.clientY - rect.top  - cy;
-    const factor = e.deltaY < 0 ? 1.1 : 1 / 1.1;
-    const newZoom = clampZoom(zoom * factor);
-    const scale = newZoom / zoom;
-    panX = mx + (panX - mx) * scale;
-    panY = my + (panY - my) * scale;
-    zoom = newZoom;
-    applyTransform();
-  }, { passive: false });
-
-  let dragging = false, dragStartX = 0, dragStartY = 0, panStartX = 0, panStartY = 0;
-
-  previewArea.addEventListener('mousedown', e => {
-    if (e.button !== 0) return;
-    dragging = true;
-    dragStartX = e.clientX; dragStartY = e.clientY;
-    panStartX = panX; panStartY = panY;
+function applyLang() {
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if (STRINGS[lang][k]) el.textContent = STRINGS[lang][k];
   });
-  window.addEventListener('mousemove', e => {
-    if (!dragging) return;
-    panX = panStartX + (e.clientX - dragStartX);
-    panY = panStartY + (e.clientY - dragStartY);
-    applyTransform();
+  document.getElementById('textInput').placeholder = STRINGS[lang]['placeholder'];
+  document.getElementById('langBtn').textContent = lang === 'en' ? '日本語' : 'English';
+  const sel = document.getElementById('fontFamily');
+  const cur = sel.value;
+  sel.innerHTML = FONTS.map(f => `<option value="${f.v}"${f.v===cur?' selected':''}>${f[lang]}</option>`).join('');
+}
+
+document.getElementById('langBtn').addEventListener('click', () => { lang = lang==='en'?'ja':'en'; applyLang(); });
+
+// zoom/pan
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const wrapper = document.getElementById('canvasWrapper');
+const previewArea = document.getElementById('previewArea');
+let zoom=1, panX=0, panY=0;
+const MIN_ZOOM=0.05, MAX_ZOOM=10;
+setTimeout(()=>document.getElementById('hint').classList.add('hidden'),4000);
+
+function applyTransform() {
+  const r = previewArea.getBoundingClientRect();
+  wrapper.style.left = r.width/2+panX+'px';
+  wrapper.style.top  = r.height/2+panY+'px';
+  wrapper.style.transform = `translate(-50%,-50%) scale(${zoom})`;
+  document.getElementById('zoomLabel').textContent = Math.round(zoom*100)+'%';
+}
+function clampZoom(z){return Math.min(MAX_ZOOM,Math.max(MIN_ZOOM,z));}
+function resetZoom(){zoom=1;panX=0;panY=0;applyTransform();}
+function zoomStep(dir){
+  const s=[0.1,0.15,0.25,0.33,0.5,0.67,0.75,1,1.25,1.5,2,2.5,3,4,5,6,8,10];
+  if(dir>0){const n=s.find(v=>v>zoom+0.001);zoom=n||MAX_ZOOM;}
+  else{const n=[...s].reverse().find(v=>v<zoom-0.001);zoom=n||MIN_ZOOM;}
+  applyTransform();
+}
+previewArea.addEventListener('wheel',e=>{
+  e.preventDefault();
+  const r=previewArea.getBoundingClientRect();
+  const mx=e.clientX-r.left-r.width/2, my=e.clientY-r.top-r.height/2;
+  const f=e.deltaY<0?1.1:1/1.1, nz=clampZoom(zoom*f), sc=nz/zoom;
+  panX=mx+(panX-mx)*sc; panY=my+(panY-my)*sc; zoom=nz; applyTransform();
+},{passive:false});
+let dragging=false,dx=0,dy=0,px=0,py=0;
+previewArea.addEventListener('mousedown',e=>{if(e.button!==0)return;dragging=true;dx=e.clientX;dy=e.clientY;px=panX;py=panY;});
+window.addEventListener('mousemove',e=>{if(!dragging)return;panX=px+(e.clientX-dx);panY=py+(e.clientY-dy);applyTransform();});
+window.addEventListener('mouseup',()=>{dragging=false;});
+let lt=null;
+previewArea.addEventListener('touchstart',e=>{e.preventDefault();lt=[...e.touches];},{passive:false});
+previewArea.addEventListener('touchmove',e=>{
+  e.preventDefault();
+  const t=[...e.touches],r=previewArea.getBoundingClientRect(),cx=r.width/2,cy=r.height/2;
+  if(t.length===1&&lt.length===1){panX+=t[0].clientX-lt[0].clientX;panY+=t[0].clientY-lt[0].clientY;}
+  else if(t.length===2&&lt.length===2){
+    const pd=Math.hypot(lt[1].clientX-lt[0].clientX,lt[1].clientY-lt[0].clientY);
+    const cd=Math.hypot(t[1].clientX-t[0].clientX,t[1].clientY-t[0].clientY);
+    const mx=(t[0].clientX+t[1].clientX)/2-r.left-cx, my=(t[0].clientY+t[1].clientY)/2-r.top-cy;
+    const nz=clampZoom(zoom*cd/pd),sc=nz/zoom;
+    panX=mx+(panX-mx)*sc;panY=my+(panY-my)*sc;zoom=nz;
+    panX+=(t[0].clientX+t[1].clientX)/2-(lt[0].clientX+lt[1].clientX)/2;
+    panY+=(t[0].clientY+t[1].clientY)/2-(lt[0].clientY+lt[1].clientY)/2;
+  }
+  lt=t; applyTransform();
+},{passive:false});
+previewArea.addEventListener('touchend',e=>{lt=[...e.touches];},{passive:false});
+
+// canvas
+let state={text:'Hello, World!',fontFamily:"'Noto Sans JP', sans-serif",fontSize:64,lineHeight:1.4,bold:false,italic:false,align:'left',valign:'top',bgColor:'#ffffff',fgColor:'#000000',padding:40,width:800,height:600};
+
+function render(){
+  canvas.width=state.width; canvas.height=state.height;
+  ctx.fillStyle=state.bgColor; ctx.fillRect(0,0,state.width,state.height);
+  ctx.font=`${state.italic?'italic':'normal'} ${state.bold?'bold':'normal'} ${state.fontSize}px ${state.fontFamily}`;
+  ctx.fillStyle=state.fgColor; ctx.textBaseline='top';
+  const lines=state.text.split('\n'), lineH=state.fontSize*state.lineHeight, pad=state.padding, totalH=lines.length*lineH;
+  let sy=state.valign==='top'?pad:state.valign==='middle'?(state.height-totalH)/2:state.height-pad-totalH;
+  lines.forEach((line,i)=>{
+    const tw=ctx.measureText(line).width;
+    const x=state.align==='left'?pad:state.align==='center'?(state.width-tw)/2:state.width-pad-tw;
+    ctx.fillText(line,x,sy+i*lineH,state.width-pad*2);
   });
-  window.addEventListener('mouseup', () => { dragging = false; });
+  document.getElementById('sizeIndicator').textContent=`${state.width} × ${state.height} px`;
+  applyTransform();
+}
 
-  let lastTouches = null;
+document.getElementById('textInput').addEventListener('input',e=>{state.text=e.target.value;render();});
+document.getElementById('fontFamily').addEventListener('change',e=>{state.fontFamily=e.target.value;render();});
+document.getElementById('fontSize').addEventListener('input',e=>{state.fontSize=+e.target.value;document.getElementById('fontSizeVal').textContent=e.target.value;render();});
+document.getElementById('lineHeight').addEventListener('input',e=>{state.lineHeight=+e.target.value;document.getElementById('lineHeightVal').textContent=(+e.target.value).toFixed(1);render();});
+document.getElementById('padding').addEventListener('input',e=>{state.padding=+e.target.value;document.getElementById('paddingVal').textContent=e.target.value;render();});
+document.getElementById('imgWidth').addEventListener('change',e=>{state.width=+e.target.value||800;render();});
+document.getElementById('imgHeight').addEventListener('change',e=>{state.height=+e.target.value||600;render();});
 
-  previewArea.addEventListener('touchstart', e => {
-    e.preventDefault();
-    lastTouches = [...e.touches];
-  }, { passive: false });
+function syncColor(cid,hid,sid,key){
+  const p=document.getElementById(cid),h=document.getElementById(hid),s=document.getElementById(sid);
+  p.addEventListener('input',e=>{state[key]=e.target.value;h.value=e.target.value;s.style.background=e.target.value;render();});
+  h.addEventListener('change',e=>{if(/^#[0-9a-fA-F]{6}$/.test(e.target.value)){state[key]=e.target.value;p.value=e.target.value;s.style.background=e.target.value;render();}});
+}
+syncColor('bgColor','bgHex','bgSwatch','bgColor');
+syncColor('fgColor','fgHex','fgSwatch','fgColor');
 
-  previewArea.addEventListener('touchmove', e => {
-    e.preventDefault();
-    const touches = [...e.touches];
-    const rect = previewArea.getBoundingClientRect();
-    const cx = rect.width / 2;
-    const cy = rect.height / 2;
+function setAlign(a){state.align=a;document.querySelectorAll('[data-align]').forEach(b=>b.classList.toggle('active',b.dataset.align===a));render();}
+function setVAlign(v){state.valign=v;document.querySelectorAll('[data-valign]').forEach(b=>b.classList.toggle('active',b.dataset.valign===v));render();}
+function toggleBold(){state.bold=!state.bold;document.getElementById('boldBtn').classList.toggle('active',state.bold);render();}
+function toggleItalic(){state.italic=!state.italic;document.getElementById('italicBtn').classList.toggle('active',state.italic);render();}
+function setPreset(w,h){state.width=w;state.height=h;document.getElementById('imgWidth').value=w;document.getElementById('imgHeight').value=h;render();}
+function download(){
+  const fmt=document.getElementById('dlFormat').value;
+  const mime=fmt==='jpeg'?'image/jpeg':fmt==='webp'?'image/webp':'image/png';
+  const a=document.createElement('a');a.href=canvas.toDataURL(mime,0.95);a.download=`textimg.${fmt}`;a.click();
+}
 
-    if (touches.length === 1 && lastTouches.length === 1) {
-      panX += touches[0].clientX - lastTouches[0].clientX;
-      panY += touches[0].clientY - lastTouches[0].clientY;
-    } else if (touches.length === 2 && lastTouches.length === 2) {
-      const prevDist = Math.hypot(
-        lastTouches[1].clientX - lastTouches[0].clientX,
-        lastTouches[1].clientY - lastTouches[0].clientY
-      );
-      const curDist = Math.hypot(
-        touches[1].clientX - touches[0].clientX,
-        touches[1].clientY - touches[0].clientY
-      );
-      const midX = (touches[0].clientX + touches[1].clientX) / 2 - rect.left - cx;
-      const midY = (touches[0].clientY + touches[1].clientY) / 2 - rect.top  - cy;
-      const factor = curDist / prevDist;
-      const newZoom = clampZoom(zoom * factor);
-      const scale = newZoom / zoom;
-      panX = midX + (panX - midX) * scale;
-      panY = midY + (panY - midY) * scale;
-      zoom = newZoom;
-      const prevMidX = (lastTouches[0].clientX + lastTouches[1].clientX) / 2;
-      const prevMidY = (lastTouches[0].clientY + lastTouches[1].clientY) / 2;
-      const curMidX  = (touches[0].clientX   + touches[1].clientX)   / 2;
-      const curMidY  = (touches[0].clientY   + touches[1].clientY)   / 2;
-      panX += curMidX - prevMidX;
-      panY += curMidY - prevMidY;
-    }
-
-    lastTouches = touches;
-    applyTransform();
-  }, { passive: false });
-
-  previewArea.addEventListener('touchend', e => {
-    lastTouches = [...e.touches];
-  }, { passive: false });
-
-  let state = {
-    text: 'Hello, World!', fontFamily: "'Noto Sans JP', sans-serif",
-    fontSize: 64, lineHeight: 1.4, bold: false, italic: false,
-    align: 'left', valign: 'top',
-    bgColor: '#ffffff', fgColor: '#000000',
-    padding: 40, width: 800, height: 600
-  };
-
-  function render() {
-    canvas.width = state.width;
-    canvas.height = state.height;
-    ctx.fillStyle = state.bgColor;
-    ctx.fillRect(0, 0, state.width, state.height);
-    const weight = state.bold ? 'bold' : 'normal';
-    const style  = state.italic ? 'italic' : 'normal';
-    ctx.font = `${style} ${weight} ${state.fontSize}px ${state.fontFamily}`;
-    ctx.fillStyle = state.fgColor;
-    ctx.textBaseline = 'top';
-    const lines = state.text.split('\n');
-    const lineH = state.fontSize * state.lineHeight;
-    const pad   = state.padding;
-    const maxW  = state.width - pad * 2;
-    const totalH = lines.length * lineH;
-    let startY;
-    if (state.valign === 'top')         startY = pad;
-    else if (state.valign === 'middle') startY = (state.height - totalH) / 2;
-    else                                startY = state.height - pad - totalH;
-    lines.forEach((line, i) => {
-      let x;
-      const tw = ctx.measureText(line).width;
-      if (state.align === 'left')        x = pad;
-      else if (state.align === 'center') x = (state.width - tw) / 2;
-      else                               x = state.width - pad - tw;
-      ctx.fillText(line, x, startY + i * lineH, maxW);
-    });
-    document.getElementById('sizeIndicator').textContent = `${state.width} × ${state.height} px`;
-    applyTransform();
-  }
-
-  document.getElementById('textInput').addEventListener('input', e => { state.text = e.target.value; render(); });
-  document.getElementById('fontFamily').addEventListener('change', e => { state.fontFamily = e.target.value; render(); });
-  document.getElementById('fontSize').addEventListener('input', e => {
-    state.fontSize = +e.target.value;
-    document.getElementById('fontSizeVal').textContent = e.target.value;
-    render();
-  });
-  document.getElementById('lineHeight').addEventListener('input', e => {
-    state.lineHeight = +e.target.value;
-    document.getElementById('lineHeightVal').textContent = (+e.target.value).toFixed(1);
-    render();
-  });
-  document.getElementById('padding').addEventListener('input', e => {
-    state.padding = +e.target.value;
-    document.getElementById('paddingVal').textContent = e.target.value;
-    render();
-  });
-  document.getElementById('imgWidth').addEventListener('change', e => { state.width = +e.target.value || 800; render(); });
-  document.getElementById('imgHeight').addEventListener('change', e => { state.height = +e.target.value || 600; render(); });
-
-  function syncColor(colorId, hexId, swatchId, key) {
-    const picker = document.getElementById(colorId);
-    const hex    = document.getElementById(hexId);
-    const swatch = document.getElementById(swatchId);
-    picker.addEventListener('input', e => {
-      state[key] = e.target.value; hex.value = e.target.value; swatch.style.background = e.target.value; render();
-    });
-    hex.addEventListener('change', e => {
-      if (/^#[0-9a-fA-F]{6}$/.test(e.target.value)) {
-        state[key] = e.target.value; picker.value = e.target.value; swatch.style.background = e.target.value; render();
-      }
-    });
-  }
-  syncColor('bgColor', 'bgHex', 'bgSwatch', 'bgColor');
-  syncColor('fgColor', 'fgHex', 'fgSwatch', 'fgColor');
-
-  function setAlign(a) {
-    state.align = a;
-    document.querySelectorAll('[data-align]').forEach(b => b.classList.toggle('active', b.dataset.align === a));
-    render();
-  }
-  function setVAlign(v) {
-    state.valign = v;
-    document.querySelectorAll('[data-valign]').forEach(b => b.classList.toggle('active', b.dataset.valign === v));
-    render();
-  }
-  function toggleBold() {
-    state.bold = !state.bold;
-    document.getElementById('boldBtn').classList.toggle('active', state.bold);
-    render();
-  }
-  function toggleItalic() {
-    state.italic = !state.italic;
-    document.getElementById('italicBtn').classList.toggle('active', state.italic);
-    render();
-  }
-  function setPreset(w, h) {
-    state.width = w; state.height = h;
-    document.getElementById('imgWidth').value = w;
-    document.getElementById('imgHeight').value = h;
-    render();
-  }
-  function download() {
-    const fmt  = document.getElementById('dlFormat').value;
-    const mime = fmt === 'jpeg' ? 'image/jpeg' : fmt === 'webp' ? 'image/webp' : 'image/png';
-    const a    = document.createElement('a');
-    a.href     = canvas.toDataURL(mime, 0.95);
-    a.download = `textimg.${fmt}`;
-    a.click();
-  }
-
-  render();
-  setTimeout(() => {
-    const rect = previewArea.getBoundingClientRect();
-    const fitZoom = Math.min(
-      (rect.width  - 80) / state.width,
-      (rect.height - 80) / state.height,
-      1
-    );
-    zoom = clampZoom(fitZoom);
-    applyTransform();
-  }, 100);
+applyLang();
+render();
+setTimeout(()=>{
+  const r=previewArea.getBoundingClientRect();
+  zoom=clampZoom(Math.min((r.width-80)/state.width,(r.height-80)/state.height,1));
+  applyTransform();
+},100);
 </script>
 </body>
 </html>
