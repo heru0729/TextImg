@@ -120,6 +120,21 @@
           <input type="text" class="color-hex" id="fgHex" value="#000000" maxlength="7">
         </div>
       </div>
+      <div style="margin-top:12px">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-bottom:0">
+          <input type="checkbox" id="perCharCheck" style="width:auto;padding:0;accent-color:var(--accent)">
+          <span data-i18n="label.perChar">Per-character color</span>
+        </label>
+      </div>
+      <div id="perCharPanel" style="display:none;margin-top:8px">
+        <div id="perCharList" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+      </div>
+      <div style="margin-top:10px">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-bottom:0">
+          <input type="checkbox" id="gamingCheck" style="width:auto;padding:0;accent-color:var(--accent)">
+          <span data-i18n="label.gaming">Gaming Text 🌈</span>
+        </label>
+      </div>
     </div>
     <div>
       <div class="section-label" data-i18n="sec.padding">Padding</div>
@@ -181,6 +196,8 @@ const STRINGS = {
     'sec.download':'Download','btn.save':'⬇ Save',
     'hint':'Wheel / Pinch to zoom　Drag to pan',
     'placeholder':'Enter text here...',
+    'label.perChar':'Per-character color',
+    'label.gaming':'Gaming Text 🌈',
   },
   ja: {
     'header.sub':'テキスト画像ジェネレーター',
@@ -195,6 +212,8 @@ const STRINGS = {
     'sec.download':'ダウンロード','btn.save':'⬇ 保存',
     'hint':'ホイール / ピンチ でズーム　ドラッグ でパン',
     'placeholder':'ここにテキストを入力...',
+    'label.perChar':'文字ごとに色を指定',
+    'label.gaming':'Gaming Text 🌈',
   }
 };
 
@@ -280,25 +299,109 @@ previewArea.addEventListener('touchmove',e=>{
 previewArea.addEventListener('touchend',e=>{lt=[...e.touches];},{passive:false});
 
 // canvas
-let state={text:'Hello, World!',fontFamily:"'Noto Sans JP', sans-serif",fontSize:64,lineHeight:1.4,bold:false,italic:false,align:'left',valign:'top',bgColor:'#ffffff',fgColor:'#000000',padding:40,width:800,height:600};
+let state={text:'Hello, World!',fontFamily:"'Noto Sans JP', sans-serif",fontSize:64,lineHeight:1.4,bold:false,italic:false,align:'left',valign:'top',bgColor:'#ffffff',fgColor:'#000000',padding:40,width:800,height:600,perChar:false,gaming:false,charColors:{}};
+
+// gaming color: cycle through hue
+function gamingColor(index, total) {
+  const hue = Math.round((index / Math.max(total, 1)) * 360);
+  return `hsl(${hue},100%,55%)`;
+}
+
+// build per-char color pickers
+function buildPerCharList() {
+  const list = document.getElementById('perCharList');
+  const chars = [...state.text].filter(c => c !== '\n');
+  const existing = state.charColors;
+  const newColors = {};
+  list.innerHTML = '';
+  let idx = 0;
+  [...state.text].forEach((c, ci) => {
+    if (c === '\n') return;
+    const color = existing[ci] || state.fgColor;
+    newColors[ci] = color;
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:2px';
+    const lbl = document.createElement('span');
+    lbl.textContent = c === ' ' ? '·' : c;
+    lbl.style.cssText = 'font-size:10px;color:var(--muted);max-width:24px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap';
+    const swatch = document.createElement('div');
+    swatch.style.cssText = `width:24px;height:24px;border-radius:4px;border:1px solid var(--border);cursor:pointer;position:relative;overflow:hidden;background:${color}`;
+    const inp = document.createElement('input');
+    inp.type = 'color';
+    inp.value = color;
+    inp.style.cssText = 'opacity:0;position:absolute;inset:0;width:100%;height:100%;cursor:pointer;padding:0;border:none';
+    const charIdx = ci;
+    inp.addEventListener('input', e => {
+      state.charColors[charIdx] = e.target.value;
+      swatch.style.background = e.target.value;
+      render();
+    });
+    swatch.appendChild(inp);
+    wrap.appendChild(lbl);
+    wrap.appendChild(swatch);
+    list.appendChild(wrap);
+    idx++;
+  });
+  state.charColors = newColors;
+}
 
 function render(){
   canvas.width=state.width; canvas.height=state.height;
   ctx.fillStyle=state.bgColor; ctx.fillRect(0,0,state.width,state.height);
   ctx.font=`${state.italic?'italic':'normal'} ${state.bold?'bold':'normal'} ${state.fontSize}px ${state.fontFamily}`;
-  ctx.fillStyle=state.fgColor; ctx.textBaseline='top';
+  ctx.textBaseline='top';
   const lines=state.text.split('\n'), lineH=state.fontSize*state.lineHeight, pad=state.padding, totalH=lines.length*lineH;
   let sy=state.valign==='top'?pad:state.valign==='middle'?(state.height-totalH)/2:state.height-pad-totalH;
-  lines.forEach((line,i)=>{
-    const tw=ctx.measureText(line).width;
-    const x=state.align==='left'?pad:state.align==='center'?(state.width-tw)/2:state.width-pad-tw;
-    ctx.fillText(line,x,sy+i*lineH,state.width-pad*2);
+
+  // count total chars for gaming hue
+  const allChars=[...state.text].filter(c=>c!=='\n');
+  let globalCharIdx=0;
+
+  lines.forEach((line,li)=>{
+    // calc line x start
+    const lineWidth=ctx.measureText(line).width;
+    let lineX=state.align==='left'?pad:state.align==='center'?(state.width-lineWidth)/2:state.width-pad-lineWidth;
+    const y=sy+li*lineH;
+
+    if(!state.perChar && !state.gaming){
+      ctx.fillStyle=state.fgColor;
+      ctx.fillText(line,lineX,y,state.width-pad*2);
+      globalCharIdx+=[...line].length;
+    } else {
+      // draw char by char
+      let cx=lineX;
+      // for center/right we need to position correctly: already set lineX as start
+      [...line].forEach((ch,ci)=>{
+        const charW=ctx.measureText(ch).width;
+        let color;
+        if(state.gaming){
+          color=gamingColor(globalCharIdx, allChars.length);
+        } else {
+          // find original index in state.text
+          const origIdx=[...state.text].findIndex((c,i)=>{
+            let g=0;
+            for(let j=0;j<i;j++) if(state.text[j]!=='\n') g++;
+            return c!=='\n' && g===globalCharIdx;
+          });
+          color=state.charColors[origIdx] || state.fgColor;
+        }
+        ctx.fillStyle=color;
+        ctx.fillText(ch,cx,y);
+        cx+=charW;
+        globalCharIdx++;
+      });
+    }
   });
+
   document.getElementById('sizeIndicator').textContent=`${state.width} × ${state.height} px`;
   applyTransform();
 }
 
-document.getElementById('textInput').addEventListener('input',e=>{state.text=e.target.value;render();});
+document.getElementById('textInput').addEventListener('input',e=>{
+  state.text=e.target.value;
+  if(state.perChar) buildPerCharList();
+  render();
+});
 document.getElementById('fontFamily').addEventListener('change',e=>{state.fontFamily=e.target.value;render();});
 document.getElementById('fontSize').addEventListener('input',e=>{state.fontSize=+e.target.value;document.getElementById('fontSizeVal').textContent=e.target.value;render();});
 document.getElementById('lineHeight').addEventListener('input',e=>{state.lineHeight=+e.target.value;document.getElementById('lineHeightVal').textContent=(+e.target.value).toFixed(1);render();});
@@ -319,6 +422,30 @@ function setVAlign(v){state.valign=v;document.querySelectorAll('[data-valign]').
 function toggleBold(){state.bold=!state.bold;document.getElementById('boldBtn').classList.toggle('active',state.bold);render();}
 function toggleItalic(){state.italic=!state.italic;document.getElementById('italicBtn').classList.toggle('active',state.italic);render();}
 function setPreset(w,h){state.width=w;state.height=h;document.getElementById('imgWidth').value=w;document.getElementById('imgHeight').value=h;render();}
+
+document.getElementById('perCharCheck').addEventListener('change',e=>{
+  state.perChar=e.target.checked;
+  const panel=document.getElementById('perCharPanel');
+  if(state.perChar){
+    state.gaming=false;
+    document.getElementById('gamingCheck').checked=false;
+    buildPerCharList();
+    panel.style.display='block';
+  } else {
+    panel.style.display='none';
+  }
+  render();
+});
+
+document.getElementById('gamingCheck').addEventListener('change',e=>{
+  state.gaming=e.target.checked;
+  if(state.gaming){
+    state.perChar=false;
+    document.getElementById('perCharCheck').checked=false;
+    document.getElementById('perCharPanel').style.display='none';
+  }
+  render();
+});
 function download(){
   const fmt=document.getElementById('dlFormat').value;
   const mime=fmt==='jpeg'?'image/jpeg':fmt==='webp'?'image/webp':'image/png';
