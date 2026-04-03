@@ -20,6 +20,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6CG10ZPVW3"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-6CG10ZPVW3');</script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9619368699008291" crossorigin="anonymous"></script>
+<link rel="icon" href="/favicon.png" type="image/png">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Serif+JP:wght@400;700&family=M+PLUS+Rounded+1c:wght@400;700&family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -179,34 +180,6 @@ canvas.grabbing{cursor:grabbing}
         </div>
       </div>
 
-      <div class="fx-accordion" id="acc-bit16">
-        <div class="fx-accordion-header" onclick="toggleAcc('bit16')">
-          <div class="fx-accordion-left"><input type="checkbox" id="bit16Check" onclick="event.stopPropagation()"><span class="fx-accordion-title" data-i18n="label.bit16">16bit Mode</span></div>
-          <span class="fx-accordion-arrow">▼</span>
-        </div>
-        <div class="fx-accordion-body" id="body-bit16">
-          <label><span data-i18n="label.bit16Size">Dot size</span> <span id="bit16SizeVal">4</span>px</label>
-          <input type="range" id="bit16Size" min="1" max="16" value="4">
-          <label data-i18n="label.bit16Desc" style="line-height:1.5;margin-top:2px">Renders text without anti-aliasing for a retro dot-font look.</label>
-        </div>
-      </div>
-
-      <div class="fx-accordion" id="acc-outline">
-        <div class="fx-accordion-header" onclick="toggleAcc('outline')">
-          <div class="fx-accordion-left"><input type="checkbox" id="outlineCheck" onclick="event.stopPropagation()"><span class="fx-accordion-title" data-i18n="label.outline">Outline</span></div>
-          <span class="fx-accordion-arrow">▼</span>
-        </div>
-        <div class="fx-accordion-body" id="body-outline">
-          <label><span data-i18n="label.outlineWidth">Width</span> <span id="outlineWidthVal">3</span>px</label>
-          <input type="range" id="outlineWidth" min="1" max="20" value="3">
-          <label data-i18n="label.outlineColor">Color</label>
-          <div class="color-row">
-            <div class="color-swatch" id="outlineSwatch" style="background:#ffffff"><input type="color" id="outlineColor" value="#ffffff"></div>
-            <input type="text" class="color-hex" id="outlineHex" value="#ffffff" maxlength="7">
-          </div>
-        </div>
-      </div>
-
       <div class="fx-accordion" id="acc-shadow">
         <div class="fx-accordion-header" onclick="toggleAcc('shadow')">
           <div class="fx-accordion-left"><input type="checkbox" id="shadowCheck" onclick="event.stopPropagation()"><span class="fx-accordion-title" data-i18n="label.shadow">Shadow</span></div>
@@ -342,7 +315,6 @@ const STRINGS={
     'label.gradText':'Gradient Text','label.gradColor1':'Color 1','label.gradColor2':'Color 2','label.gradDir':'Direction',
     'opt.horizontal':'Horizontal','opt.vertical':'Vertical','opt.diagonal':'Diagonal',
     'label.neon':'Neon','label.neonBlur':'Glow size','label.neonColor':'Glow color',
-    'label.bit16':'16bit Mode','label.bit16Size':'Dot size','label.bit16Desc':'Renders text without anti-aliasing for a retro dot-font look.',
     'autosave.idle':'Auto-save: idle','autosave.saved':'✓ Saved',
     'sec.padding':'Padding','label.padding':'Padding',
     'sec.size':'Image size','label.width':'Width (px)','label.height':'Height (px)',
@@ -368,7 +340,6 @@ const STRINGS={
     'label.gradText':'グラデーションテキスト','label.gradColor1':'カラー1','label.gradColor2':'カラー2','label.gradDir':'方向',
     'opt.horizontal':'水平','opt.vertical':'垂直','opt.diagonal':'斜め',
     'label.neon':'ネオン','label.neonBlur':'グロウサイズ','label.neonColor':'グロウカラー',
-    'label.bit16':'16bitモード','label.bit16Size':'ドットサイズ','label.bit16Desc':'アンチエイリアスなしでレトロなドットフォント風に描画します。',
     'autosave.idle':'自動保存: 待機中','autosave.saved':'✓ 保存済み',
     'sec.padding':'余白','label.padding':'パディング',
     'sec.size':'画像サイズ','label.width':'幅 (px)','label.height':'高さ (px)',
@@ -386,6 +357,7 @@ const FONTS=[
   {v:"'Zen Kaku Gothic New', sans-serif",en:'Zen Kaku Gothic New',ja:'Zen Kaku Gothic New'},
   {v:'serif',en:'serif (system)',ja:'serif（システム）'},
   {v:'monospace',en:'monospace',ja:'monospace'},
+  {v:'__8bit__',en:'8bit (pixel font)',ja:'8bit（ピクセルフォント）'},
 ];
 let lang='en';
 function t(k){return STRINGS[lang][k]||STRINGS.en[k]||k;}
@@ -499,7 +471,6 @@ let state={
   perChar:false,gaming:false,charColors:{},
   padding:40,width:800,height:600,
   pixel:false,pixelSize:8,
-  bit16:false,bit16Size:4,
   outline:false,outlineWidth:3,outlineColor:'#ffffff',
   shadow:false,shadowBlur:10,shadowX:4,shadowY:4,shadowColor:'#000000',
   glitch:false,glitchAmount:8,
@@ -640,9 +611,9 @@ function render(){
     const sm=document.createElement('canvas');sm.width=sw2;sm.height=sh2;
     const sc2=sm.getContext('2d');sc2.imageSmoothingEnabled=false;sc2.drawImage(off,0,0,sw2,sh2);
     ctx.imageSmoothingEnabled=false;ctx.drawImage(sm,0,0,state.width,state.height);
-  } else if(state.bit16){
+  } else if(state.fontFamily==='__8bit__'){
     // 16bit mode: render at small size without antialiasing then upscale
-    const ps=state.bit16Size;
+    const ps=4;
     const sw2=Math.ceil(state.width/ps),sh2=Math.ceil(state.height/ps);
     const sm=document.createElement('canvas');sm.width=sw2;sm.height=sh2;
     const sc2=sm.getContext('2d');
@@ -651,7 +622,7 @@ function render(){
     sc2.fillStyle=state.bgColor;sc2.fillRect(0,0,sw2,sh2);
     const scaleF=1/ps;
     sc2.save();sc2.scale(scaleF,scaleF);
-    sc2.font=`${state.italic?'italic':'normal'} ${state.bold?'bold':'normal'} ${state.fontSize}px ${state.fontFamily}`;
+    sc2.font=`${state.italic?'italic':'normal'} ${state.bold?'bold':'normal'} ${state.fontSize}px monospace`;
     sc2.textBaseline='top';
     sc2.imageSmoothingEnabled=false;
     const lines2=state.text.split('\n'),lineH2=state.fontSize*state.lineHeight,pad2=state.padding,totalH2=lines2.length*lineH2;
@@ -719,16 +690,6 @@ toggleFx('gradTextCheck','body-gradText','gradText');
 toggleFx('neonCheck','body-neon','neon');
 
 // 16bit
-document.getElementById('bit16Check').addEventListener('change',e=>{
-  state.bit16=e.target.checked;
-  const body=document.getElementById('body-bit16');
-  const header=document.querySelector('#acc-bit16 .fx-accordion-header');
-  body?.classList.toggle('open',e.target.checked);
-  header?.classList.toggle('active',e.target.checked);
-  if(state.bit16){state.pixel=false;document.getElementById('pixelCheck').checked=false;document.getElementById('body-pixel')?.classList.remove('open');document.querySelector('#acc-pixel .fx-accordion-header')?.classList.remove('active');}
-  render();saveState();
-});
-document.getElementById('bit16Size').addEventListener('input',e=>{state.bit16Size=+e.target.value;document.getElementById('bit16SizeVal').textContent=e.target.value;render();saveState();});
 
 // accordion header click
 function toggleAcc(name){
@@ -771,12 +732,11 @@ function loadState(){
     document.getElementById('italicBtn').classList.toggle('active',state.italic);
     document.querySelectorAll('[data-align]').forEach(b=>b.classList.toggle('active',b.dataset.align===state.align));
     document.querySelectorAll('[data-valign]').forEach(b=>b.classList.toggle('active',b.dataset.valign===state.valign));
-    const fxMap={pixel:'pixelCheck',bit16:'bit16Check',outline:'outlineCheck',shadow:'shadowCheck',glitch:'glitchCheck',gradText:'gradTextCheck',neon:'neonCheck'};
+    const fxMap={pixel:'pixelCheck',outline:'outlineCheck',shadow:'shadowCheck',glitch:'glitchCheck',gradText:'gradTextCheck',neon:'neonCheck'};
     Object.entries(fxMap).forEach(([k,id])=>{
       if(state[k]){document.getElementById(id).checked=true;document.getElementById(`body-${k}`)?.classList.add('open');document.querySelector(`#acc-${k} .fx-accordion-header`)?.classList.add('active');}
     });
     document.getElementById('pixelSize').value=state.pixelSize;document.getElementById('pixelSizeVal').textContent=state.pixelSize;
-    document.getElementById('bit16Size').value=state.bit16Size;document.getElementById('bit16SizeVal').textContent=state.bit16Size;
     document.getElementById('outlineWidth').value=state.outlineWidth;document.getElementById('outlineWidthVal').textContent=state.outlineWidth;
     document.getElementById('outlineColor').value=state.outlineColor;document.getElementById('outlineHex').value=state.outlineColor;document.getElementById('outlineSwatch').style.background=state.outlineColor;
     document.getElementById('shadowBlur').value=state.shadowBlur;document.getElementById('shadowBlurVal').textContent=state.shadowBlur;
