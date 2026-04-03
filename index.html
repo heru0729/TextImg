@@ -102,7 +102,7 @@ canvas.grabbing{cursor:grabbing}
     <div>
       <div class="section-label" data-i18n="sec.text">Text</div>
       <label data-i18n="label.input">Input</label>
-      <textarea id="textInput" placeholder="Enter text here...">Hello, World!</textarea>
+      <textarea id="textInput" placeholder="Enter text here..."></textarea>
     </div>
     <div>
       <div class="section-label" data-i18n="sec.font">Font</div>
@@ -463,7 +463,7 @@ previewArea.addEventListener('touchend',e=>{lt=[...e.touches];},{passive:false})
 
 // state
 let state={
-  text:'Hello, World!',fontFamily:"'Noto Sans JP', sans-serif",
+  text:'',fontFamily:"'Noto Sans JP', sans-serif",
   fontSize:64,lineHeight:1.4,bold:false,italic:false,
   align:'left',valign:'top',
   customPos:false,textX:40,textY:40,
@@ -514,9 +514,7 @@ function drawPixelated(offCtx,w,h,ps){
 function actualFont(f){return f==='__8bit__'?'monospace':f;}
 function render(){
   canvas.width=state.width;canvas.height=state.height;
-  ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';
-  ctx.fillStyle=state.bgColor;ctx.fillRect(0,0,state.width,state.height);
-  // off-screen for pixel mode
+  // off-screen canvas
   const off=document.createElement('canvas');off.width=state.width;off.height=state.height;
   const oc=off.getContext('2d');
   oc.globalAlpha=1;oc.globalCompositeOperation='source-over';
@@ -531,18 +529,7 @@ function render(){
 
   const allChars=[...state.text].filter(c=>c!=='\n');
   let globalCharIdx=0;
-
-  // テキストが空のときプレースホルダーを薄く表示
-  if(!state.text){
-    oc.globalAlpha=0.25;
-    oc.fillStyle=state.fgColor;
-    oc.font=`normal normal ${state.fontSize}px ${actualFont(state.fontFamily)}`;
-    oc.textBaseline='top';
-    oc.fillText('Hello, World!',pad,pad);
-    oc.globalAlpha=1;
-  }
-
-  lines.forEach((line,li)=>{
+lines.forEach((line,li)=>{
     const lineWidth=oc.measureText(line).width;
     let lx;
     if(state.customPos){lx=state.textX;}
@@ -648,6 +635,7 @@ function render(){
     sc2.restore();
     ctx.imageSmoothingEnabled=false;ctx.drawImage(sm,0,0,state.width,state.height);
   } else {
+    ctx.globalAlpha=1;
     ctx.imageSmoothingEnabled=true;
     ctx.drawImage(off,0,0);
   }
