@@ -17,10 +17,10 @@
 <meta name="twitter:title" content="TextImg — Free Text Image Generator Online">
 <meta name="twitter:description" content="Create images from text with custom fonts, colors, and sizes. Free, no sign-up required.">
 <meta name="twitter:image" content="https://textimg.net/ogp.png">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6CG10ZPVW3"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-6CG10ZPVW3');</script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9619368699008291" crossorigin="anonymous"></script>
-<link rel="icon" href="/favicon.ico" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Serif+JP:wght@400;700&family=M+PLUS+Rounded+1c:wght@400;700&family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -63,10 +63,8 @@ input[type="range"]{width:100%;accent-color:var(--accent)}
 .divider{border:none;border-top:1px solid var(--border)}
 .check-row{display:flex;align-items:center;gap:8px;cursor:pointer;margin-bottom:0}
 .check-row input[type="checkbox"]{width:auto;padding:0;accent-color:var(--accent)}
-.fx-panel{margin-top:8px;padding:10px;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);display:none;flex-direction:column;gap:8px}
-.fx-panel.open{display:flex}
 .fx-accordion{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:4px}
-.fx-accordion-header{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;cursor:pointer;user-select:none;transition:background .15s;gap:8px}
+.fx-accordion-header{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;cursor:pointer;user-select:none;transition:background .15s}
 .fx-accordion-header:hover{background:var(--panel)}
 .fx-accordion-header.active{background:rgba(212,255,0,.08);border-bottom:1px solid var(--border)}
 .fx-accordion-left{display:flex;align-items:center;gap:8px}
@@ -80,7 +78,7 @@ input[type="range"]{width:100%;accent-color:var(--accent)}
 .autosave-indicator.saved{color:var(--accent)}
 .preview-area{flex:1;overflow:hidden;position:relative;background:repeating-conic-gradient(#1c1c1c 0% 25%,#181818 0% 50%) 0 0/20px 20px;user-select:none;touch-action:none}
 .canvas-wrapper{position:absolute;transform-origin:center center;box-shadow:0 8px 40px rgba(0,0,0,.6)}
-canvas{display:block;cursor:crosshair;min-width:1px;min-height:1px}
+canvas{display:block;cursor:crosshair}
 canvas.grabbing{cursor:grabbing}
 .zoom-hud{position:absolute;bottom:16px;right:16px;display:flex;align-items:center;gap:8px;background:rgba(26,26,26,.92);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;font-family:'Courier New',monospace;color:var(--muted);backdrop-filter:blur(8px);pointer-events:auto}
 .zoom-hud button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;line-height:1;padding:0 2px;transition:color .15s}
@@ -94,26 +92,26 @@ canvas.grabbing{cursor:grabbing}
 </head>
 <body>
 <header>
-  <div class="header-left"><h1>TextImg</h1><span data-i18n="header.sub">Text Image Generator</span></div>
+  <div class="header-left"><h1>TextImg</h1><span id="headerSub">Text Image Generator</span></div>
   <button class="lang-btn" id="langBtn">日本語</button>
 </header>
 <div class="main">
   <aside class="sidebar">
     <div>
-      <div class="section-label" data-i18n="sec.text">Text</div>
-      <label data-i18n="label.input">Input</label>
+      <div class="section-label" id="secText">Text</div>
+      <label id="labelInput">Input</label>
       <textarea id="textInput" placeholder="Enter text here..."></textarea>
     </div>
     <div>
-      <div class="section-label" data-i18n="sec.font">Font</div>
-      <label data-i18n="label.fontFamily">Font family</label>
+      <div class="section-label" id="secFont">Font</div>
+      <label id="labelFontFamily">Font family</label>
       <select id="fontFamily"></select>
       <div style="margin-top:8px">
-        <label><span data-i18n="label.fontSize">Size</span> <span id="fontSizeVal">64</span>px</label>
+        <label><span id="labelFontSize">Size</span> <span id="fontSizeVal">64</span>px</label>
         <input type="range" id="fontSize" min="8" max="300" value="64">
       </div>
       <div style="margin-top:8px">
-        <label><span data-i18n="label.lineHeight">Line height</span> <span id="lineHeightVal">1.4</span></label>
+        <label><span id="labelLineHeight">Line height</span> <span id="lineHeightVal">1.4</span></label>
         <input type="range" id="lineHeight" min="0.8" max="3.0" step="0.1" value="1.4">
       </div>
       <div style="margin-top:8px" class="format-group">
@@ -122,15 +120,15 @@ canvas.grabbing{cursor:grabbing}
       </div>
     </div>
     <div>
-      <div class="section-label" data-i18n="sec.align">Alignment</div>
-      <label data-i18n="label.hAlign">Horizontal</label>
+      <div class="section-label" id="secAlign">Alignment</div>
+      <label id="labelHAlign">Horizontal</label>
       <div class="align-group">
         <button class="align-btn active" data-align="left" onclick="setAlign('left')">&#9776;</button>
         <button class="align-btn" data-align="center" onclick="setAlign('center')">&#8801;</button>
         <button class="align-btn" data-align="right" onclick="setAlign('right')">&#9776;</button>
       </div>
       <div style="margin-top:8px">
-        <label data-i18n="label.vAlign">Vertical</label>
+        <label id="labelVAlign">Vertical</label>
         <div class="align-group">
           <button class="align-btn active" data-valign="top" onclick="setVAlign('top')">↑</button>
           <button class="align-btn" data-valign="middle" onclick="setVAlign('middle')">↕</button>
@@ -138,149 +136,158 @@ canvas.grabbing{cursor:grabbing}
         </div>
       </div>
       <div style="margin-top:8px">
-        <label data-i18n="label.position">Custom position (px)</label>
+        <label id="labelPosition">Custom position (px)</label>
         <div class="row2">
           <div><label>X</label><input type="number" id="posX" value="0" min="-9999" max="9999"></div>
           <div><label>Y</label><input type="number" id="posY" value="0" min="-9999" max="9999"></div>
         </div>
         <div style="margin-top:4px">
-          <label class="check-row"><input type="checkbox" id="customPosCheck"><span data-i18n="label.customPos">Enable drag position</span></label>
+          <label class="check-row"><input type="checkbox" id="customPosCheck"><span id="labelCustomPos">Enable drag position</span></label>
         </div>
       </div>
     </div>
     <div>
-      <div class="section-label" data-i18n="sec.color">Color</div>
-      <label data-i18n="label.bgColor">Background</label>
+      <div class="section-label" id="secColor">Color</div>
+      <label id="labelBgColor">Background</label>
       <div class="color-row">
         <div class="color-swatch" id="bgSwatch" style="background:#ffffff"><input type="color" id="bgColor" value="#ffffff"></div>
         <input type="text" class="color-hex" id="bgHex" value="#ffffff" maxlength="7">
       </div>
       <div style="margin-top:8px">
-        <label data-i18n="label.fgColor">Text color</label>
+        <label id="labelFgColor">Text color</label>
         <div class="color-row">
           <div class="color-swatch" id="fgSwatch" style="background:#000000"><input type="color" id="fgColor" value="#000000"></div>
           <input type="text" class="color-hex" id="fgHex" value="#000000" maxlength="7">
         </div>
       </div>
-      <div style="margin-top:12px"><label class="check-row"><input type="checkbox" id="perCharCheck"><span data-i18n="label.perChar">Per-character color</span></label></div>
+      <div style="margin-top:12px"><label class="check-row"><input type="checkbox" id="perCharCheck"><span id="labelPerChar">Per-character color</span></label></div>
       <div id="perCharPanel" style="display:none;margin-top:8px"><div id="perCharList" style="display:flex;flex-wrap:wrap;gap:6px"></div></div>
-      <div style="margin-top:10px"><label class="check-row"><input type="checkbox" id="gamingCheck"><span data-i18n="label.gaming">Gaming Text 🌈</span></label></div>
+      <div style="margin-top:10px"><label class="check-row"><input type="checkbox" id="gamingCheck"><span id="labelGaming">Gaming Text 🌈</span></label></div>
     </div>
     <div>
-      <div class="section-label" data-i18n="sec.effects">Effects</div>
-
+      <div class="section-label" id="secEffects">Effects</div>
       <div class="fx-accordion" id="acc-pixel">
         <div class="fx-accordion-header" onclick="toggleAcc('pixel')">
-          <div class="fx-accordion-left"><input type="checkbox" id="pixelCheck" onclick="event.stopPropagation()"><span class="fx-accordion-title" data-i18n="label.pixel">Pixel Mode</span></div>
+          <div class="fx-accordion-left"><input type="checkbox" id="pixelCheck" onclick="event.stopPropagation()"><span class="fx-accordion-title" id="labelPixel">Pixel Mode</span></div>
           <span class="fx-accordion-arrow">▼</span>
         </div>
         <div class="fx-accordion-body" id="body-pixel">
-          <label><span data-i18n="label.pixelSize">Pixel size</span> <span id="pixelSizeVal">8</span>px</label>
+          <label><span id="labelPixelSize">Pixel size</span> <span id="pixelSizeVal">8</span>px</label>
           <input type="range" id="pixelSize" min="2" max="32" value="8">
         </div>
       </div>
-
+      <div class="fx-accordion" id="acc-outline">
+        <div class="fx-accordion-header" onclick="toggleAcc('outline')">
+          <div class="fx-accordion-left"><input type="checkbox" id="outlineCheck" onclick="event.stopPropagation()"><span class="fx-accordion-title" id="labelOutline">Outline</span></div>
+          <span class="fx-accordion-arrow">▼</span>
+        </div>
+        <div class="fx-accordion-body" id="body-outline">
+          <label><span id="labelOutlineWidth">Width</span> <span id="outlineWidthVal">3</span>px</label>
+          <input type="range" id="outlineWidth" min="1" max="20" value="3">
+          <label id="labelOutlineColor">Color</label>
+          <div class="color-row">
+            <div class="color-swatch" id="outlineSwatch" style="background:#ffffff"><input type="color" id="outlineColor" value="#ffffff"></div>
+            <input type="text" class="color-hex" id="outlineHex" value="#ffffff" maxlength="7">
+          </div>
+        </div>
+      </div>
       <div class="fx-accordion" id="acc-shadow">
         <div class="fx-accordion-header" onclick="toggleAcc('shadow')">
-          <div class="fx-accordion-left"><input type="checkbox" id="shadowCheck" onclick="event.stopPropagation()"><span class="fx-accordion-title" data-i18n="label.shadow">Shadow</span></div>
+          <div class="fx-accordion-left"><input type="checkbox" id="shadowCheck" onclick="event.stopPropagation()"><span class="fx-accordion-title" id="labelShadow">Shadow</span></div>
           <span class="fx-accordion-arrow">▼</span>
         </div>
         <div class="fx-accordion-body" id="body-shadow">
-          <label><span data-i18n="label.shadowBlur">Blur</span> <span id="shadowBlurVal">10</span>px</label>
+          <label><span id="labelShadowBlur">Blur</span> <span id="shadowBlurVal">10</span>px</label>
           <input type="range" id="shadowBlur" min="0" max="40" value="10">
           <div class="row2">
             <div><label>X offset</label><input type="number" id="shadowX" value="4" min="-50" max="50"></div>
             <div><label>Y offset</label><input type="number" id="shadowY" value="4" min="-50" max="50"></div>
           </div>
-          <label data-i18n="label.shadowColor">Color</label>
+          <label id="labelShadowColor">Color</label>
           <div class="color-row">
             <div class="color-swatch" id="shadowSwatch" style="background:#000000"><input type="color" id="shadowColor" value="#000000"></div>
             <input type="text" class="color-hex" id="shadowHex" value="#000000" maxlength="7">
           </div>
         </div>
       </div>
-
       <div class="fx-accordion" id="acc-glitch">
         <div class="fx-accordion-header" onclick="toggleAcc('glitch')">
-          <div class="fx-accordion-left"><input type="checkbox" id="glitchCheck" onclick="event.stopPropagation()"><span class="fx-accordion-title" data-i18n="label.glitch">Glitch</span></div>
+          <div class="fx-accordion-left"><input type="checkbox" id="glitchCheck" onclick="event.stopPropagation()"><span class="fx-accordion-title" id="labelGlitch">Glitch</span></div>
           <span class="fx-accordion-arrow">▼</span>
         </div>
         <div class="fx-accordion-body" id="body-glitch">
-          <label><span data-i18n="label.glitchAmount">Amount</span> <span id="glitchAmountVal">8</span></label>
+          <label><span id="labelGlitchAmount">Amount</span> <span id="glitchAmountVal">8</span></label>
           <input type="range" id="glitchAmount" min="1" max="30" value="8">
         </div>
       </div>
-
       <div class="fx-accordion" id="acc-gradText">
         <div class="fx-accordion-header" onclick="toggleAcc('gradText')">
-          <div class="fx-accordion-left"><input type="checkbox" id="gradTextCheck" onclick="event.stopPropagation()"><span class="fx-accordion-title" data-i18n="label.gradText">Gradient Text</span></div>
+          <div class="fx-accordion-left"><input type="checkbox" id="gradTextCheck" onclick="event.stopPropagation()"><span class="fx-accordion-title" id="labelGradText">Gradient Text</span></div>
           <span class="fx-accordion-arrow">▼</span>
         </div>
         <div class="fx-accordion-body" id="body-gradText">
-          <label data-i18n="label.gradColor1">Color 1</label>
+          <label id="labelGradColor1">Color 1</label>
           <div class="color-row">
             <div class="color-swatch" id="gradColor1Swatch" style="background:#ff0080"><input type="color" id="gradColor1" value="#ff0080"></div>
             <input type="text" class="color-hex" id="gradColor1Hex" value="#ff0080" maxlength="7">
           </div>
-          <label data-i18n="label.gradColor2">Color 2</label>
+          <label id="labelGradColor2">Color 2</label>
           <div class="color-row">
             <div class="color-swatch" id="gradColor2Swatch" style="background:#0080ff"><input type="color" id="gradColor2" value="#0080ff"></div>
             <input type="text" class="color-hex" id="gradColor2Hex" value="#0080ff" maxlength="7">
           </div>
-          <label data-i18n="label.gradDir">Direction</label>
+          <label id="labelGradDir">Direction</label>
           <select id="gradDir">
-            <option value="h" data-i18n="opt.horizontal">Horizontal</option>
-            <option value="v" data-i18n="opt.vertical">Vertical</option>
-            <option value="d" data-i18n="opt.diagonal">Diagonal</option>
+            <option value="h" id="optH">Horizontal</option>
+            <option value="v" id="optV">Vertical</option>
+            <option value="d" id="optD">Diagonal</option>
           </select>
         </div>
       </div>
-
       <div class="fx-accordion" id="acc-neon">
         <div class="fx-accordion-header" onclick="toggleAcc('neon')">
-          <div class="fx-accordion-left"><input type="checkbox" id="neonCheck" onclick="event.stopPropagation()"><span class="fx-accordion-title" data-i18n="label.neon">Neon</span></div>
+          <div class="fx-accordion-left"><input type="checkbox" id="neonCheck" onclick="event.stopPropagation()"><span class="fx-accordion-title" id="labelNeon">Neon</span></div>
           <span class="fx-accordion-arrow">▼</span>
         </div>
         <div class="fx-accordion-body" id="body-neon">
-          <label><span data-i18n="label.neonBlur">Glow size</span> <span id="neonBlurVal">15</span>px</label>
+          <label><span id="labelNeonBlur">Glow size</span> <span id="neonBlurVal">15</span>px</label>
           <input type="range" id="neonBlur" min="5" max="50" value="15">
-          <label data-i18n="label.neonColor">Glow color</label>
+          <label id="labelNeonColor">Glow color</label>
           <div class="color-row">
             <div class="color-swatch" id="neonSwatch" style="background:#00ffff"><input type="color" id="neonColor" value="#00ffff"></div>
             <input type="text" class="color-hex" id="neonHex" value="#00ffff" maxlength="7">
           </div>
         </div>
       </div>
-
     </div>
     <div>
-      <div class="section-label" data-i18n="sec.padding">Padding</div>
-      <label><span data-i18n="label.padding">Padding</span> <span id="paddingVal">40</span>px</label>
+      <div class="section-label" id="secPadding">Padding</div>
+      <label><span id="labelPadding">Padding</span> <span id="paddingVal">40</span>px</label>
       <input type="range" id="padding" min="0" max="200" value="40">
     </div>
     <div>
-      <div class="section-label" data-i18n="sec.size">Image size</div>
+      <div class="section-label" id="secSize">Image size</div>
       <div class="preset-grid">
-        <button class="preset-btn" onclick="setPreset(800,600)">800×600<br><span style="color:#666" data-i18n="preset.general">General</span></button>
+        <button class="preset-btn" onclick="setPreset(800,600)">800×600<br><span style="color:#666" id="presetGeneral">General</span></button>
         <button class="preset-btn" onclick="setPreset(1200,630)">1200×630<br><span style="color:#666">OGP</span></button>
-        <button class="preset-btn" onclick="setPreset(1080,1080)">1080×1080<br><span style="color:#666" data-i18n="preset.square">Square</span></button>
+        <button class="preset-btn" onclick="setPreset(1080,1080)">1080×1080<br><span style="color:#666" id="presetSquare">Square</span></button>
         <button class="preset-btn" onclick="setPreset(1920,1080)">1920×1080<br><span style="color:#666">FHD</span></button>
-        <button class="preset-btn" onclick="setPreset(1080,1920)">1080×1920<br><span style="color:#666" data-i18n="preset.portrait">Portrait</span></button>
-        <button class="preset-btn" onclick="setPreset(1500,500)">1500×500<br><span style="color:#666" data-i18n="preset.wide">Wide</span></button>
+        <button class="preset-btn" onclick="setPreset(1080,1920)">1080×1920<br><span style="color:#666" id="presetPortrait">Portrait</span></button>
+        <button class="preset-btn" onclick="setPreset(1500,500)">1500×500<br><span style="color:#666" id="presetWide">Wide</span></button>
       </div>
       <div class="row2" style="margin-top:8px">
-        <div><label data-i18n="label.width">Width (px)</label><input type="number" id="imgWidth" value="800" min="1" max="4000"></div>
-        <div><label data-i18n="label.height">Height (px)</label><input type="number" id="imgHeight" value="600" min="1" max="4000"></div>
+        <div><label id="labelWidth">Width (px)</label><input type="number" id="imgWidth" value="800" min="1" max="4000"></div>
+        <div><label id="labelHeight">Height (px)</label><input type="number" id="imgHeight" value="600" min="1" max="4000"></div>
       </div>
     </div>
     <hr class="divider">
     <div>
-      <div class="section-label" data-i18n="sec.download">Download</div>
+      <div class="section-label" id="secDownload">Download</div>
       <div class="dl-row">
         <select id="dlFormat" style="width:90px"><option value="png">PNG</option><option value="jpeg">JPEG</option><option value="webp">WebP</option></select>
-        <button class="dl-btn" onclick="download()" data-i18n="btn.save">⬇ Save</button>
+        <button class="dl-btn" onclick="download()" id="btnSave">⬇ Save</button>
       </div>
-      <div class="autosave-indicator" id="autosaveIndicator" data-i18n="autosave.idle">Auto-save: idle</div>
+      <div class="autosave-indicator" id="autosaveIndicator">Auto-save: idle</div>
     </div>
   </aside>
   <div class="preview-area" id="previewArea">
@@ -293,377 +300,325 @@ canvas.grabbing{cursor:grabbing}
       <button onclick="zoomStep(1)">＋</button>
       <button onclick="resetZoom()">⌖</button>
     </div>
-    <div class="hint" id="hint" data-i18n="hint">Wheel/Pinch=zoom　Drag=pan　Canvas drag=move text</div>
+    <div class="hint" id="hint">Wheel/Pinch=zoom　Drag=pan</div>
   </div>
 </div>
 <script>
-const STRINGS={
-  en:{
-    'header.sub':'Text Image Generator',
-    'sec.text':'Text','label.input':'Input',
-    'sec.font':'Font','label.fontFamily':'Font family',
-    'label.fontSize':'Size','label.lineHeight':'Line height',
-    'sec.align':'Alignment','label.hAlign':'Horizontal','label.vAlign':'Vertical',
-    'label.position':'Custom position (px)','label.customPos':'Enable drag position',
-    'sec.color':'Color','label.bgColor':'Background','label.fgColor':'Text color',
-    'label.perChar':'Per-character color','label.gaming':'Gaming Text 🌈',
-    'sec.effects':'Effects',
-    'label.pixel':'Pixel Mode','label.pixelSize':'Pixel size',
-    'label.outline':'Outline','label.outlineWidth':'Width','label.outlineColor':'Color',
-    'label.shadow':'Shadow','label.shadowBlur':'Blur','label.shadowColor':'Color',
-    'label.glitch':'Glitch','label.glitchAmount':'Amount',
-    'label.gradText':'Gradient Text','label.gradColor1':'Color 1','label.gradColor2':'Color 2','label.gradDir':'Direction',
-    'opt.horizontal':'Horizontal','opt.vertical':'Vertical','opt.diagonal':'Diagonal',
-    'label.neon':'Neon','label.neonBlur':'Glow size','label.neonColor':'Glow color',
-    'autosave.idle':'Auto-save: idle','autosave.saved':'✓ Saved',
-    'sec.padding':'Padding','label.padding':'Padding',
-    'sec.size':'Image size','label.width':'Width (px)','label.height':'Height (px)',
-    'preset.general':'General','preset.square':'Square','preset.portrait':'Portrait','preset.wide':'Wide',
-    'sec.download':'Download','btn.save':'⬇ Save',
-    'hint':'Wheel/Pinch=zoom　Drag bg=pan　Drag text=move',
-    'placeholder':'Enter text here...',
+// ---- i18n ----
+const I18N = {
+  en: {
+    headerSub:'Text Image Generator', secText:'Text', labelInput:'Input',
+    secFont:'Font', labelFontFamily:'Font family', labelFontSize:'Size', labelLineHeight:'Line height',
+    secAlign:'Alignment', labelHAlign:'Horizontal', labelVAlign:'Vertical',
+    labelPosition:'Custom position (px)', labelCustomPos:'Enable drag position',
+    secColor:'Color', labelBgColor:'Background', labelFgColor:'Text color',
+    labelPerChar:'Per-character color', labelGaming:'Gaming Text 🌈',
+    secEffects:'Effects', labelPixel:'Pixel Mode', labelPixelSize:'Pixel size',
+    labelOutline:'Outline', labelOutlineWidth:'Width', labelOutlineColor:'Color',
+    labelShadow:'Shadow', labelShadowBlur:'Blur', labelShadowColor:'Color',
+    labelGlitch:'Glitch', labelGlitchAmount:'Amount',
+    labelGradText:'Gradient Text', labelGradColor1:'Color 1', labelGradColor2:'Color 2', labelGradDir:'Direction',
+    optH:'Horizontal', optV:'Vertical', optD:'Diagonal',
+    labelNeon:'Neon', labelNeonBlur:'Glow size', labelNeonColor:'Glow color',
+    secPadding:'Padding', labelPadding:'Padding',
+    secSize:'Image size', labelWidth:'Width (px)', labelHeight:'Height (px)',
+    presetGeneral:'General', presetSquare:'Square', presetPortrait:'Portrait', presetWide:'Wide',
+    secDownload:'Download', btnSave:'⬇ Save',
+    hint:'Wheel/Pinch=zoom　Drag=pan',
+    placeholder:'Enter text here...',
+    autosaveIdle:'Auto-save: idle', autosaveSaved:'✓ Saved',
   },
-  ja:{
-    'header.sub':'テキスト画像ジェネレーター',
-    'sec.text':'テキスト','label.input':'入力',
-    'sec.font':'フォント','label.fontFamily':'フォント種類',
-    'label.fontSize':'サイズ','label.lineHeight':'行間',
-    'sec.align':'配置','label.hAlign':'水平','label.vAlign':'垂直',
-    'label.position':'位置指定 (px)','label.customPos':'ドラッグで位置を調整',
-    'sec.color':'カラー','label.bgColor':'背景色','label.fgColor':'文字色',
-    'label.perChar':'文字ごとに色を指定','label.gaming':'Gaming Text 🌈',
-    'sec.effects':'エフェクト',
-    'label.pixel':'ピクセルモード','label.pixelSize':'ピクセルサイズ',
-    'label.outline':'アウトライン','label.outlineWidth':'太さ','label.outlineColor':'色',
-    'label.shadow':'シャドウ','label.shadowBlur':'ぼかし','label.shadowColor':'色',
-    'label.glitch':'グリッチ','label.glitchAmount':'強度',
-    'label.gradText':'グラデーションテキスト','label.gradColor1':'カラー1','label.gradColor2':'カラー2','label.gradDir':'方向',
-    'opt.horizontal':'水平','opt.vertical':'垂直','opt.diagonal':'斜め',
-    'label.neon':'ネオン','label.neonBlur':'グロウサイズ','label.neonColor':'グロウカラー',
-    'autosave.idle':'自動保存: 待機中','autosave.saved':'✓ 保存済み',
-    'sec.padding':'余白','label.padding':'パディング',
-    'sec.size':'画像サイズ','label.width':'幅 (px)','label.height':'高さ (px)',
-    'preset.general':'汎用','preset.square':'正方形','preset.portrait':'縦長','preset.wide':'横長',
-    'sec.download':'ダウンロード','btn.save':'⬇ 保存',
-    'hint':'ホイール/ピンチ=ズーム　背景ドラッグ=パン　文字ドラッグ=移動',
-    'placeholder':'ここにテキストを入力...',
+  ja: {
+    headerSub:'テキスト画像ジェネレーター', secText:'テキスト', labelInput:'入力',
+    secFont:'フォント', labelFontFamily:'フォント種類', labelFontSize:'サイズ', labelLineHeight:'行間',
+    secAlign:'配置', labelHAlign:'水平', labelVAlign:'垂直',
+    labelPosition:'位置指定 (px)', labelCustomPos:'ドラッグで位置を調整',
+    secColor:'カラー', labelBgColor:'背景色', labelFgColor:'文字色',
+    labelPerChar:'文字ごとに色を指定', labelGaming:'Gaming Text 🌈',
+    secEffects:'エフェクト', labelPixel:'ピクセルモード', labelPixelSize:'ピクセルサイズ',
+    labelOutline:'アウトライン', labelOutlineWidth:'太さ', labelOutlineColor:'色',
+    labelShadow:'シャドウ', labelShadowBlur:'ぼかし', labelShadowColor:'色',
+    labelGlitch:'グリッチ', labelGlitchAmount:'強度',
+    labelGradText:'グラデーションテキスト', labelGradColor1:'カラー1', labelGradColor2:'カラー2', labelGradDir:'方向',
+    optH:'水平', optV:'垂直', optD:'斜め',
+    labelNeon:'ネオン', labelNeonBlur:'グロウサイズ', labelNeonColor:'グロウカラー',
+    secPadding:'余白', labelPadding:'パディング',
+    secSize:'画像サイズ', labelWidth:'幅 (px)', labelHeight:'高さ (px)',
+    presetGeneral:'汎用', presetSquare:'正方形', presetPortrait:'縦長', presetWide:'横長',
+    secDownload:'ダウンロード', btnSave:'⬇ 保存',
+    hint:'ホイール/ピンチ=ズーム　ドラッグ=パン',
+    placeholder:'ここにテキストを入力...',
+    autosaveIdle:'自動保存: 待機中', autosaveSaved:'✓ 保存済み',
   }
 };
-const FONTS=[
-  {v:"'Noto Sans JP', sans-serif",en:'Noto Sans JP (Gothic)',ja:'Noto Sans JP（ゴシック）'},
-  {v:"'Noto Serif JP', serif",en:'Noto Serif JP (Mincho)',ja:'Noto Serif JP（明朝）'},
-  {v:"'M PLUS Rounded 1c', sans-serif",en:'M PLUS Rounded',ja:'M PLUS Rounded（丸ゴシック）'},
-  {v:"'Dela Gothic One', cursive",en:'Dela Gothic One',ja:'Dela Gothic One（デコラティブ）'},
-  {v:"'Zen Kaku Gothic New', sans-serif",en:'Zen Kaku Gothic New',ja:'Zen Kaku Gothic New'},
-  {v:'serif',en:'serif (system)',ja:'serif（システム）'},
-  {v:'monospace',en:'monospace',ja:'monospace'},
-  {v:'__8bit__',en:'8bit (pixel font)',ja:'8bit（ピクセルフォント）'},
-];
-let lang='en';
-function t(k){return STRINGS[lang][k]||STRINGS.en[k]||k;}
-function applyLang(){
-  document.documentElement.lang=lang;
-  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(t(k))el.textContent=t(k);});
-  document.getElementById('textInput').placeholder=t('placeholder');
-  document.getElementById('langBtn').textContent=lang==='en'?'日本語':'English';
-  const sel=document.getElementById('fontFamily');
-  sel.innerHTML=FONTS.map(f=>`<option value="${f.v}"${f.v===state.fontFamily?' selected':''}>${f[lang]}</option>`).join('');
-}
-document.getElementById('langBtn').addEventListener('click',()=>{lang=lang==='en'?'ja':'en';applyLang();});
 
-// zoom/pan
-const canvas=document.getElementById('canvas');
-const ctx=canvas.getContext('2d');
-const wrapper=document.getElementById('canvasWrapper');
-const previewArea=document.getElementById('previewArea');
-let zoom=1,panX=0,panY=0;
-const MIN_ZOOM=0.05,MAX_ZOOM=10;
-setTimeout(()=>document.getElementById('hint').classList.add('hidden'),5000);
-function applyTransform(){
-  const r=previewArea.getBoundingClientRect();
-  wrapper.style.left=r.width/2+panX+'px';
-  wrapper.style.top=r.height/2+panY+'px';
-  wrapper.style.transform=`translate(-50%,-50%) scale(${zoom})`;
-  document.getElementById('zoomLabel').textContent=Math.round(zoom*100)+'%';
+const FONTS = [
+  {v:"'Noto Sans JP', sans-serif",  en:'Noto Sans JP (Gothic)',   ja:'Noto Sans JP（ゴシック）'},
+  {v:"'Noto Serif JP', serif",      en:'Noto Serif JP (Mincho)',  ja:'Noto Serif JP（明朝）'},
+  {v:"'M PLUS Rounded 1c', sans-serif", en:'M PLUS Rounded',     ja:'M PLUS Rounded（丸ゴシック）'},
+  {v:"'Dela Gothic One', cursive",  en:'Dela Gothic One',         ja:'Dela Gothic One（デコラティブ）'},
+  {v:"'Zen Kaku Gothic New', sans-serif", en:'Zen Kaku Gothic New', ja:'Zen Kaku Gothic New'},
+  {v:'serif',     en:'serif (system)', ja:'serif（システム）'},
+  {v:'monospace', en:'monospace',      ja:'monospace'},
+  {v:'__8bit__',  en:'8bit (pixel font)', ja:'8bit（ピクセルフォント）'},
+];
+
+// ---- state ----
+let state = {
+  text:'', fontFamily:"'Noto Sans JP', sans-serif",
+  fontSize:64, lineHeight:1.4, bold:false, italic:false,
+  align:'left', valign:'top',
+  customPos:false, textX:40, textY:40,
+  bgColor:'#ffffff', fgColor:'#000000',
+  perChar:false, gaming:false, charColors:{},
+  padding:40, width:800, height:600,
+  pixel:false, pixelSize:8,
+  outline:false, outlineWidth:3, outlineColor:'#ffffff',
+  shadow:false, shadowBlur:10, shadowX:4, shadowY:4, shadowColor:'#000000',
+  glitch:false, glitchAmount:8,
+  gradText:false, gradColor1:'#ff0080', gradColor2:'#0080ff', gradDir:'h',
+  neon:false, neonBlur:15, neonColor:'#00ffff',
+};
+
+// ---- lang ----
+let lang = 'en';
+function tl(key){ return I18N[lang][key] || I18N.en[key] || key; }
+
+function applyLang(){
+  document.documentElement.lang = lang;
+  // テキスト更新
+  Object.keys(I18N.en).forEach(k => {
+    const el = document.getElementById(k);
+    if(el && k !== 'placeholder' && !k.startsWith('autosave') && k !== 'hint'){
+      el.textContent = tl(k);
+    }
+  });
+  document.getElementById('langBtn').textContent = lang==='en' ? '日本語' : 'English';
+  document.getElementById('textInput').placeholder = tl('placeholder');
+  document.getElementById('hint').textContent = tl('hint');
+  document.getElementById('autosaveIndicator').textContent = tl('autosaveIdle');
+  // フォントセレクト再構築
+  const sel = document.getElementById('fontFamily');
+  sel.innerHTML = FONTS.map(f => `<option value="${f.v}"${f.v===state.fontFamily?' selected':''}>${f[lang]}</option>`).join('');
 }
-function clampZoom(z){return Math.min(MAX_ZOOM,Math.max(MIN_ZOOM,z));}
-function resetZoom(){zoom=1;panX=0;panY=0;applyTransform();}
+
+document.getElementById('langBtn').addEventListener('click', () => {
+  lang = lang==='en' ? 'ja' : 'en';
+  applyLang();
+});
+
+// ---- zoom/pan ----
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const wrapper = document.getElementById('canvasWrapper');
+const previewArea = document.getElementById('previewArea');
+let zoom=1, panX=0, panY=0;
+const MIN_ZOOM=0.05, MAX_ZOOM=10;
+setTimeout(()=>document.getElementById('hint').classList.add('hidden'), 5000);
+
+function applyTransform(){
+  const r = previewArea.getBoundingClientRect();
+  wrapper.style.left = r.width/2 + panX + 'px';
+  wrapper.style.top  = r.height/2 + panY + 'px';
+  wrapper.style.transform = `translate(-50%,-50%) scale(${zoom})`;
+  document.getElementById('zoomLabel').textContent = Math.round(zoom*100) + '%';
+}
+function clampZoom(z){ return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, z)); }
+function resetZoom(){ zoom=1; panX=0; panY=0; applyTransform(); }
 function zoomStep(dir){
   const s=[0.1,0.15,0.25,0.33,0.5,0.67,0.75,1,1.25,1.5,2,2.5,3,4,5,6,8,10];
-  if(dir>0){const n=s.find(v=>v>zoom+0.001);zoom=n||MAX_ZOOM;}
-  else{const n=[...s].reverse().find(v=>v<zoom-0.001);zoom=n||MIN_ZOOM;}
+  if(dir>0){ const n=s.find(v=>v>zoom+0.001); zoom=n||MAX_ZOOM; }
+  else      { const n=[...s].reverse().find(v=>v<zoom-0.001); zoom=n||MIN_ZOOM; }
   applyTransform();
 }
-previewArea.addEventListener('wheel',e=>{
+previewArea.addEventListener('wheel', e=>{
   e.preventDefault();
   const r=previewArea.getBoundingClientRect();
-  const mx=e.clientX-r.left-r.width/2,my=e.clientY-r.top-r.height/2;
-  const f=e.deltaY<0?1.1:1/1.1,nz=clampZoom(zoom*f),sc=nz/zoom;
-  panX=mx+(panX-mx)*sc;panY=my+(panY-my)*sc;zoom=nz;applyTransform();
+  const mx=e.clientX-r.left-r.width/2, my=e.clientY-r.top-r.height/2;
+  const f=e.deltaY<0?1.1:1/1.1, nz=clampZoom(zoom*f), sc=nz/zoom;
+  panX=mx+(panX-mx)*sc; panY=my+(panY-my)*sc; zoom=nz; applyTransform();
 },{passive:false});
 
-// drag: pan background, move text on canvas
-let dragMode=null,dsx=0,dsy=0,dpx=0,dpy=0,dtx=0,dty=0;
-function canvasCoord(e){
-  const r=canvas.getBoundingClientRect();
-  return {x:(e.clientX-r.left)/zoom,y:(e.clientY-r.top)/zoom};
-}
+// drag
+let dragMode=null, dsx=0, dsy=0, dpx=0, dpy=0, dtx=0, dty=0;
+function canvasCoord(e){ const r=canvas.getBoundingClientRect(); return {x:(e.clientX-r.left)/zoom, y:(e.clientY-r.top)/zoom}; }
 function isOverText(cx,cy){
-  if(!state.customPos)return false;
-  ctx.font=`${state.italic?'italic':'normal'} ${state.bold?'bold':'normal'} ${state.fontSize}px ${state.fontFamily}`;
-  const lines=state.text.split('\n');
-  const lineH=state.fontSize*state.lineHeight;
+  if(!state.customPos) return false;
+  ctx.font=`${state.italic?'italic':'normal'} ${state.bold?'bold':'normal'} ${state.fontSize}px ${actualFont(state.fontFamily)}`;
+  const lines=state.text.split('\n'), lineH=state.fontSize*state.lineHeight;
   const totalH=lines.length*lineH;
-  const tx=state.textX,ty=state.textY;
   const maxW=lines.reduce((m,l)=>Math.max(m,ctx.measureText(l).width),0);
-  return cx>=tx&&cx<=tx+maxW&&cy>=ty&&cy<=ty+totalH;
+  return cx>=state.textX && cx<=state.textX+maxW && cy>=state.textY && cy<=state.textY+totalH;
 }
-canvas.addEventListener('mousedown',e=>{
-  if(e.button!==0)return;
+canvas.addEventListener('mousedown', e=>{
+  if(e.button!==0) return;
   const c=canvasCoord(e);
-  if(state.customPos&&isOverText(c.x,c.y)){
-    dragMode='text';dtx=c.x-state.textX;dty=c.y-state.textY;
-    canvas.classList.add('grabbing');
+  if(state.customPos && isOverText(c.x,c.y)){
+    dragMode='text'; dtx=c.x-state.textX; dty=c.y-state.textY; canvas.classList.add('grabbing');
   } else {
-    dragMode='pan';dsx=e.clientX;dsy=e.clientY;dpx=panX;dpy=panY;
-    previewArea.style.cursor='grabbing';
+    dragMode='pan'; dsx=e.clientX; dsy=e.clientY; dpx=panX; dpy=panY; previewArea.style.cursor='grabbing';
   }
 });
-window.addEventListener('mousemove',e=>{
-  if(!dragMode)return;
-  if(dragMode==='pan'){panX=dpx+(e.clientX-dsx);panY=dpy+(e.clientY-dsy);applyTransform();}
+window.addEventListener('mousemove', e=>{
+  if(!dragMode) return;
+  if(dragMode==='pan'){ panX=dpx+(e.clientX-dsx); panY=dpy+(e.clientY-dsy); applyTransform(); }
   else if(dragMode==='text'){
     const c=canvasCoord(e);
-    state.textX=Math.round(c.x-dtx);state.textY=Math.round(c.y-dty);
+    state.textX=Math.round(c.x-dtx); state.textY=Math.round(c.y-dty);
     document.getElementById('posX').value=state.textX;
     document.getElementById('posY').value=state.textY;
     document.getElementById('posIndicator').textContent=`X:${state.textX} Y:${state.textY}`;
     render();
   }
 });
-window.addEventListener('mouseup',()=>{dragMode=null;canvas.classList.remove('grabbing');previewArea.style.cursor='';});
+window.addEventListener('mouseup', ()=>{ dragMode=null; canvas.classList.remove('grabbing'); previewArea.style.cursor=''; });
+
 let lt=null;
-previewArea.addEventListener('touchstart',e=>{e.preventDefault();lt=[...e.touches];},{passive:false});
-previewArea.addEventListener('touchmove',e=>{
+previewArea.addEventListener('touchstart', e=>{e.preventDefault(); lt=[...e.touches];},{passive:false});
+previewArea.addEventListener('touchmove', e=>{
   e.preventDefault();
-  const t=[...e.touches],r=previewArea.getBoundingClientRect(),cx=r.width/2,cy=r.height/2;
-  if(t.length===1&&lt.length===1){panX+=t[0].clientX-lt[0].clientX;panY+=t[0].clientY-lt[0].clientY;}
-  else if(t.length===2&&lt.length===2){
+  const t=[...e.touches], r=previewArea.getBoundingClientRect(), cx=r.width/2, cy=r.height/2;
+  if(t.length===1 && lt.length===1){ panX+=t[0].clientX-lt[0].clientX; panY+=t[0].clientY-lt[0].clientY; }
+  else if(t.length===2 && lt.length===2){
     const pd=Math.hypot(lt[1].clientX-lt[0].clientX,lt[1].clientY-lt[0].clientY);
     const cd=Math.hypot(t[1].clientX-t[0].clientX,t[1].clientY-t[0].clientY);
-    const mx=(t[0].clientX+t[1].clientX)/2-r.left-cx,my=(t[0].clientY+t[1].clientY)/2-r.top-cy;
-    const nz=clampZoom(zoom*cd/pd),sc=nz/zoom;
-    panX=mx+(panX-mx)*sc;panY=my+(panY-my)*sc;zoom=nz;
+    const mx=(t[0].clientX+t[1].clientX)/2-r.left-cx, my=(t[0].clientY+t[1].clientY)/2-r.top-cy;
+    const nz=clampZoom(zoom*cd/pd), sc=nz/zoom;
+    panX=mx+(panX-mx)*sc; panY=my+(panY-my)*sc; zoom=nz;
     panX+=(t[0].clientX+t[1].clientX)/2-(lt[0].clientX+lt[1].clientX)/2;
     panY+=(t[0].clientY+t[1].clientY)/2-(lt[0].clientY+lt[1].clientY)/2;
   }
-  lt=t;applyTransform();
+  lt=t; applyTransform();
 },{passive:false});
-previewArea.addEventListener('touchend',e=>{lt=[...e.touches];},{passive:false});
+previewArea.addEventListener('touchend', e=>{ lt=[...e.touches]; },{passive:false});
 
-// state
-let state={
-  text:'',fontFamily:"'Noto Sans JP', sans-serif",
-  fontSize:64,lineHeight:1.4,bold:false,italic:false,
-  align:'left',valign:'top',
-  customPos:false,textX:40,textY:40,
-  bgColor:'#ffffff',fgColor:'#000000',
-  perChar:false,gaming:false,charColors:{},
-  padding:40,width:800,height:600,
-  pixel:false,pixelSize:8,
-  outline:false,outlineWidth:3,outlineColor:'#ffffff',
-  shadow:false,shadowBlur:10,shadowX:4,shadowY:4,shadowColor:'#000000',
-  glitch:false,glitchAmount:8,
-  gradText:false,gradColor1:'#ff0080',gradColor2:'#0080ff',gradDir:'h',
-  neon:false,neonBlur:15,neonColor:'#00ffff',
-};
+// ---- render ----
+function actualFont(f){ return f==='__8bit__' ? 'monospace' : f; }
+function gamingColor(i,total){ return `hsl(${Math.round(i/Math.max(total,1)*360)},100%,55%)`; }
 
-function gamingColor(i,total){return `hsl(${Math.round(i/Math.max(total,1)*360)},100%,55%)`;}
-
-function buildPerCharList(){
-  const list=document.getElementById('perCharList');
-  const newColors={};list.innerHTML='';
-  [...state.text].forEach((c,ci)=>{
-    if(c==='\n')return;
-    const color=state.charColors[ci]||state.fgColor;newColors[ci]=color;
-    const wrap=document.createElement('div');wrap.style.cssText='display:flex;flex-direction:column;align-items:center;gap:2px';
-    const lbl=document.createElement('span');lbl.textContent=c===' '?'·':c;lbl.style.cssText='font-size:10px;color:var(--muted);max-width:24px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap';
-    const sw=document.createElement('div');sw.style.cssText=`width:24px;height:24px;border-radius:4px;border:1px solid var(--border);cursor:pointer;position:relative;overflow:hidden;background:${color}`;
-    const inp=document.createElement('input');inp.type='color';inp.value=color;inp.style.cssText='opacity:0;position:absolute;inset:0;width:100%;height:100%;cursor:pointer;padding:0;border:none';
-    inp.addEventListener('input',e=>{state.charColors[ci]=e.target.value;sw.style.background=e.target.value;render();});
-    sw.appendChild(inp);wrap.appendChild(lbl);wrap.appendChild(sw);list.appendChild(wrap);
-  });
-  state.charColors=newColors;
-}
-
-function drawPixelated(offCtx,w,h,ps){
-  const tmp=document.createElement('canvas');tmp.width=w;tmp.height=h;
-  const tc=tmp.getContext('2d');
-  tc.drawImage(offCtx.canvas,0,0);
-  tc.imageSmoothingEnabled=false;
-  const sw=Math.ceil(w/ps),sh=Math.ceil(h/ps);
-  const sm=document.createElement('canvas');sm.width=sw;sm.height=sh;
-  const sc2=sm.getContext('2d');
-  sc2.drawImage(tmp,0,0,sw,sh);
-  tc.clearRect(0,0,w,h);
-  tc.imageSmoothingEnabled=false;
-  tc.drawImage(sm,0,0,w,h);
-  return tc;
-}
-
-function actualFont(f){return f==='__8bit__'?'monospace':f;}
 function render(){
-  canvas.width=state.width;canvas.height=state.height;
-  // off-screen canvas
-  const off=document.createElement('canvas');off.width=state.width;off.height=state.height;
+  const W=state.width, H=state.height;
+  canvas.width=W; canvas.height=H;
+
+  const off=document.createElement('canvas'); off.width=W; off.height=H;
   const oc=off.getContext('2d');
-  oc.globalAlpha=1;oc.globalCompositeOperation='source-over';
-  oc.fillStyle=state.bgColor;oc.fillRect(0,0,state.width,state.height);
-  oc.font=`${state.italic?'italic':'normal'} ${state.bold?'bold':'normal'} ${state.fontSize}px ${actualFont(state.fontFamily)}`;
-  oc.textBaseline='top';
+  oc.fillStyle=state.bgColor; oc.fillRect(0,0,W,H);
 
-  const lines=state.text.split('\n'),lineH=state.fontSize*state.lineHeight,pad=state.padding,totalH=lines.length*lineH;
-  let sy;
-  if(state.customPos){sy=state.textY;}
-  else{sy=state.valign==='top'?pad:state.valign==='middle'?(state.height-totalH)/2:state.height-pad-totalH;}
-
-  const allChars=[...state.text].filter(c=>c!=='\n');
-  let globalCharIdx=0;
-lines.forEach((line,li)=>{
-    const lineWidth=oc.measureText(line).width;
-    let lx;
-    if(state.customPos){lx=state.textX;}
-    else{lx=state.align==='left'?pad:state.align==='center'?(state.width-lineWidth)/2:state.width-pad-lineWidth;}
-    const y=sy+li*lineH;
-
-    // gradient text setup
-    let fillStyle=state.fgColor;
-    if(state.gradText&&!state.perChar&&!state.gaming){
-      let g;
-      if(state.gradDir==='h')g=oc.createLinearGradient(lx,y,lx+lineWidth,y);
-      else if(state.gradDir==='v')g=oc.createLinearGradient(lx,y,lx,y+totalH);
-      else g=oc.createLinearGradient(lx,y,lx+lineWidth,y+totalH);
-      g.addColorStop(0,state.gradColor1);g.addColorStop(1,state.gradColor2);
-      fillStyle=g;
+  if(state.text){
+    const fnt=`${state.italic?'italic':'normal'} ${state.bold?'bold':'normal'} ${state.fontSize}px ${actualFont(state.fontFamily)}`;
+    oc.font=fnt; oc.textBaseline='top';
+    const lines=state.text.split('\n'), lineH=state.fontSize*state.lineHeight, pad=state.padding, totalH=lines.length*lineH;
+    const sy = state.customPos ? state.textY : state.valign==='top' ? pad : state.valign==='middle' ? (H-totalH)/2 : H-pad-totalH;
+    const allChars=[...state.text].filter(c=>c!=='\n');
+    let gi=0;
+    lines.forEach((line,li)=>{
+      const lw=oc.measureText(line).width;
+      const lx = state.customPos ? state.textX : state.align==='left' ? pad : state.align==='center' ? (W-lw)/2 : W-pad-lw;
+      const y=sy+li*lineH;
+      // gradient
+      let fill=state.fgColor;
+      if(state.gradText && !state.perChar && !state.gaming){
+        let g;
+        if(state.gradDir==='h') g=oc.createLinearGradient(lx,y,lx+lw,y);
+        else if(state.gradDir==='v') g=oc.createLinearGradient(lx,y,lx,y+totalH);
+        else g=oc.createLinearGradient(lx,y,lx+lw,y+totalH);
+        g.addColorStop(0,state.gradColor1); g.addColorStop(1,state.gradColor2); fill=g;
+      }
+      // neon
+      if(state.neon){
+        oc.save(); oc.shadowColor=state.neonColor; oc.shadowBlur=state.neonBlur;
+        oc.fillStyle=state.neonColor; oc.fillText(line,lx,y);
+        oc.shadowBlur=state.neonBlur*0.5; oc.fillText(line,lx,y); oc.restore();
+      }
+      // shadow
+      if(state.shadow){ oc.shadowColor=state.shadowColor; oc.shadowBlur=state.shadowBlur; oc.shadowOffsetX=state.shadowX; oc.shadowOffsetY=state.shadowY; }
+      else { oc.shadowColor='transparent'; oc.shadowBlur=0; oc.shadowOffsetX=0; oc.shadowOffsetY=0; }
+      // outline
+      if(state.outline){ oc.strokeStyle=state.outlineColor; oc.lineWidth=state.outlineWidth*2; oc.lineJoin='round'; oc.strokeText(line,lx,y); }
+      oc.shadowColor='transparent'; oc.shadowBlur=0; oc.shadowOffsetX=0; oc.shadowOffsetY=0;
+      // fill
+      if(!state.perChar && !state.gaming){
+        oc.fillStyle=fill; oc.fillText(line,lx,y); gi+=[...line].length;
+      } else {
+        let cx2=lx;
+        [...line].forEach(ch=>{
+          const cw=oc.measureText(ch).width;
+          const color = state.gaming ? gamingColor(gi,allChars.length) : (state.charColors[gi]||state.fgColor);
+          oc.fillStyle=color; oc.fillText(ch,cx2,y); cx2+=cw; gi++;
+        });
+      }
+    });
+    // glitch
+    if(state.glitch){
+      const amt=state.glitchAmount;
+      for(let i=0;i<8;i++){
+        const sy2=Math.random()*H, sh2=Math.random()*30+5, sx2=Math.random()*amt*2-amt;
+        const id=oc.getImageData(0,sy2,W,sh2); oc.putImageData(id,sx2,sy2);
+      }
+      const id2=oc.getImageData(0,0,W,H); const d=id2.data;
+      for(let i=0;i<d.length;i+=4){
+        const sh=Math.floor(amt/2)*4;
+        if(i+sh<d.length) d[i]=d[i+sh];
+        if(i-sh>=0) d[i+2]=d[i-sh+2];
+      }
+      oc.putImageData(id2,0,0);
     }
-
-    // neon
-    if(state.neon){
-      oc.save();oc.shadowColor=state.neonColor;oc.shadowBlur=state.neonBlur;
-      oc.fillStyle=state.neonColor;oc.fillText(line,lx,y);
-      oc.shadowBlur=state.neonBlur*0.5;oc.fillText(line,lx,y);
-      oc.restore();
-    }
-
-    // shadow
-    if(state.shadow){oc.shadowColor=state.shadowColor;oc.shadowBlur=state.shadowBlur;oc.shadowOffsetX=state.shadowX;oc.shadowOffsetY=state.shadowY;}
-    else{oc.shadowColor='transparent';oc.shadowBlur=0;oc.shadowOffsetX=0;oc.shadowOffsetY=0;}
-
-    // outline
-    if(state.outline){
-      oc.strokeStyle=state.outlineColor;oc.lineWidth=state.outlineWidth*2;oc.lineJoin='round';
-      oc.strokeText(line,lx,y,state.width-pad*2);
-    }
-    oc.shadowColor='transparent';oc.shadowBlur=0;oc.shadowOffsetX=0;oc.shadowOffsetY=0;
-
-    if(!state.perChar&&!state.gaming){
-      oc.fillStyle=fillStyle;oc.fillText(line,lx,y,state.width-pad*2);
-      globalCharIdx+=[...line].length;
-    } else {
-      let cx2=lx;
-      [...line].forEach((ch,ci)=>{
-        const charW=oc.measureText(ch).width;
-        let color;
-        if(state.gaming){color=gamingColor(globalCharIdx,allChars.length);}
-        else{
-          const origIdx=[...state.text].findIndex((c,i)=>{let g=0;for(let j=0;j<i;j++)if(state.text[j]!=='\n')g++;return c!=='\n'&&g===globalCharIdx;});
-          color=state.charColors[origIdx]||state.fgColor;
-        }
-        oc.fillStyle=color;oc.fillText(ch,cx2,y);cx2+=charW;globalCharIdx++;
-      });
-    }
-  });
-
-  // glitch
-  if(state.glitch){
-    const amt=state.glitchAmount;
-    for(let i=0;i<8;i++){
-      const sy2=Math.random()*state.height,sh2=Math.random()*30+5;
-      const sx2=Math.random()*amt*2-amt;
-      const id=oc.getImageData(0,sy2,state.width,sh2);
-      oc.putImageData(id,sx2,sy2);
-    }
-    // chromatic aberration
-    const id2=oc.getImageData(0,0,state.width,state.height);
-    const d=id2.data;
-    for(let i=0;i<d.length;i+=4){
-      const shift=Math.floor(amt/2);
-      if(i+shift*4<d.length){d[i]=d[i+shift*4];}
-      if(i-shift*4>=0){d[i+2]=d[i-shift*4+2];}
-    }
-    oc.putImageData(id2,0,0);
   }
 
-  // pixel mode
+  // output
   if(state.pixel){
     const ps=state.pixelSize;
-    const sw2=Math.ceil(state.width/ps),sh2=Math.ceil(state.height/ps);
-    const sm=document.createElement('canvas');sm.width=sw2;sm.height=sh2;
-    const sc2=sm.getContext('2d');sc2.imageSmoothingEnabled=false;sc2.drawImage(off,0,0,sw2,sh2);
-    ctx.imageSmoothingEnabled=false;ctx.drawImage(sm,0,0,state.width,state.height);
+    const sw=Math.ceil(W/ps), sh=Math.ceil(H/ps);
+    const sm=document.createElement('canvas'); sm.width=sw; sm.height=sh;
+    const sc=sm.getContext('2d'); sc.imageSmoothingEnabled=false; sc.drawImage(off,0,0,sw,sh);
+    ctx.imageSmoothingEnabled=false; ctx.drawImage(sm,0,0,W,H);
   } else if(state.fontFamily==='__8bit__'){
-    // 16bit mode: render at small size without antialiasing then upscale
     const ps=4;
-    const sw2=Math.ceil(state.width/ps),sh2=Math.ceil(state.height/ps);
-    const sm=document.createElement('canvas');sm.width=sw2;sm.height=sh2;
-    const sc2=sm.getContext('2d');
-    sc2.imageSmoothingEnabled=false;
-    // re-render at small size without antialiasing
-    sc2.fillStyle=state.bgColor;sc2.fillRect(0,0,sw2,sh2);
-    const scaleF=1/ps;
-    sc2.save();sc2.scale(scaleF,scaleF);
-    sc2.font=`${state.italic?'italic':'normal'} ${state.bold?'bold':'normal'} ${state.fontSize}px monospace`;
-    sc2.textBaseline='top';
-    sc2.imageSmoothingEnabled=false;
-    const lines2=state.text.split('\n'),lineH2=state.fontSize*state.lineHeight,pad2=state.padding,totalH2=lines2.length*lineH2;
-    let sy2=state.customPos?state.textY:state.valign==='top'?pad2:state.valign==='middle'?(state.height-totalH2)/2:state.height-pad2-totalH2;
-    lines2.forEach((line,li)=>{
-      const lw=sc2.measureText(line).width;
-      let lx2=state.customPos?state.textX:state.align==='left'?pad2:state.align==='center'?(state.width-lw)/2:state.width-pad2-lw;
-      sc2.fillStyle=state.fgColor;sc2.fillText(line,lx2,sy2+li*lineH2);
-    });
-    sc2.restore();
-    ctx.imageSmoothingEnabled=false;ctx.drawImage(sm,0,0,state.width,state.height);
+    const sw=Math.ceil(W/ps), sh=Math.ceil(H/ps);
+    const sm=document.createElement('canvas'); sm.width=sw; sm.height=sh;
+    const sc=sm.getContext('2d'); sc.imageSmoothingEnabled=false;
+    sc.fillStyle=state.bgColor; sc.fillRect(0,0,sw,sh);
+    if(state.text){
+      const scaleF=1/ps; sc.save(); sc.scale(scaleF,scaleF);
+      sc.font=`${state.italic?'italic':'normal'} ${state.bold?'bold':'normal'} ${state.fontSize}px monospace`;
+      sc.textBaseline='top';
+      const lines2=state.text.split('\n'), lh2=state.fontSize*state.lineHeight, pad2=state.padding, th2=lines2.length*lh2;
+      const sy2=state.customPos?state.textY:state.valign==='top'?pad2:state.valign==='middle'?(H-th2)/2:H-pad2-th2;
+      lines2.forEach((line,li)=>{
+        const lw=sc.measureText(line).width;
+        const lx2=state.customPos?state.textX:state.align==='left'?pad2:state.align==='center'?(W-lw)/2:W-pad2-lw;
+        sc.fillStyle=state.fgColor; sc.fillText(line,lx2,sy2+li*lh2);
+      });
+      sc.restore();
+    }
+    ctx.imageSmoothingEnabled=false; ctx.drawImage(sm,0,0,W,H);
   } else {
-    ctx.globalAlpha=1;
-    ctx.imageSmoothingEnabled=true;
     ctx.drawImage(off,0,0);
   }
 
-  document.getElementById('sizeIndicator').textContent=`${state.width} × ${state.height} px`;
+  document.getElementById('sizeIndicator').textContent=`${W} × ${H} px`;
   applyTransform();
 }
 
-// inputs
-document.getElementById('textInput').addEventListener('input',e=>{state.text=e.target.value;if(state.perChar)buildPerCharList();render();saveState();});
-document.getElementById('fontFamily').addEventListener('change',e=>{state.fontFamily=e.target.value;render();saveState();});
-document.getElementById('fontSize').addEventListener('input',e=>{state.fontSize=+e.target.value;document.getElementById('fontSizeVal').textContent=e.target.value;render();saveState();});
-document.getElementById('lineHeight').addEventListener('input',e=>{state.lineHeight=+e.target.value;document.getElementById('lineHeightVal').textContent=(+e.target.value).toFixed(1);render();saveState();});
-document.getElementById('padding').addEventListener('input',e=>{state.padding=+e.target.value;document.getElementById('paddingVal').textContent=e.target.value;render();saveState();});
-document.getElementById('imgWidth').addEventListener('change',e=>{state.width=+e.target.value||800;render();saveState();});
-document.getElementById('imgHeight').addEventListener('change',e=>{state.height=+e.target.value||600;render();saveState();});
-document.getElementById('posX').addEventListener('input',e=>{state.textX=+e.target.value;render();saveState();});
-document.getElementById('posY').addEventListener('input',e=>{state.textY=+e.target.value;render();saveState();});
-document.getElementById('customPosCheck').addEventListener('change',e=>{
-  state.customPos=e.target.checked;
-  document.getElementById('posIndicator').style.display=state.customPos?'block':'none';
-  render();saveState();
-});
+// ---- inputs ----
+function sv(key,val){ state[key]=val; }
+function re(){ render(); saveState(); }
+
+document.getElementById('textInput').addEventListener('input', e=>{ state.text=e.target.value; if(state.perChar) buildPerCharList(); re(); });
+document.getElementById('fontFamily').addEventListener('change', e=>{ state.fontFamily=e.target.value; re(); });
+document.getElementById('fontSize').addEventListener('input', e=>{ state.fontSize=+e.target.value; document.getElementById('fontSizeVal').textContent=e.target.value; re(); });
+document.getElementById('lineHeight').addEventListener('input', e=>{ state.lineHeight=+e.target.value; document.getElementById('lineHeightVal').textContent=(+e.target.value).toFixed(1); re(); });
+document.getElementById('padding').addEventListener('input', e=>{ state.padding=+e.target.value; document.getElementById('paddingVal').textContent=e.target.value; re(); });
+document.getElementById('imgWidth').addEventListener('change', e=>{ state.width=+e.target.value||800; re(); });
+document.getElementById('imgHeight').addEventListener('change', e=>{ state.height=+e.target.value||600; re(); });
+document.getElementById('posX').addEventListener('input', e=>{ state.textX=+e.target.value; re(); });
+document.getElementById('posY').addEventListener('input', e=>{ state.textY=+e.target.value; re(); });
+document.getElementById('customPosCheck').addEventListener('change', e=>{ state.customPos=e.target.checked; document.getElementById('posIndicator').style.display=state.customPos?'block':'none'; re(); });
 
 function syncColor(cid,hid,sid,key){
-  const p=document.getElementById(cid),h=document.getElementById(hid),s=document.getElementById(sid);
-  p.addEventListener('input',e=>{state[key]=e.target.value;h.value=e.target.value;s.style.background=e.target.value;render();});
-  h.addEventListener('change',e=>{if(/^#[0-9a-fA-F]{6}$/.test(e.target.value)){state[key]=e.target.value;p.value=e.target.value;s.style.background=e.target.value;render();}});
+  const p=document.getElementById(cid), h=document.getElementById(hid), s=document.getElementById(sid);
+  p.addEventListener('input', e=>{ state[key]=e.target.value; h.value=e.target.value; s.style.background=e.target.value; re(); });
+  h.addEventListener('change', e=>{ if(/^#[0-9a-fA-F]{6}$/.test(e.target.value)){ state[key]=e.target.value; p.value=e.target.value; s.style.background=e.target.value; re(); } });
 }
 syncColor('bgColor','bgHex','bgSwatch','bgColor');
 syncColor('fgColor','fgHex','fgSwatch','fgColor');
@@ -674,14 +629,13 @@ syncColor('gradColor2','gradColor2Hex','gradColor2Swatch','gradColor2');
 syncColor('neonColor','neonHex','neonSwatch','neonColor');
 
 function toggleFx(checkId,bodyId,stateKey){
-  document.getElementById(checkId).addEventListener('change',e=>{
+  document.getElementById(checkId).addEventListener('change', e=>{
     state[stateKey]=e.target.checked;
     const body=document.getElementById(bodyId);
-    const accName=bodyId.replace('body-','');
-    const header=document.querySelector(`#acc-${accName} .fx-accordion-header`);
-    body?.classList.toggle('open',e.target.checked);
-    header?.classList.toggle('active',e.target.checked);
-    render();saveState();
+    const header=document.querySelector(`#acc-${bodyId.replace('body-','')} .fx-accordion-header`);
+    body.classList.toggle('open',e.target.checked);
+    if(header) header.classList.toggle('active',e.target.checked);
+    re();
   });
 }
 toggleFx('pixelCheck','body-pixel','pixel');
@@ -691,19 +645,64 @@ toggleFx('glitchCheck','body-glitch','glitch');
 toggleFx('gradTextCheck','body-gradText','gradText');
 toggleFx('neonCheck','body-neon','neon');
 
-// 16bit
+document.getElementById('pixelSize').addEventListener('input', e=>{ state.pixelSize=+e.target.value; document.getElementById('pixelSizeVal').textContent=e.target.value; re(); });
+document.getElementById('outlineWidth').addEventListener('input', e=>{ state.outlineWidth=+e.target.value; document.getElementById('outlineWidthVal').textContent=e.target.value; re(); });
+document.getElementById('shadowBlur').addEventListener('input', e=>{ state.shadowBlur=+e.target.value; document.getElementById('shadowBlurVal').textContent=e.target.value; re(); });
+document.getElementById('shadowX').addEventListener('input', e=>{ state.shadowX=+e.target.value; re(); });
+document.getElementById('shadowY').addEventListener('input', e=>{ state.shadowY=+e.target.value; re(); });
+document.getElementById('glitchAmount').addEventListener('input', e=>{ state.glitchAmount=+e.target.value; document.getElementById('glitchAmountVal').textContent=e.target.value; re(); });
+document.getElementById('gradDir').addEventListener('change', e=>{ state.gradDir=e.target.value; re(); });
+document.getElementById('neonBlur').addEventListener('input', e=>{ state.neonBlur=+e.target.value; document.getElementById('neonBlurVal').textContent=e.target.value; re(); });
 
-// accordion header click
 function toggleAcc(name){
   const body=document.getElementById(`body-${name}`);
   const header=document.querySelector(`#acc-${name} .fx-accordion-header`);
-  const isOpen=body.classList.contains('open');
-  body.classList.toggle('open',!isOpen);
-  header.classList.toggle('active',!isOpen);
+  const open=body.classList.toggle('open');
+  if(header) header.classList.toggle('active',open);
 }
 
-// autosave
-const SAVE_KEY='textimg_state_v1';
+function setAlign(a){ state.align=a; document.querySelectorAll('[data-align]').forEach(b=>b.classList.toggle('active',b.dataset.align===a)); re(); }
+function setVAlign(v){ state.valign=v; document.querySelectorAll('[data-valign]').forEach(b=>b.classList.toggle('active',b.dataset.valign===v)); re(); }
+function toggleBold(){ state.bold=!state.bold; document.getElementById('boldBtn').classList.toggle('active',state.bold); re(); }
+function toggleItalic(){ state.italic=!state.italic; document.getElementById('italicBtn').classList.toggle('active',state.italic); re(); }
+function setPreset(w,h){ state.width=w; state.height=h; document.getElementById('imgWidth').value=w; document.getElementById('imgHeight').value=h; re(); }
+
+document.getElementById('perCharCheck').addEventListener('change', e=>{
+  state.perChar=e.target.checked;
+  if(state.perChar){ state.gaming=false; document.getElementById('gamingCheck').checked=false; buildPerCharList(); document.getElementById('perCharPanel').style.display='block'; }
+  else { document.getElementById('perCharPanel').style.display='none'; }
+  re();
+});
+document.getElementById('gamingCheck').addEventListener('change', e=>{
+  state.gaming=e.target.checked;
+  if(state.gaming){ state.perChar=false; document.getElementById('perCharCheck').checked=false; document.getElementById('perCharPanel').style.display='none'; }
+  re();
+});
+
+function buildPerCharList(){
+  const list=document.getElementById('perCharList');
+  const newColors={}; list.innerHTML='';
+  [...state.text].forEach((c,ci)=>{
+    if(c==='\n') return;
+    const color=state.charColors[ci]||state.fgColor; newColors[ci]=color;
+    const wrap=document.createElement('div'); wrap.style.cssText='display:flex;flex-direction:column;align-items:center;gap:2px';
+    const lbl=document.createElement('span'); lbl.textContent=c===' '?'·':c; lbl.style.cssText='font-size:10px;color:var(--muted);max-width:24px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap';
+    const sw=document.createElement('div'); sw.style.cssText=`width:24px;height:24px;border-radius:4px;border:1px solid var(--border);cursor:pointer;position:relative;overflow:hidden;background:${color}`;
+    const inp=document.createElement('input'); inp.type='color'; inp.value=color; inp.style.cssText='opacity:0;position:absolute;inset:0;width:100%;height:100%;cursor:pointer;padding:0;border:none';
+    inp.addEventListener('input', e=>{ state.charColors[ci]=e.target.value; sw.style.background=e.target.value; render(); });
+    sw.appendChild(inp); wrap.appendChild(lbl); wrap.appendChild(sw); list.appendChild(wrap);
+  });
+  state.charColors=newColors;
+}
+
+function download(){
+  const fmt=document.getElementById('dlFormat').value;
+  const mime=fmt==='jpeg'?'image/jpeg':fmt==='webp'?'image/webp':'image/png';
+  const a=document.createElement('a'); a.href=canvas.toDataURL(mime,.95); a.download=`textimg.${fmt}`; a.click();
+}
+
+// ---- autosave ----
+const SAVE_KEY='textimg_v2';
 let saveTimer=null;
 function saveState(){
   clearTimeout(saveTimer);
@@ -711,86 +710,56 @@ function saveState(){
     try{
       localStorage.setItem(SAVE_KEY,JSON.stringify(state));
       const ind=document.getElementById('autosaveIndicator');
-      ind.textContent=t('autosave.saved');ind.classList.add('saved');
-      setTimeout(()=>{ind.textContent=t('autosave.idle');ind.classList.remove('saved');},2000);
+      ind.textContent=tl('autosaveSaved'); ind.classList.add('saved');
+      setTimeout(()=>{ ind.textContent=tl('autosaveIdle'); ind.classList.remove('saved'); },2000);
     }catch(e){}
   },800);
 }
+
 function loadState(){
   try{
-    const s=localStorage.getItem(SAVE_KEY);if(!s)return;
-    const saved=JSON.parse(s);Object.assign(state,saved);
+    const s=localStorage.getItem(SAVE_KEY); if(!s) return;
+    const saved=JSON.parse(s); Object.assign(state,saved);
     document.getElementById('textInput').value=state.text;
-    document.getElementById('fontSize').value=state.fontSize;document.getElementById('fontSizeVal').textContent=state.fontSize;
-    document.getElementById('lineHeight').value=state.lineHeight;document.getElementById('lineHeightVal').textContent=state.lineHeight.toFixed(1);
-    document.getElementById('padding').value=state.padding;document.getElementById('paddingVal').textContent=state.padding;
-    document.getElementById('imgWidth').value=state.width;document.getElementById('imgHeight').value=state.height;
-    document.getElementById('posX').value=state.textX;document.getElementById('posY').value=state.textY;
+    document.getElementById('fontSize').value=state.fontSize; document.getElementById('fontSizeVal').textContent=state.fontSize;
+    document.getElementById('lineHeight').value=state.lineHeight; document.getElementById('lineHeightVal').textContent=state.lineHeight.toFixed(1);
+    document.getElementById('padding').value=state.padding; document.getElementById('paddingVal').textContent=state.padding;
+    document.getElementById('imgWidth').value=state.width; document.getElementById('imgHeight').value=state.height;
+    document.getElementById('posX').value=state.textX; document.getElementById('posY').value=state.textY;
     document.getElementById('customPosCheck').checked=state.customPos;
-    if(state.customPos)document.getElementById('posIndicator').style.display='block';
-    document.getElementById('bgColor').value=state.bgColor;document.getElementById('bgHex').value=state.bgColor;document.getElementById('bgSwatch').style.background=state.bgColor;
-    document.getElementById('fgColor').value=state.fgColor;document.getElementById('fgHex').value=state.fgColor;document.getElementById('fgSwatch').style.background=state.fgColor;
+    if(state.customPos) document.getElementById('posIndicator').style.display='block';
+    document.getElementById('bgColor').value=state.bgColor; document.getElementById('bgHex').value=state.bgColor; document.getElementById('bgSwatch').style.background=state.bgColor;
+    document.getElementById('fgColor').value=state.fgColor; document.getElementById('fgHex').value=state.fgColor; document.getElementById('fgSwatch').style.background=state.fgColor;
     document.getElementById('boldBtn').classList.toggle('active',state.bold);
     document.getElementById('italicBtn').classList.toggle('active',state.italic);
     document.querySelectorAll('[data-align]').forEach(b=>b.classList.toggle('active',b.dataset.align===state.align));
     document.querySelectorAll('[data-valign]').forEach(b=>b.classList.toggle('active',b.dataset.valign===state.valign));
-    const fxMap={pixel:'pixelCheck',outline:'outlineCheck',shadow:'shadowCheck',glitch:'glitchCheck',gradText:'gradTextCheck',neon:'neonCheck'};
-    Object.entries(fxMap).forEach(([k,id])=>{
-      if(state[k]){document.getElementById(id).checked=true;document.getElementById(`body-${k}`)?.classList.add('open');document.querySelector(`#acc-${k} .fx-accordion-header`)?.classList.add('active');}
+    [{k:'pixel',id:'pixelCheck'},{k:'outline',id:'outlineCheck'},{k:'shadow',id:'shadowCheck'},{k:'glitch',id:'glitchCheck'},{k:'gradText',id:'gradTextCheck'},{k:'neon',id:'neonCheck'}].forEach(({k,id})=>{
+      if(state[k]){
+        document.getElementById(id).checked=true;
+        document.getElementById(`body-${k}`)?.classList.add('open');
+        document.querySelector(`#acc-${k} .fx-accordion-header`)?.classList.add('active');
+      }
     });
-    document.getElementById('pixelSize').value=state.pixelSize;document.getElementById('pixelSizeVal').textContent=state.pixelSize;
-    document.getElementById('outlineWidth').value=state.outlineWidth;document.getElementById('outlineWidthVal').textContent=state.outlineWidth;
-    document.getElementById('outlineColor').value=state.outlineColor;document.getElementById('outlineHex').value=state.outlineColor;document.getElementById('outlineSwatch').style.background=state.outlineColor;
-    document.getElementById('shadowBlur').value=state.shadowBlur;document.getElementById('shadowBlurVal').textContent=state.shadowBlur;
-    document.getElementById('shadowX').value=state.shadowX;document.getElementById('shadowY').value=state.shadowY;
-    document.getElementById('shadowColor').value=state.shadowColor;document.getElementById('shadowHex').value=state.shadowColor;document.getElementById('shadowSwatch').style.background=state.shadowColor;
-    document.getElementById('glitchAmount').value=state.glitchAmount;document.getElementById('glitchAmountVal').textContent=state.glitchAmount;
-    document.getElementById('gradColor1').value=state.gradColor1;document.getElementById('gradColor1Hex').value=state.gradColor1;document.getElementById('gradColor1Swatch').style.background=state.gradColor1;
-    document.getElementById('gradColor2').value=state.gradColor2;document.getElementById('gradColor2Hex').value=state.gradColor2;document.getElementById('gradColor2Swatch').style.background=state.gradColor2;
+    document.getElementById('pixelSize').value=state.pixelSize; document.getElementById('pixelSizeVal').textContent=state.pixelSize;
+    document.getElementById('outlineWidth').value=state.outlineWidth; document.getElementById('outlineWidthVal').textContent=state.outlineWidth;
+    document.getElementById('outlineColor').value=state.outlineColor; document.getElementById('outlineHex').value=state.outlineColor; document.getElementById('outlineSwatch').style.background=state.outlineColor;
+    document.getElementById('shadowBlur').value=state.shadowBlur; document.getElementById('shadowBlurVal').textContent=state.shadowBlur;
+    document.getElementById('shadowX').value=state.shadowX; document.getElementById('shadowY').value=state.shadowY;
+    document.getElementById('shadowColor').value=state.shadowColor; document.getElementById('shadowHex').value=state.shadowColor; document.getElementById('shadowSwatch').style.background=state.shadowColor;
+    document.getElementById('glitchAmount').value=state.glitchAmount; document.getElementById('glitchAmountVal').textContent=state.glitchAmount;
+    document.getElementById('gradColor1').value=state.gradColor1; document.getElementById('gradColor1Hex').value=state.gradColor1; document.getElementById('gradColor1Swatch').style.background=state.gradColor1;
+    document.getElementById('gradColor2').value=state.gradColor2; document.getElementById('gradColor2Hex').value=state.gradColor2; document.getElementById('gradColor2Swatch').style.background=state.gradColor2;
     document.getElementById('gradDir').value=state.gradDir;
-    document.getElementById('neonBlur').value=state.neonBlur;document.getElementById('neonBlurVal').textContent=state.neonBlur;
-    document.getElementById('neonColor').value=state.neonColor;document.getElementById('neonHex').value=state.neonColor;document.getElementById('neonSwatch').style.background=state.neonColor;
-    if(state.perChar){document.getElementById('perCharCheck').checked=true;buildPerCharList();document.getElementById('perCharPanel').style.display='block';}
-    if(state.gaming)document.getElementById('gamingCheck').checked=true;
-  }catch(e){console.warn('Failed to restore state',e);}
+    document.getElementById('neonBlur').value=state.neonBlur; document.getElementById('neonBlurVal').textContent=state.neonBlur;
+    document.getElementById('neonColor').value=state.neonColor; document.getElementById('neonHex').value=state.neonColor; document.getElementById('neonSwatch').style.background=state.neonColor;
+    if(state.perChar){ document.getElementById('perCharCheck').checked=true; buildPerCharList(); document.getElementById('perCharPanel').style.display='block'; }
+    if(state.gaming) document.getElementById('gamingCheck').checked=true;
+  }catch(e){ console.warn('loadState failed',e); }
 }
 
-document.getElementById('pixelSize').addEventListener('input',e=>{state.pixelSize=+e.target.value;document.getElementById('pixelSizeVal').textContent=e.target.value;render();});
-document.getElementById('outlineWidth').addEventListener('input',e=>{state.outlineWidth=+e.target.value;document.getElementById('outlineWidthVal').textContent=e.target.value;render();});
-document.getElementById('shadowBlur').addEventListener('input',e=>{state.shadowBlur=+e.target.value;document.getElementById('shadowBlurVal').textContent=e.target.value;render();});
-document.getElementById('shadowX').addEventListener('input',e=>{state.shadowX=+e.target.value;render();});
-document.getElementById('shadowY').addEventListener('input',e=>{state.shadowY=+e.target.value;render();});
-document.getElementById('glitchAmount').addEventListener('input',e=>{state.glitchAmount=+e.target.value;document.getElementById('glitchAmountVal').textContent=e.target.value;render();});
-document.getElementById('gradDir').addEventListener('change',e=>{state.gradDir=e.target.value;render();});
-document.getElementById('neonBlur').addEventListener('input',e=>{state.neonBlur=+e.target.value;document.getElementById('neonBlurVal').textContent=e.target.value;render();});
-
-function setAlign(a){state.align=a;document.querySelectorAll('[data-align]').forEach(b=>b.classList.toggle('active',b.dataset.align===a));render();}
-function setVAlign(v){state.valign=v;document.querySelectorAll('[data-valign]').forEach(b=>b.classList.toggle('active',b.dataset.valign===v));render();}
-function toggleBold(){state.bold=!state.bold;document.getElementById('boldBtn').classList.toggle('active',state.bold);render();}
-function toggleItalic(){state.italic=!state.italic;document.getElementById('italicBtn').classList.toggle('active',state.italic);render();}
-function setPreset(w,h){state.width=w;state.height=h;document.getElementById('imgWidth').value=w;document.getElementById('imgHeight').value=h;render();}
-
-document.getElementById('perCharCheck').addEventListener('change',e=>{
-  state.perChar=e.target.checked;
-  if(state.perChar){state.gaming=false;document.getElementById('gamingCheck').checked=false;buildPerCharList();document.getElementById('perCharPanel').style.display='block';}
-  else{document.getElementById('perCharPanel').style.display='none';}render();
-});
-document.getElementById('gamingCheck').addEventListener('change',e=>{
-  state.gaming=e.target.checked;
-  if(state.gaming){state.perChar=false;document.getElementById('perCharCheck').checked=false;document.getElementById('perCharPanel').style.display='none';}render();
-});
-
-function download(){
-  const fmt=document.getElementById('dlFormat').value;
-  const mime=fmt==='jpeg'?'image/jpeg':fmt==='webp'?'image/webp':'image/png';
-  const a=document.createElement('a');a.href=canvas.toDataURL(mime,.95);a.download=`textimg.${fmt}`;a.click();
-}
-
+// ---- init ----
 loadState();
-// フォントセレクトをstateに合わせて再設定
-const _sel=document.getElementById('fontFamily');
-const _matchFont=FONTS.find(f=>f.v===state.fontFamily);
-if(!_matchFont){state.fontFamily=FONTS[0].v;}
 applyLang();
 render();
 setTimeout(()=>{
