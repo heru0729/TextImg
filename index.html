@@ -88,6 +88,16 @@ canvas.grabbing{cursor:grabbing}
 .pos-indicator{position:absolute;top:16px;right:16px;color:var(--muted);font-size:11px;font-family:'Courier New',monospace;background:rgba(26,26,26,.8);border:1px solid var(--border);border-radius:12px;padding:4px 10px;display:none}
 .hint{position:absolute;top:16px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--muted);background:rgba(26,26,26,.7);border:1px solid var(--border);border-radius:10px;padding:3px 10px;white-space:nowrap;pointer-events:none;opacity:1;transition:opacity 1s}
 .hint.hidden{opacity:0}
+.reset-btn{width:100%;background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px;border-radius:var(--radius);font-family:'Noto Sans JP',sans-serif;font-size:12px;cursor:pointer;transition:all .15s;margin-top:4px}
+.reset-btn:hover{border-color:#ff4444;color:#ff4444}
+.mode-toggle{display:flex;gap:4px;margin-bottom:4px}
+.mode-btn{flex:1;background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:7px;border-radius:6px;cursor:pointer;font-size:11px;font-family:'Noto Sans JP',sans-serif;transition:all .15s;text-align:center}
+.mode-btn:hover{border-color:var(--accent);color:var(--accent)}
+.mode-btn.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:700}
+.dot-panel{display:none;flex-direction:column;gap:8px}
+.dot-panel.active{display:flex}
+.text-panel{display:flex;flex-direction:column;gap:20px}
+canvas.dot-mode{cursor:crosshair}
 </style>
 </head>
 <body>
@@ -97,6 +107,16 @@ canvas.grabbing{cursor:grabbing}
 </header>
 <div class="main">
   <aside class="sidebar">
+    <!-- mode toggle -->
+    <div>
+      <div class="mode-toggle">
+        <button class="mode-btn active" id="modeTextBtn" onclick="setMode('text')" id="btnModeText">Text</button>
+        <button class="mode-btn" id="modeDotBtn" onclick="setMode('dot')" id="btnModeDot">Dot</button>
+      </div>
+    </div>
+
+    <!-- text mode panels -->
+    <div id="textPanel" class="text-panel">
     <div>
       <div class="section-label" id="secText">Text</div>
       <label id="labelInput">Input</label>
@@ -280,6 +300,28 @@ canvas.grabbing{cursor:grabbing}
         <div><label id="labelHeight">Height (px)</label><input type="number" id="imgHeight" value="600" min="1" max="4000"></div>
       </div>
     </div>
+    </div><!-- /textPanel -->
+
+    <!-- dot mode panel -->
+    <div id="dotPanel" class="dot-panel">
+      <div>
+        <div class="section-label" id="secDot">Dot Mode</div>
+        <label><span id="labelDotSize">Grid size</span> <span id="dotSizeVal">16</span>px</label>
+        <input type="range" id="dotSize" min="4" max="64" value="16" step="2">
+        <div style="margin-top:8px">
+        <label class="check-row"><input type="checkbox" id="showGridCheck" checked><span id="labelShowGrid">Show grid</span></label>
+      </div>
+      </div>
+      <div>
+        <label id="labelDotColor">Color (uses text color)</label>
+        <div class="color-row">
+          <div class="color-swatch" id="fgSwatchDot" style="background:#000000"><input type="color" id="fgColorDot" value="#000000"></div>
+          <input type="text" class="color-hex" id="fgHexDot" value="#000000" maxlength="7">
+        </div>
+      </div>
+      <button class="reset-btn" id="btnClearDot" onclick="clearDots()">🗑 Clear dots</button>
+    </div>
+
     <hr class="divider">
     <div>
       <div class="section-label" id="secDownload">Download</div>
@@ -287,6 +329,7 @@ canvas.grabbing{cursor:grabbing}
         <select id="dlFormat" style="width:90px"><option value="png">PNG</option><option value="jpeg">JPEG</option><option value="webp">WebP</option></select>
         <button class="dl-btn" onclick="download()" id="btnSave">⬇ Save</button>
       </div>
+      <button class="reset-btn" id="btnReset" onclick="resetAll()">↺ Reset all settings</button>
       <div class="autosave-indicator" id="autosaveIndicator">Auto-save: idle</div>
     </div>
   </aside>
@@ -327,6 +370,10 @@ const I18N = {
     hint:'Wheel/Pinch=zoom　Drag=pan',
     placeholder:'Enter text here...',
     autosaveIdle:'Auto-save: idle', autosaveSaved:'✓ Saved',
+    secDot:'Dot Mode', labelDotSize:'Grid size', labelDotHint:'Click=draw　Same cell=erase',
+    labelDotColor:'Color (uses text color)', btnClearDot:'🗑 Clear dots', labelShowGrid:'Show grid',
+    btnReset:'↺ Reset all settings',
+    btnModeText:'Text', btnModeDot:'Dot',
   },
   ja: {
     headerSub:'テキスト画像ジェネレーター', secText:'テキスト', labelInput:'入力',
@@ -349,6 +396,10 @@ const I18N = {
     hint:'ホイール/ピンチ=ズーム　ドラッグ=パン',
     placeholder:'ここにテキストを入力...',
     autosaveIdle:'自動保存: 待機中', autosaveSaved:'✓ 保存済み',
+    secDot:'ドットモード', labelDotSize:'グリッドサイズ', labelDotHint:'クリック=描画　同じマス=消去',
+    labelDotColor:'色（文字色を使用）', btnClearDot:'🗑 ドットをクリア', labelShowGrid:'グリッドを表示',
+    btnReset:'↺ 設定をリセット',
+    btnModeText:'テキスト', btnModeDot:'ドット',
   }
 };
 
@@ -360,11 +411,11 @@ const FONTS = [
   {v:"'Zen Kaku Gothic New', sans-serif", en:'Zen Kaku Gothic New', ja:'Zen Kaku Gothic New'},
   {v:'serif',     en:'serif (system)', ja:'serif（システム）'},
   {v:'monospace', en:'monospace',      ja:'monospace'},
-  {v:'__8bit__',  en:'8bit (pixel font)', ja:'8bit（ピクセルフォント）'},
 ];
 
 // ---- state ----
 let state = {
+  mode:'text',
   text:'', fontFamily:"'Noto Sans JP', sans-serif",
   fontSize:64, lineHeight:1.4, bold:false, italic:false,
   align:'left', valign:'top',
@@ -378,6 +429,7 @@ let state = {
   glitch:false, glitchAmount:8,
   gradText:false, gradColor1:'#ff0080', gradColor2:'#0080ff', gradDir:'h',
   neon:false, neonBlur:15, neonColor:'#00ffff',
+  dotSize:16, dots:{}, showGrid:true,
 };
 
 // ---- lang ----
@@ -452,11 +504,21 @@ function isOverText(cx,cy){
 }
 canvas.addEventListener('mousedown', e=>{
   if(e.button!==0) return;
-  const c=canvasCoord(e);
-  if(state.customPos && isOverText(c.x,c.y)){
-    dragMode='text'; dtx=c.x-state.textX; dty=c.y-state.textY; canvas.classList.add('grabbing');
+  if(state.mode==='dot'){
+    dotDrawing=true;
+    const {gx,gy}=canvasDotCoord(e);
+    const key=`${gx},${gy}`;
+    if(state.dots[key]){ delete state.dots[key]; }
+    else { state.dots[key]=state.fgColor; }
+    render(); saveState();
+    e.stopPropagation();
   } else {
-    dragMode='pan'; dsx=e.clientX; dsy=e.clientY; dpx=panX; dpy=panY; previewArea.style.cursor='grabbing';
+    const c=canvasCoord(e);
+    if(state.customPos && isOverText(c.x,c.y)){
+      dragMode='text'; dtx=c.x-state.textX; dty=c.y-state.textY; canvas.classList.add('grabbing');
+    } else {
+      dragMode='pan'; dsx=e.clientX; dsy=e.clientY; dpx=panX; dpy=panY; previewArea.style.cursor='grabbing';
+    }
   }
 });
 window.addEventListener('mousemove', e=>{
@@ -493,7 +555,7 @@ previewArea.addEventListener('touchmove', e=>{
 previewArea.addEventListener('touchend', e=>{ lt=[...e.touches]; },{passive:false});
 
 // ---- render ----
-function actualFont(f){ return f==='__8bit__' ? 'monospace' : f; }
+function actualFont(f){ return f; }
 function gamingColor(i,total){ return `hsl(${Math.round(i/Math.max(total,1)*360)},100%,55%)`; }
 
 function render(){
@@ -572,28 +634,24 @@ function render(){
     const sm=document.createElement('canvas'); sm.width=sw; sm.height=sh;
     const sc=sm.getContext('2d'); sc.imageSmoothingEnabled=false; sc.drawImage(off,0,0,sw,sh);
     ctx.imageSmoothingEnabled=false; ctx.drawImage(sm,0,0,W,H);
-  } else if(state.fontFamily==='__8bit__'){
-    const ps=4;
-    const sw=Math.ceil(W/ps), sh=Math.ceil(H/ps);
-    const sm=document.createElement('canvas'); sm.width=sw; sm.height=sh;
-    const sc=sm.getContext('2d'); sc.imageSmoothingEnabled=false;
-    sc.fillStyle=state.bgColor; sc.fillRect(0,0,sw,sh);
-    if(state.text){
-      const scaleF=1/ps; sc.save(); sc.scale(scaleF,scaleF);
-      sc.font=`${state.italic?'italic':'normal'} ${state.bold?'bold':'normal'} ${state.fontSize}px monospace`;
-      sc.textBaseline='top';
-      const lines2=state.text.split('\n'), lh2=state.fontSize*state.lineHeight, pad2=state.padding, th2=lines2.length*lh2;
-      const sy2=state.customPos?state.textY:state.valign==='top'?pad2:state.valign==='middle'?(H-th2)/2:H-pad2-th2;
-      lines2.forEach((line,li)=>{
-        const lw=sc.measureText(line).width;
-        const lx2=state.customPos?state.textX:state.align==='left'?pad2:state.align==='center'?(W-lw)/2:W-pad2-lw;
-        sc.fillStyle=state.fgColor; sc.fillText(line,lx2,sy2+li*lh2);
-      });
-      sc.restore();
-    }
-    ctx.imageSmoothingEnabled=false; ctx.drawImage(sm,0,0,W,H);
   } else {
     ctx.drawImage(off,0,0);
+  }
+
+  // dot mode overlay
+  if(state.mode==='dot'){
+    const gs=state.dotSize;
+    // draw grid
+    if(state.showGrid){
+      ctx.strokeStyle='rgba(100,100,100,0.3)'; ctx.lineWidth=0.5;
+      for(let x=0;x<=W;x+=gs){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+      for(let y=0;y<=H;y+=gs){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+    }
+    // draw dots
+    Object.entries(state.dots).forEach(([key,color])=>{
+      const [gx,gy]=key.split(',').map(Number);
+      ctx.fillStyle=color; ctx.fillRect(gx*gs,gy*gs,gs,gs);
+    });
   }
 
   document.getElementById('sizeIndicator').textContent=`${W} × ${H} px`;
@@ -701,6 +759,63 @@ function download(){
   const a=document.createElement('a'); a.href=canvas.toDataURL(mime,.95); a.download=`textimg.${fmt}`; a.click();
 }
 
+// ---- mode ----
+function setMode(m){
+  state.mode=m;
+  document.getElementById('modeTextBtn').classList.toggle('active',m==='text');
+  document.getElementById('modeDotBtn').classList.toggle('active',m==='dot');
+  document.getElementById('textPanel').style.display=m==='text'?'flex':'none';
+  document.getElementById('textPanel').style.flexDirection='column';
+  document.getElementById('textPanel').style.gap='20px';
+  document.getElementById('dotPanel').classList.toggle('active',m==='dot');
+  canvas.style.cursor=m==='dot'?'crosshair':'crosshair';
+  render();
+}
+
+// ---- dot drawing ----
+let dotDrawing=false;
+function canvasDotCoord(e){
+  const r=canvas.getBoundingClientRect();
+  const x=(e.clientX-r.left)/zoom, y=(e.clientY-r.top)/zoom;
+  const gs=state.dotSize;
+  return {gx:Math.floor(x/gs), gy:Math.floor(y/gs)};
+}
+window.addEventListener('mousemove', e=>{
+  if(!dotDrawing || state.mode!=='dot') return;
+  const {gx,gy}=canvasDotCoord(e);
+  const key=`${gx},${gy}`;
+  if(!state.dots[key]){ state.dots[key]=state.fgColor; render(); }
+});
+window.addEventListener('mouseup', ()=>{ dotDrawing=false; });
+
+function clearDots(){ state.dots={}; render(); saveState(); }
+
+// ---- reset ----
+function resetAll(){
+  if(!confirm('Reset all settings?')) return;
+  localStorage.removeItem(SAVE_KEY);
+  location.reload();
+}
+
+// ---- dot color sync ----
+document.getElementById('fgColorDot').addEventListener('input', e=>{
+  state.fgColor=e.target.value;
+  document.getElementById('fgHexDot').value=e.target.value;
+  document.getElementById('fgSwatchDot').style.background=e.target.value;
+  document.getElementById('fgColor').value=e.target.value;
+  document.getElementById('fgHex').value=e.target.value;
+  document.getElementById('fgSwatch').style.background=e.target.value;
+});
+document.getElementById('fgHexDot').addEventListener('change', e=>{
+  if(/^#[0-9a-fA-F]{6}$/.test(e.target.value)){
+    state.fgColor=e.target.value;
+    document.getElementById('fgColorDot').value=e.target.value;
+    document.getElementById('fgSwatchDot').style.background=e.target.value;
+  }
+});
+document.getElementById('showGridCheck').addEventListener('change', e=>{ state.showGrid=e.target.checked; render(); saveState(); });
+document.getElementById('dotSize').addEventListener('input', e=>{ state.dotSize=+e.target.value; document.getElementById('dotSizeVal').textContent=e.target.value; render(); });
+
 // ---- autosave ----
 const SAVE_KEY='textimg_v2';
 let saveTimer=null;
@@ -761,6 +876,15 @@ function loadState(){
 // ---- init ----
 loadState();
 applyLang();
+// mode restore
+setMode(state.mode||'text');
+// dot color sync
+document.getElementById('fgColorDot').value=state.fgColor;
+document.getElementById('fgHexDot').value=state.fgColor;
+document.getElementById('fgSwatchDot').style.background=state.fgColor;
+document.getElementById('dotSize').value=state.dotSize||16;
+document.getElementById('dotSizeVal').textContent=state.dotSize||16;
+document.getElementById('showGridCheck').checked=state.showGrid!==false;
 render();
 setTimeout(()=>{
   const r=previewArea.getBoundingClientRect();
