@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="icon" href="/favicon.png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>TextImg — Free Text Image Generator Online</title>
@@ -65,6 +64,19 @@ input[type="range"]{width:100%;accent-color:var(--accent)}
 .check-row input[type="checkbox"]{width:auto;padding:0;accent-color:var(--accent)}
 .fx-panel{margin-top:8px;padding:10px;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);display:none;flex-direction:column;gap:8px}
 .fx-panel.open{display:flex}
+.fx-accordion{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:4px}
+.fx-accordion-header{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;cursor:pointer;user-select:none;transition:background .15s;gap:8px}
+.fx-accordion-header:hover{background:var(--panel)}
+.fx-accordion-header.active{background:rgba(212,255,0,.08);border-bottom:1px solid var(--border)}
+.fx-accordion-left{display:flex;align-items:center;gap:8px}
+.fx-accordion-left input[type="checkbox"]{width:auto;padding:0;accent-color:var(--accent);flex-shrink:0}
+.fx-accordion-title{font-size:12px;color:var(--text)}
+.fx-accordion-arrow{font-size:10px;color:var(--muted);transition:transform .2s;flex-shrink:0}
+.fx-accordion-header.active .fx-accordion-arrow{transform:rotate(180deg)}
+.fx-accordion-body{display:none;padding:10px;flex-direction:column;gap:8px;background:var(--panel)}
+.fx-accordion-body.open{display:flex}
+.autosave-indicator{font-size:10px;color:var(--muted);text-align:right;padding:2px 0;transition:color .3s}
+.autosave-indicator.saved{color:var(--accent)}
 .preview-area{flex:1;overflow:hidden;position:relative;background:repeating-conic-gradient(#1c1c1c 0% 25%,#181818 0% 50%) 0 0/20px 20px;user-select:none;touch-action:none}
 .canvas-wrapper{position:absolute;transform-origin:center center;box-shadow:0 8px 40px rgba(0,0,0,.6)}
 canvas{display:block;cursor:crosshair}
@@ -155,69 +167,118 @@ canvas.grabbing{cursor:grabbing}
     </div>
     <div>
       <div class="section-label" data-i18n="sec.effects">Effects</div>
-      <label class="check-row" style="margin-bottom:8px"><input type="checkbox" id="pixelCheck"><span data-i18n="label.pixel">Pixel Mode</span></label>
-      <div class="fx-panel" id="pixelPanel">
-        <label><span data-i18n="label.pixelSize">Pixel size</span> <span id="pixelSizeVal">8</span>px</label>
-        <input type="range" id="pixelSize" min="2" max="32" value="8">
-      </div>
-      <label class="check-row" style="margin-top:8px;margin-bottom:8px"><input type="checkbox" id="outlineCheck"><span data-i18n="label.outline">Outline</span></label>
-      <div class="fx-panel" id="outlinePanel">
-        <label><span data-i18n="label.outlineWidth">Width</span> <span id="outlineWidthVal">3</span>px</label>
-        <input type="range" id="outlineWidth" min="1" max="20" value="3">
-        <label data-i18n="label.outlineColor">Color</label>
-        <div class="color-row">
-          <div class="color-swatch" id="outlineSwatch" style="background:#ffffff"><input type="color" id="outlineColor" value="#ffffff"></div>
-          <input type="text" class="color-hex" id="outlineHex" value="#ffffff" maxlength="7">
+
+      <div class="fx-accordion" id="acc-pixel">
+        <div class="fx-accordion-header" onclick="toggleAcc('pixel')">
+          <div class="fx-accordion-left"><input type="checkbox" id="pixelCheck" onclick="event.stopPropagation()"><span class="fx-accordion-title" data-i18n="label.pixel">Pixel Mode</span></div>
+          <span class="fx-accordion-arrow">▼</span>
+        </div>
+        <div class="fx-accordion-body" id="body-pixel">
+          <label><span data-i18n="label.pixelSize">Pixel size</span> <span id="pixelSizeVal">8</span>px</label>
+          <input type="range" id="pixelSize" min="2" max="32" value="8">
         </div>
       </div>
-      <label class="check-row" style="margin-top:8px;margin-bottom:8px"><input type="checkbox" id="shadowCheck"><span data-i18n="label.shadow">Shadow</span></label>
-      <div class="fx-panel" id="shadowPanel">
-        <label><span data-i18n="label.shadowBlur">Blur</span> <span id="shadowBlurVal">10</span>px</label>
-        <input type="range" id="shadowBlur" min="0" max="40" value="10">
-        <div class="row2">
-          <div><label>X offset</label><input type="number" id="shadowX" value="4" min="-50" max="50"></div>
-          <div><label>Y offset</label><input type="number" id="shadowY" value="4" min="-50" max="50"></div>
+
+      <div class="fx-accordion" id="acc-bit16">
+        <div class="fx-accordion-header" onclick="toggleAcc('bit16')">
+          <div class="fx-accordion-left"><input type="checkbox" id="bit16Check" onclick="event.stopPropagation()"><span class="fx-accordion-title" data-i18n="label.bit16">16bit Mode</span></div>
+          <span class="fx-accordion-arrow">▼</span>
         </div>
-        <label data-i18n="label.shadowColor">Color</label>
-        <div class="color-row">
-          <div class="color-swatch" id="shadowSwatch" style="background:#000000"><input type="color" id="shadowColor" value="#000000"></div>
-          <input type="text" class="color-hex" id="shadowHex" value="#000000" maxlength="7">
+        <div class="fx-accordion-body" id="body-bit16">
+          <label><span data-i18n="label.bit16Size">Dot size</span> <span id="bit16SizeVal">4</span>px</label>
+          <input type="range" id="bit16Size" min="1" max="16" value="4">
+          <label data-i18n="label.bit16Desc" style="line-height:1.5;margin-top:2px">Renders text without anti-aliasing for a retro dot-font look.</label>
         </div>
       </div>
-      <label class="check-row" style="margin-top:8px;margin-bottom:8px"><input type="checkbox" id="glitchCheck"><span data-i18n="label.glitch">Glitch</span></label>
-      <div class="fx-panel" id="glitchPanel">
-        <label><span data-i18n="label.glitchAmount">Amount</span> <span id="glitchAmountVal">8</span></label>
-        <input type="range" id="glitchAmount" min="1" max="30" value="8">
-      </div>
-      <label class="check-row" style="margin-top:8px;margin-bottom:8px"><input type="checkbox" id="gradTextCheck"><span data-i18n="label.gradText">Gradient Text</span></label>
-      <div class="fx-panel" id="gradTextPanel">
-        <label data-i18n="label.gradColor1">Color 1</label>
-        <div class="color-row">
-          <div class="color-swatch" id="gradColor1Swatch" style="background:#ff0080"><input type="color" id="gradColor1" value="#ff0080"></div>
-          <input type="text" class="color-hex" id="gradColor1Hex" value="#ff0080" maxlength="7">
+
+      <div class="fx-accordion" id="acc-outline">
+        <div class="fx-accordion-header" onclick="toggleAcc('outline')">
+          <div class="fx-accordion-left"><input type="checkbox" id="outlineCheck" onclick="event.stopPropagation()"><span class="fx-accordion-title" data-i18n="label.outline">Outline</span></div>
+          <span class="fx-accordion-arrow">▼</span>
         </div>
-        <label data-i18n="label.gradColor2" style="margin-top:6px">Color 2</label>
-        <div class="color-row">
-          <div class="color-swatch" id="gradColor2Swatch" style="background:#0080ff"><input type="color" id="gradColor2" value="#0080ff"></div>
-          <input type="text" class="color-hex" id="gradColor2Hex" value="#0080ff" maxlength="7">
-        </div>
-        <label style="margin-top:6px" data-i18n="label.gradDir">Direction</label>
-        <select id="gradDir">
-          <option value="h" data-i18n="opt.horizontal">Horizontal</option>
-          <option value="v" data-i18n="opt.vertical">Vertical</option>
-          <option value="d" data-i18n="opt.diagonal">Diagonal</option>
-        </select>
-      </div>
-      <label class="check-row" style="margin-top:8px;margin-bottom:8px"><input type="checkbox" id="neonCheck"><span data-i18n="label.neon">Neon</span></label>
-      <div class="fx-panel" id="neonPanel">
-        <label><span data-i18n="label.neonBlur">Glow size</span> <span id="neonBlurVal">15</span>px</label>
-        <input type="range" id="neonBlur" min="5" max="50" value="15">
-        <label data-i18n="label.neonColor" style="margin-top:6px">Glow color</label>
-        <div class="color-row">
-          <div class="color-swatch" id="neonSwatch" style="background:#00ffff"><input type="color" id="neonColor" value="#00ffff"></div>
-          <input type="text" class="color-hex" id="neonHex" value="#00ffff" maxlength="7">
+        <div class="fx-accordion-body" id="body-outline">
+          <label><span data-i18n="label.outlineWidth">Width</span> <span id="outlineWidthVal">3</span>px</label>
+          <input type="range" id="outlineWidth" min="1" max="20" value="3">
+          <label data-i18n="label.outlineColor">Color</label>
+          <div class="color-row">
+            <div class="color-swatch" id="outlineSwatch" style="background:#ffffff"><input type="color" id="outlineColor" value="#ffffff"></div>
+            <input type="text" class="color-hex" id="outlineHex" value="#ffffff" maxlength="7">
+          </div>
         </div>
       </div>
+
+      <div class="fx-accordion" id="acc-shadow">
+        <div class="fx-accordion-header" onclick="toggleAcc('shadow')">
+          <div class="fx-accordion-left"><input type="checkbox" id="shadowCheck" onclick="event.stopPropagation()"><span class="fx-accordion-title" data-i18n="label.shadow">Shadow</span></div>
+          <span class="fx-accordion-arrow">▼</span>
+        </div>
+        <div class="fx-accordion-body" id="body-shadow">
+          <label><span data-i18n="label.shadowBlur">Blur</span> <span id="shadowBlurVal">10</span>px</label>
+          <input type="range" id="shadowBlur" min="0" max="40" value="10">
+          <div class="row2">
+            <div><label>X offset</label><input type="number" id="shadowX" value="4" min="-50" max="50"></div>
+            <div><label>Y offset</label><input type="number" id="shadowY" value="4" min="-50" max="50"></div>
+          </div>
+          <label data-i18n="label.shadowColor">Color</label>
+          <div class="color-row">
+            <div class="color-swatch" id="shadowSwatch" style="background:#000000"><input type="color" id="shadowColor" value="#000000"></div>
+            <input type="text" class="color-hex" id="shadowHex" value="#000000" maxlength="7">
+          </div>
+        </div>
+      </div>
+
+      <div class="fx-accordion" id="acc-glitch">
+        <div class="fx-accordion-header" onclick="toggleAcc('glitch')">
+          <div class="fx-accordion-left"><input type="checkbox" id="glitchCheck" onclick="event.stopPropagation()"><span class="fx-accordion-title" data-i18n="label.glitch">Glitch</span></div>
+          <span class="fx-accordion-arrow">▼</span>
+        </div>
+        <div class="fx-accordion-body" id="body-glitch">
+          <label><span data-i18n="label.glitchAmount">Amount</span> <span id="glitchAmountVal">8</span></label>
+          <input type="range" id="glitchAmount" min="1" max="30" value="8">
+        </div>
+      </div>
+
+      <div class="fx-accordion" id="acc-gradText">
+        <div class="fx-accordion-header" onclick="toggleAcc('gradText')">
+          <div class="fx-accordion-left"><input type="checkbox" id="gradTextCheck" onclick="event.stopPropagation()"><span class="fx-accordion-title" data-i18n="label.gradText">Gradient Text</span></div>
+          <span class="fx-accordion-arrow">▼</span>
+        </div>
+        <div class="fx-accordion-body" id="body-gradText">
+          <label data-i18n="label.gradColor1">Color 1</label>
+          <div class="color-row">
+            <div class="color-swatch" id="gradColor1Swatch" style="background:#ff0080"><input type="color" id="gradColor1" value="#ff0080"></div>
+            <input type="text" class="color-hex" id="gradColor1Hex" value="#ff0080" maxlength="7">
+          </div>
+          <label data-i18n="label.gradColor2">Color 2</label>
+          <div class="color-row">
+            <div class="color-swatch" id="gradColor2Swatch" style="background:#0080ff"><input type="color" id="gradColor2" value="#0080ff"></div>
+            <input type="text" class="color-hex" id="gradColor2Hex" value="#0080ff" maxlength="7">
+          </div>
+          <label data-i18n="label.gradDir">Direction</label>
+          <select id="gradDir">
+            <option value="h" data-i18n="opt.horizontal">Horizontal</option>
+            <option value="v" data-i18n="opt.vertical">Vertical</option>
+            <option value="d" data-i18n="opt.diagonal">Diagonal</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="fx-accordion" id="acc-neon">
+        <div class="fx-accordion-header" onclick="toggleAcc('neon')">
+          <div class="fx-accordion-left"><input type="checkbox" id="neonCheck" onclick="event.stopPropagation()"><span class="fx-accordion-title" data-i18n="label.neon">Neon</span></div>
+          <span class="fx-accordion-arrow">▼</span>
+        </div>
+        <div class="fx-accordion-body" id="body-neon">
+          <label><span data-i18n="label.neonBlur">Glow size</span> <span id="neonBlurVal">15</span>px</label>
+          <input type="range" id="neonBlur" min="5" max="50" value="15">
+          <label data-i18n="label.neonColor">Glow color</label>
+          <div class="color-row">
+            <div class="color-swatch" id="neonSwatch" style="background:#00ffff"><input type="color" id="neonColor" value="#00ffff"></div>
+            <input type="text" class="color-hex" id="neonHex" value="#00ffff" maxlength="7">
+          </div>
+        </div>
+      </div>
+
     </div>
     <div>
       <div class="section-label" data-i18n="sec.padding">Padding</div>
@@ -246,6 +307,7 @@ canvas.grabbing{cursor:grabbing}
         <select id="dlFormat" style="width:90px"><option value="png">PNG</option><option value="jpeg">JPEG</option><option value="webp">WebP</option></select>
         <button class="dl-btn" onclick="download()" data-i18n="btn.save">⬇ Save</button>
       </div>
+      <div class="autosave-indicator" id="autosaveIndicator" data-i18n="autosave.idle">Auto-save: idle</div>
     </div>
   </aside>
   <div class="preview-area" id="previewArea">
@@ -280,6 +342,8 @@ const STRINGS={
     'label.gradText':'Gradient Text','label.gradColor1':'Color 1','label.gradColor2':'Color 2','label.gradDir':'Direction',
     'opt.horizontal':'Horizontal','opt.vertical':'Vertical','opt.diagonal':'Diagonal',
     'label.neon':'Neon','label.neonBlur':'Glow size','label.neonColor':'Glow color',
+    'label.bit16':'16bit Mode','label.bit16Size':'Dot size','label.bit16Desc':'Renders text without anti-aliasing for a retro dot-font look.',
+    'autosave.idle':'Auto-save: idle','autosave.saved':'✓ Saved',
     'sec.padding':'Padding','label.padding':'Padding',
     'sec.size':'Image size','label.width':'Width (px)','label.height':'Height (px)',
     'preset.general':'General','preset.square':'Square','preset.portrait':'Portrait','preset.wide':'Wide',
@@ -304,6 +368,8 @@ const STRINGS={
     'label.gradText':'グラデーションテキスト','label.gradColor1':'カラー1','label.gradColor2':'カラー2','label.gradDir':'方向',
     'opt.horizontal':'水平','opt.vertical':'垂直','opt.diagonal':'斜め',
     'label.neon':'ネオン','label.neonBlur':'グロウサイズ','label.neonColor':'グロウカラー',
+    'label.bit16':'16bitモード','label.bit16Size':'ドットサイズ','label.bit16Desc':'アンチエイリアスなしでレトロなドットフォント風に描画します。',
+    'autosave.idle':'自動保存: 待機中','autosave.saved':'✓ 保存済み',
     'sec.padding':'余白','label.padding':'パディング',
     'sec.size':'画像サイズ','label.width':'幅 (px)','label.height':'高さ (px)',
     'preset.general':'汎用','preset.square':'正方形','preset.portrait':'縦長','preset.wide':'横長',
@@ -433,6 +499,7 @@ let state={
   perChar:false,gaming:false,charColors:{},
   padding:40,width:800,height:600,
   pixel:false,pixelSize:8,
+  bit16:false,bit16Size:4,
   outline:false,outlineWidth:3,outlineColor:'#ffffff',
   shadow:false,shadowBlur:10,shadowX:4,shadowY:4,shadowColor:'#000000',
   glitch:false,glitchAmount:8,
@@ -573,6 +640,29 @@ function render(){
     const sm=document.createElement('canvas');sm.width=sw2;sm.height=sh2;
     const sc2=sm.getContext('2d');sc2.imageSmoothingEnabled=false;sc2.drawImage(off,0,0,sw2,sh2);
     ctx.imageSmoothingEnabled=false;ctx.drawImage(sm,0,0,state.width,state.height);
+  } else if(state.bit16){
+    // 16bit mode: render at small size without antialiasing then upscale
+    const ps=state.bit16Size;
+    const sw2=Math.ceil(state.width/ps),sh2=Math.ceil(state.height/ps);
+    const sm=document.createElement('canvas');sm.width=sw2;sm.height=sh2;
+    const sc2=sm.getContext('2d');
+    sc2.imageSmoothingEnabled=false;
+    // re-render at small size without antialiasing
+    sc2.fillStyle=state.bgColor;sc2.fillRect(0,0,sw2,sh2);
+    const scaleF=1/ps;
+    sc2.save();sc2.scale(scaleF,scaleF);
+    sc2.font=`${state.italic?'italic':'normal'} ${state.bold?'bold':'normal'} ${state.fontSize}px ${state.fontFamily}`;
+    sc2.textBaseline='top';
+    sc2.imageSmoothingEnabled=false;
+    const lines2=state.text.split('\n'),lineH2=state.fontSize*state.lineHeight,pad2=state.padding,totalH2=lines2.length*lineH2;
+    let sy2=state.customPos?state.textY:state.valign==='top'?pad2:state.valign==='middle'?(state.height-totalH2)/2:state.height-pad2-totalH2;
+    lines2.forEach((line,li)=>{
+      const lw=sc2.measureText(line).width;
+      let lx2=state.customPos?state.textX:state.align==='left'?pad2:state.align==='center'?(state.width-lw)/2:state.width-pad2-lw;
+      sc2.fillStyle=state.fgColor;sc2.fillText(line,lx2,sy2+li*lineH2);
+    });
+    sc2.restore();
+    ctx.imageSmoothingEnabled=false;ctx.drawImage(sm,0,0,state.width,state.height);
   } else {
     ctx.drawImage(off,0,0);
   }
@@ -582,19 +672,19 @@ function render(){
 }
 
 // inputs
-document.getElementById('textInput').addEventListener('input',e=>{state.text=e.target.value;if(state.perChar)buildPerCharList();render();});
-document.getElementById('fontFamily').addEventListener('change',e=>{state.fontFamily=e.target.value;render();});
-document.getElementById('fontSize').addEventListener('input',e=>{state.fontSize=+e.target.value;document.getElementById('fontSizeVal').textContent=e.target.value;render();});
-document.getElementById('lineHeight').addEventListener('input',e=>{state.lineHeight=+e.target.value;document.getElementById('lineHeightVal').textContent=(+e.target.value).toFixed(1);render();});
-document.getElementById('padding').addEventListener('input',e=>{state.padding=+e.target.value;document.getElementById('paddingVal').textContent=e.target.value;render();});
-document.getElementById('imgWidth').addEventListener('change',e=>{state.width=+e.target.value||800;render();});
-document.getElementById('imgHeight').addEventListener('change',e=>{state.height=+e.target.value||600;render();});
-document.getElementById('posX').addEventListener('input',e=>{state.textX=+e.target.value;render();});
-document.getElementById('posY').addEventListener('input',e=>{state.textY=+e.target.value;render();});
+document.getElementById('textInput').addEventListener('input',e=>{state.text=e.target.value;if(state.perChar)buildPerCharList();render();saveState();});
+document.getElementById('fontFamily').addEventListener('change',e=>{state.fontFamily=e.target.value;render();saveState();});
+document.getElementById('fontSize').addEventListener('input',e=>{state.fontSize=+e.target.value;document.getElementById('fontSizeVal').textContent=e.target.value;render();saveState();});
+document.getElementById('lineHeight').addEventListener('input',e=>{state.lineHeight=+e.target.value;document.getElementById('lineHeightVal').textContent=(+e.target.value).toFixed(1);render();saveState();});
+document.getElementById('padding').addEventListener('input',e=>{state.padding=+e.target.value;document.getElementById('paddingVal').textContent=e.target.value;render();saveState();});
+document.getElementById('imgWidth').addEventListener('change',e=>{state.width=+e.target.value||800;render();saveState();});
+document.getElementById('imgHeight').addEventListener('change',e=>{state.height=+e.target.value||600;render();saveState();});
+document.getElementById('posX').addEventListener('input',e=>{state.textX=+e.target.value;render();saveState();});
+document.getElementById('posY').addEventListener('input',e=>{state.textY=+e.target.value;render();saveState();});
 document.getElementById('customPosCheck').addEventListener('change',e=>{
   state.customPos=e.target.checked;
   document.getElementById('posIndicator').style.display=state.customPos?'block':'none';
-  render();
+  render();saveState();
 });
 
 function syncColor(cid,hid,sid,key){
@@ -610,19 +700,98 @@ syncColor('gradColor1','gradColor1Hex','gradColor1Swatch','gradColor1');
 syncColor('gradColor2','gradColor2Hex','gradColor2Swatch','gradColor2');
 syncColor('neonColor','neonHex','neonSwatch','neonColor');
 
-function toggleFx(checkId,panelId,stateKey){
+function toggleFx(checkId,bodyId,stateKey){
   document.getElementById(checkId).addEventListener('change',e=>{
     state[stateKey]=e.target.checked;
-    document.getElementById(panelId).classList.toggle('open',e.target.checked);
-    render();
+    const body=document.getElementById(bodyId);
+    const accName=bodyId.replace('body-','');
+    const header=document.querySelector(`#acc-${accName} .fx-accordion-header`);
+    body?.classList.toggle('open',e.target.checked);
+    header?.classList.toggle('active',e.target.checked);
+    render();saveState();
   });
 }
-toggleFx('pixelCheck','pixelPanel','pixel');
-toggleFx('outlineCheck','outlinePanel','outline');
-toggleFx('shadowCheck','shadowPanel','shadow');
-toggleFx('glitchCheck','glitchPanel','glitch');
-toggleFx('gradTextCheck','gradTextPanel','gradText');
-toggleFx('neonCheck','neonPanel','neon');
+toggleFx('pixelCheck','body-pixel','pixel');
+toggleFx('outlineCheck','body-outline','outline');
+toggleFx('shadowCheck','body-shadow','shadow');
+toggleFx('glitchCheck','body-glitch','glitch');
+toggleFx('gradTextCheck','body-gradText','gradText');
+toggleFx('neonCheck','body-neon','neon');
+
+// 16bit
+document.getElementById('bit16Check').addEventListener('change',e=>{
+  state.bit16=e.target.checked;
+  const body=document.getElementById('body-bit16');
+  const header=document.querySelector('#acc-bit16 .fx-accordion-header');
+  body?.classList.toggle('open',e.target.checked);
+  header?.classList.toggle('active',e.target.checked);
+  if(state.bit16){state.pixel=false;document.getElementById('pixelCheck').checked=false;document.getElementById('body-pixel')?.classList.remove('open');document.querySelector('#acc-pixel .fx-accordion-header')?.classList.remove('active');}
+  render();saveState();
+});
+document.getElementById('bit16Size').addEventListener('input',e=>{state.bit16Size=+e.target.value;document.getElementById('bit16SizeVal').textContent=e.target.value;render();saveState();});
+
+// accordion header click
+function toggleAcc(name){
+  const body=document.getElementById(`body-${name}`);
+  const header=document.querySelector(`#acc-${name} .fx-accordion-header`);
+  const isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);
+  header.classList.toggle('active',!isOpen);
+}
+
+// autosave
+const SAVE_KEY='textimg_state_v1';
+let saveTimer=null;
+function saveState(){
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>{
+    try{
+      localStorage.setItem(SAVE_KEY,JSON.stringify(state));
+      const ind=document.getElementById('autosaveIndicator');
+      ind.textContent=t('autosave.saved');ind.classList.add('saved');
+      setTimeout(()=>{ind.textContent=t('autosave.idle');ind.classList.remove('saved');},2000);
+    }catch(e){}
+  },800);
+}
+function loadState(){
+  try{
+    const s=localStorage.getItem(SAVE_KEY);if(!s)return;
+    const saved=JSON.parse(s);Object.assign(state,saved);
+    document.getElementById('textInput').value=state.text;
+    document.getElementById('fontSize').value=state.fontSize;document.getElementById('fontSizeVal').textContent=state.fontSize;
+    document.getElementById('lineHeight').value=state.lineHeight;document.getElementById('lineHeightVal').textContent=state.lineHeight.toFixed(1);
+    document.getElementById('padding').value=state.padding;document.getElementById('paddingVal').textContent=state.padding;
+    document.getElementById('imgWidth').value=state.width;document.getElementById('imgHeight').value=state.height;
+    document.getElementById('posX').value=state.textX;document.getElementById('posY').value=state.textY;
+    document.getElementById('customPosCheck').checked=state.customPos;
+    if(state.customPos)document.getElementById('posIndicator').style.display='block';
+    document.getElementById('bgColor').value=state.bgColor;document.getElementById('bgHex').value=state.bgColor;document.getElementById('bgSwatch').style.background=state.bgColor;
+    document.getElementById('fgColor').value=state.fgColor;document.getElementById('fgHex').value=state.fgColor;document.getElementById('fgSwatch').style.background=state.fgColor;
+    document.getElementById('boldBtn').classList.toggle('active',state.bold);
+    document.getElementById('italicBtn').classList.toggle('active',state.italic);
+    document.querySelectorAll('[data-align]').forEach(b=>b.classList.toggle('active',b.dataset.align===state.align));
+    document.querySelectorAll('[data-valign]').forEach(b=>b.classList.toggle('active',b.dataset.valign===state.valign));
+    const fxMap={pixel:'pixelCheck',bit16:'bit16Check',outline:'outlineCheck',shadow:'shadowCheck',glitch:'glitchCheck',gradText:'gradTextCheck',neon:'neonCheck'};
+    Object.entries(fxMap).forEach(([k,id])=>{
+      if(state[k]){document.getElementById(id).checked=true;document.getElementById(`body-${k}`)?.classList.add('open');document.querySelector(`#acc-${k} .fx-accordion-header`)?.classList.add('active');}
+    });
+    document.getElementById('pixelSize').value=state.pixelSize;document.getElementById('pixelSizeVal').textContent=state.pixelSize;
+    document.getElementById('bit16Size').value=state.bit16Size;document.getElementById('bit16SizeVal').textContent=state.bit16Size;
+    document.getElementById('outlineWidth').value=state.outlineWidth;document.getElementById('outlineWidthVal').textContent=state.outlineWidth;
+    document.getElementById('outlineColor').value=state.outlineColor;document.getElementById('outlineHex').value=state.outlineColor;document.getElementById('outlineSwatch').style.background=state.outlineColor;
+    document.getElementById('shadowBlur').value=state.shadowBlur;document.getElementById('shadowBlurVal').textContent=state.shadowBlur;
+    document.getElementById('shadowX').value=state.shadowX;document.getElementById('shadowY').value=state.shadowY;
+    document.getElementById('shadowColor').value=state.shadowColor;document.getElementById('shadowHex').value=state.shadowColor;document.getElementById('shadowSwatch').style.background=state.shadowColor;
+    document.getElementById('glitchAmount').value=state.glitchAmount;document.getElementById('glitchAmountVal').textContent=state.glitchAmount;
+    document.getElementById('gradColor1').value=state.gradColor1;document.getElementById('gradColor1Hex').value=state.gradColor1;document.getElementById('gradColor1Swatch').style.background=state.gradColor1;
+    document.getElementById('gradColor2').value=state.gradColor2;document.getElementById('gradColor2Hex').value=state.gradColor2;document.getElementById('gradColor2Swatch').style.background=state.gradColor2;
+    document.getElementById('gradDir').value=state.gradDir;
+    document.getElementById('neonBlur').value=state.neonBlur;document.getElementById('neonBlurVal').textContent=state.neonBlur;
+    document.getElementById('neonColor').value=state.neonColor;document.getElementById('neonHex').value=state.neonColor;document.getElementById('neonSwatch').style.background=state.neonColor;
+    if(state.perChar){document.getElementById('perCharCheck').checked=true;buildPerCharList();document.getElementById('perCharPanel').style.display='block';}
+    if(state.gaming)document.getElementById('gamingCheck').checked=true;
+  }catch(e){console.warn('Failed to restore state',e);}
+}
 
 document.getElementById('pixelSize').addEventListener('input',e=>{state.pixelSize=+e.target.value;document.getElementById('pixelSizeVal').textContent=e.target.value;render();});
 document.getElementById('outlineWidth').addEventListener('input',e=>{state.outlineWidth=+e.target.value;document.getElementById('outlineWidthVal').textContent=e.target.value;render();});
@@ -655,7 +824,9 @@ function download(){
   const a=document.createElement('a');a.href=canvas.toDataURL(mime,.95);a.download=`textimg.${fmt}`;a.click();
 }
 
-applyLang();render();
+applyLang();
+loadState();
+render();
 setTimeout(()=>{
   const r=previewArea.getBoundingClientRect();
   zoom=clampZoom(Math.min((r.width-80)/state.width,(r.height-80)/state.height,1));
