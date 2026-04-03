@@ -20,7 +20,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6CG10ZPVW3"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-6CG10ZPVW3');</script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9619368699008291" crossorigin="anonymous"></script>
-<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Serif+JP:wght@400;700&family=M+PLUS+Rounded+1c:wght@400;700&family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -80,7 +80,7 @@ input[type="range"]{width:100%;accent-color:var(--accent)}
 .autosave-indicator.saved{color:var(--accent)}
 .preview-area{flex:1;overflow:hidden;position:relative;background:repeating-conic-gradient(#1c1c1c 0% 25%,#181818 0% 50%) 0 0/20px 20px;user-select:none;touch-action:none}
 .canvas-wrapper{position:absolute;transform-origin:center center;box-shadow:0 8px 40px rgba(0,0,0,.6)}
-canvas{display:block;cursor:crosshair}
+canvas{display:block;cursor:crosshair;min-width:1px;min-height:1px}
 canvas.grabbing{cursor:grabbing}
 .zoom-hud{position:absolute;bottom:16px;right:16px;display:flex;align-items:center;gap:8px;background:rgba(26,26,26,.92);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;font-family:'Courier New',monospace;color:var(--muted);backdrop-filter:blur(8px);pointer-events:auto}
 .zoom-hud button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;line-height:1;padding:0 2px;transition:color .15s}
@@ -102,7 +102,7 @@ canvas.grabbing{cursor:grabbing}
     <div>
       <div class="section-label" data-i18n="sec.text">Text</div>
       <label data-i18n="label.input">Input</label>
-      <textarea id="textInput" placeholder="Enter text here...">Hello, World!</textarea>
+      <textarea id="textInput" placeholder="Enter text here..."></textarea>
     </div>
     <div>
       <div class="section-label" data-i18n="sec.font">Font</div>
@@ -463,7 +463,7 @@ previewArea.addEventListener('touchend',e=>{lt=[...e.touches];},{passive:false})
 
 // state
 let state={
-  text:'Hello, World!',fontFamily:"'Noto Sans JP', sans-serif",
+  text:'',fontFamily:"'Noto Sans JP', sans-serif",
   fontSize:64,lineHeight:1.4,bold:false,italic:false,
   align:'left',valign:'top',
   customPos:false,textX:40,textY:40,
@@ -511,14 +511,17 @@ function drawPixelated(offCtx,w,h,ps){
   return tc;
 }
 
+function actualFont(f){return f==='__8bit__'?'monospace':f;}
 function render(){
   canvas.width=state.width;canvas.height=state.height;
+  ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';
+  ctx.fillStyle=state.bgColor;ctx.fillRect(0,0,state.width,state.height);
   // off-screen for pixel mode
   const off=document.createElement('canvas');off.width=state.width;off.height=state.height;
   const oc=off.getContext('2d');
-
+  oc.globalAlpha=1;oc.globalCompositeOperation='source-over';
   oc.fillStyle=state.bgColor;oc.fillRect(0,0,state.width,state.height);
-  oc.font=`${state.italic?'italic':'normal'} ${state.bold?'bold':'normal'} ${state.fontSize}px ${state.fontFamily}`;
+  oc.font=`${state.italic?'italic':'normal'} ${state.bold?'bold':'normal'} ${state.fontSize}px ${actualFont(state.fontFamily)}`;
   oc.textBaseline='top';
 
   const lines=state.text.split('\n'),lineH=state.fontSize*state.lineHeight,pad=state.padding,totalH=lines.length*lineH;
@@ -635,6 +638,7 @@ function render(){
     sc2.restore();
     ctx.imageSmoothingEnabled=false;ctx.drawImage(sm,0,0,state.width,state.height);
   } else {
+    ctx.imageSmoothingEnabled=true;
     ctx.drawImage(off,0,0);
   }
 
@@ -786,6 +790,11 @@ function download(){
 
 applyLang();
 loadState();
+// フォントセレクトをstateに合わせて再設定
+const _sel=document.getElementById('fontFamily');
+const _matchFont=FONTS.find(f=>f.v===state.fontFamily);
+if(_matchFont) _sel.value=state.fontFamily;
+else{state.fontFamily=FONTS[0].v;_sel.value=FONTS[0].v;}
 render();
 setTimeout(()=>{
   const r=previewArea.getBoundingClientRect();
