@@ -102,7 +102,7 @@ canvas.grabbing{cursor:grabbing}
     <div>
       <div class="section-label" data-i18n="sec.text">Text</div>
       <label data-i18n="label.input">Input</label>
-      <textarea id="textInput" placeholder="Enter text here..."></textarea>
+      <textarea id="textInput" placeholder="Enter text here...">Hello, World!</textarea>
     </div>
     <div>
       <div class="section-label" data-i18n="sec.font">Font</div>
@@ -366,8 +366,8 @@ function applyLang(){
   document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(t(k))el.textContent=t(k);});
   document.getElementById('textInput').placeholder=t('placeholder');
   document.getElementById('langBtn').textContent=lang==='en'?'日本語':'English';
-  const sel=document.getElementById('fontFamily'),cur=sel.value;
-  sel.innerHTML=FONTS.map(f=>`<option value="${f.v}"${f.v===cur?' selected':''}>${f[lang]}</option>`).join('');
+  const sel=document.getElementById('fontFamily');
+  sel.innerHTML=FONTS.map(f=>`<option value="${f.v}"${f.v===state.fontFamily?' selected':''}>${f[lang]}</option>`).join('');
 }
 document.getElementById('langBtn').addEventListener('click',()=>{lang=lang==='en'?'ja':'en';applyLang();});
 
@@ -463,7 +463,7 @@ previewArea.addEventListener('touchend',e=>{lt=[...e.touches];},{passive:false})
 
 // state
 let state={
-  text:'',fontFamily:"'Noto Sans JP', sans-serif",
+  text:'Hello, World!',fontFamily:"'Noto Sans JP', sans-serif",
   fontSize:64,lineHeight:1.4,bold:false,italic:false,
   align:'left',valign:'top',
   customPos:false,textX:40,textY:40,
@@ -531,6 +531,16 @@ function render(){
 
   const allChars=[...state.text].filter(c=>c!=='\n');
   let globalCharIdx=0;
+
+  // テキストが空のときプレースホルダーを薄く表示
+  if(!state.text){
+    oc.globalAlpha=0.25;
+    oc.fillStyle=state.fgColor;
+    oc.font=`normal normal ${state.fontSize}px ${actualFont(state.fontFamily)}`;
+    oc.textBaseline='top';
+    oc.fillText('Hello, World!',pad,pad);
+    oc.globalAlpha=1;
+  }
 
   lines.forEach((line,li)=>{
     const lineWidth=oc.measureText(line).width;
@@ -788,13 +798,12 @@ function download(){
   const a=document.createElement('a');a.href=canvas.toDataURL(mime,.95);a.download=`textimg.${fmt}`;a.click();
 }
 
-applyLang();
 loadState();
 // フォントセレクトをstateに合わせて再設定
 const _sel=document.getElementById('fontFamily');
 const _matchFont=FONTS.find(f=>f.v===state.fontFamily);
-if(_matchFont) _sel.value=state.fontFamily;
-else{state.fontFamily=FONTS[0].v;_sel.value=FONTS[0].v;}
+if(!_matchFont){state.fontFamily=FONTS[0].v;}
+applyLang();
 render();
 setTimeout(()=>{
   const r=previewArea.getBoundingClientRect();
