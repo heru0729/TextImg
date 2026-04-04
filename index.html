@@ -360,6 +360,12 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0}
         <label><span id="l5Sz">Image width</span> <span id="c5SzVal">1000</span>px</label>
         <input type="range" id="c5Sz" min="200" max="2000" value="1000" step="100">
       </div>
+      <div>
+        <label>X <span id="c5XVal">0</span>px</label>
+        <input type="range" id="c5X" min="-2000" max="2000" value="0" step="1">
+        <label style="margin-top:6px">Y <span id="c5YVal">0</span>px</label>
+        <input type="range" id="c5Y" min="-2000" max="2000" value="0" step="1">
+      </div>
       <button class="dlb" onclick="genChoyen()" id="b5Gen">🤑 Generate</button>
       <div id="c5Prev" style="display:none;margin-top:8px">
         <img id="c5Img" src="" style="width:100%;border-radius:6px;border:1px solid var(--border)">
@@ -609,7 +615,13 @@ window.addEventListener('mousemove',e=>{
   if(!dragMode) return;
   if(dragMode==='pan'){ panX=dpx+(e.clientX-dsx);panY=dpy+(e.clientY-dsy);applyTransform(); }
   else if(dragMode==='choyen'){
-    const c=cvCoord(e); state.choyenX=Math.round(c.x-dtx); state.choyenY=Math.round(c.y-dty); render();
+    const c=cvCoord(e);
+    state.choyenX=Math.round(c.x-dtx); state.choyenY=Math.round(c.y-dty);
+    document.getElementById('c5X').value=state.choyenX;
+    document.getElementById('c5Y').value=state.choyenY;
+    document.getElementById('c5XVal').textContent=state.choyenX;
+    document.getElementById('c5YVal').textContent=state.choyenY;
+    render();
   }
   else if(dragMode==='text'){
     const c=cvCoord(e); state.textX=Math.round(c.x-dtx);state.textY=Math.round(c.y-dty);
@@ -830,6 +842,16 @@ document.getElementById('c5Sz').addEventListener('input',e=>{
     render();
   }
 });
+document.getElementById('c5X').addEventListener('input',e=>{
+  state.choyenX=+e.target.value;
+  document.getElementById('c5XVal').textContent=e.target.value;
+  render();
+});
+document.getElementById('c5Y').addEventListener('input',e=>{
+  state.choyenY=+e.target.value;
+  document.getElementById('c5YVal').textContent=e.target.value;
+  render();
+});
 function clearDots(){state.dots={};render();saveState();}
 
 function setMode(m){
@@ -866,6 +888,10 @@ function genChoyen(){
     state.choyenH=Math.round(img.naturalHeight*(sz/img.naturalWidth));
     state.choyenX=Math.round((state.width-state.choyenW)/2);
     state.choyenY=Math.round((state.height-state.choyenH)/2);
+    document.getElementById('c5X').value=state.choyenX;
+    document.getElementById('c5Y').value=state.choyenY;
+    document.getElementById('c5XVal').textContent=state.choyenX;
+    document.getElementById('c5YVal').textContent=state.choyenY;
     render();
   };
   img.onerror=()=>alert(lang==='ja'?'生成に失敗しました':'Generation failed');
