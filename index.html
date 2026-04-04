@@ -118,7 +118,13 @@ canvas.dot-mode{cursor:crosshair}
 <body>
 <header>
   <div class="header-left"><h1>TextImg</h1><span id="headerSub">Text Image Generator</span></div>
-  <button class="lang-btn" id="langBtn">日本語</button>
+  <div style="display:flex;align-items:center;gap:8px">
+    <a id="xShareBtn" href="#" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:5px;background:#000;color:#fff;border:1px solid #333;padding:5px 12px;border-radius:20px;font-size:11px;text-decoration:none;transition:background .15s;white-space:nowrap" onmouseover="this.style.background='#222'" onmouseout="this.style.background='#000'">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.912-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      <span id="xShareLabel">Share on X</span>
+    </a>
+    <button class="lang-btn" id="langBtn">日本語</button>
+  </div>
 </header>
 <div class="main">
   <aside class="sidebar">
@@ -339,7 +345,22 @@ canvas.dot-mode{cursor:crosshair}
 
     <hr class="divider">
     <div>
-      <div class="section-label" id="secDownload">Download</div>
+      <div class="section-label" id="sec5000">5000兆円ジェネレーター</div>
+      <label id="label5000Top">上段テキスト</label>
+      <input type="text" id="choyen5000Top" value="5000兆円" style="margin-bottom:8px">
+      <label id="label5000Bottom">下段テキスト</label>
+      <input type="text" id="choyen5000Bottom" value="欲しい！" style="margin-bottom:8px">
+      <div class="row2" style="margin-bottom:8px">
+        <label class="check-row"><input type="checkbox" id="choyenHoshii"><span id="labelChoyenHoshii">欲しい！固定</span></label>
+        <label class="check-row"><input type="checkbox" id="choyenRainbow"><span id="labelChoyenRainbow">虹色</span></label>
+      </div>
+      <button class="dl-btn" id="btnChoyen" onclick="generateChoyen()" style="margin-bottom:8px">🤑 生成</button>
+      <div id="choyenPreview" style="display:none;margin-top:8px">
+        <img id="choyenImg" src="" style="width:100%;border-radius:6px;border:1px solid var(--border)">
+        <button class="reset-btn" id="btnChoyenApply" onclick="applyChoyen()" style="margin-top:6px">↓ キャンバスに取り込む</button>
+      </div>
+    </div>
+    <hr class="divider">
       <div class="dl-row">
         <select id="dlFormat" style="width:90px"><option value="png">PNG</option><option value="jpeg">JPEG</option><option value="webp">WebP</option></select>
         <button class="dl-btn" onclick="download()" id="btnSave">⬇ Save</button>
@@ -397,6 +418,9 @@ const I18N = {
     btnReset:'↺ Reset all settings',
     btnModeText:'Text', btnModeDot:'Dot',
     dlModalHint:'Long press the image → Save to Photos', btnDlClose:'Close',
+    xShareLabel:'Share on X',
+    sec5000:'5000 Choyen Generator', label5000Top:'Top text', label5000Bottom:'Bottom text',
+    labelChoyenHoshii:'Fix "Hoshii!"', labelChoyenRainbow:'Rainbow', btnChoyen:'🤑 Generate', btnChoyenApply:'↓ Apply to canvas',
   },
   ja: {
     headerSub:'テキスト画像ジェネレーター', secText:'テキスト', labelInput:'入力',
@@ -424,6 +448,9 @@ const I18N = {
     btnReset:'↺ 設定をリセット',
     btnModeText:'テキスト', btnModeDot:'ドット',
     dlModalHint:'画像を長押し → 写真に保存', btnDlClose:'閉じる',
+    xShareLabel:'Xでシェア',
+    sec5000:'5000兆円ジェネレーター', label5000Top:'上段テキスト', label5000Bottom:'下段テキスト',
+    labelChoyenHoshii:'欲しい！固定', labelChoyenRainbow:'虹色', btnChoyen:'🤑 生成', btnChoyenApply:'↓ キャンバスに取り込む',
   }
 };
 
@@ -470,6 +497,7 @@ function applyLang(){
     }
   });
   document.getElementById('langBtn').textContent = lang==='en' ? '日本語' : 'English';
+  updateXShare();
   document.getElementById('textInput').placeholder = tl('placeholder');
   document.getElementById('hint').textContent = tl('hint');
   document.getElementById('autosaveIndicator').textContent = tl('autosaveIdle');
@@ -777,6 +805,55 @@ function buildPerCharList(){
   state.charColors=newColors;
 }
 
+
+// ---- 5000兆円 ----
+function generateChoyen(){
+  const top=document.getElementById('choyen5000Top').value;
+  const bottom=document.getElementById('choyen5000Bottom').value;
+  const hoshii=document.getElementById('choyenHoshii').checked;
+  const rainbow=document.getElementById('choyenRainbow').checked;
+  let url=`https://gsapi.cbrx.io/image?top=${encodeURIComponent(top)}&bottom=${encodeURIComponent(bottom)}&type=png`;
+  if(hoshii) url+='&hoshii=true';
+  if(rainbow) url+='&rainbow=true';
+  const img=document.getElementById('choyenImg');
+  const preview=document.getElementById('choyenPreview');
+  img.src='';
+  preview.style.display='none';
+  img.onload=()=>{ preview.style.display='block'; };
+  img.onerror=()=>{ alert('生成に失敗しました。時間をおいて再試行してください。'); };
+  img.src=url;
+}
+
+function applyChoyen(){
+  const img=document.getElementById('choyenImg');
+  if(!img.src) return;
+  const tmp=new Image();
+  tmp.crossOrigin='anonymous';
+  tmp.onload=()=>{
+    // 画像サイズをキャンバスに合わせてスケール
+    const scale=Math.min(state.width/tmp.width, state.height/tmp.height, 1);
+    const dw=Math.round(tmp.width*scale), dh=Math.round(tmp.height*scale);
+    const dx=Math.round((state.width-dw)/2), dy=Math.round((state.height-dh)/2);
+    // 現在のキャンバス内容を保持して上に重ねる
+    const offTmp=document.createElement('canvas'); offTmp.width=state.width; offTmp.height=state.height;
+    const otc=offTmp.getContext('2d');
+    otc.drawImage(canvas,0,0);
+    otc.drawImage(tmp,dx,dy,dw,dh);
+    ctx.drawImage(offTmp,0,0);
+  };
+  tmp.onerror=()=>{ alert('取り込みに失敗しました。CORSの制限により直接取り込みできない場合は、画像を長押し保存してください。'); };
+  tmp.src=img.src;
+}
+
+
+function updateXShare(){
+  const textEn = "Create images from text for free! No sign-up needed. ✍️🖼️ #TextImg #TextToImage";
+  const textJa = "テキストから画像を無料で作成！登録不要で使えます ✍️🖼️ #TextImg #テキスト画像";
+  const tweet = lang==='ja' ? textJa : textEn;
+  const url = "https://textimg.net";
+  document.getElementById('xShareBtn').href =
+    `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet)}&url=${encodeURIComponent(url)}`;
+}
 function download(){
   const fmt=document.getElementById('dlFormat').value;
   const mime=fmt==='jpeg'?'image/jpeg':fmt==='webp'?'image/webp':'image/png';
@@ -907,6 +984,7 @@ function loadState(){
 // ---- init ----
 loadState();
 applyLang();
+updateXShare();
 // mode restore
 setMode(state.mode||'text');
 // dot color sync
