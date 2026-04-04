@@ -810,36 +810,56 @@ function genChoyen(){
   let url=`https://gsapi.cbrx.io/image?top=${encodeURIComponent(top)}&bottom=${encodeURIComponent(bot)}&type=png`;
   if(hoshi) url+='&hoshii=true';
   if(rain) url+='&rainbow=true';
+
+  // プレビュー表示
   const img=document.getElementById('c5Img');
-  img.onload=()=>document.getElementById('c5Prev').style.display='block';
+  img.onload=()=>{
+    document.getElementById('c5Prev').style.display='block';
+    // キャンバスに自動貼り付け
+    pasteToCanvas(img);
+  };
   img.onerror=()=>alert(lang==='ja'?'生成に失敗しました':'Generation failed');
   img.src=url;
   document.getElementById('c5Prev').style.display='none';
 }
+
+function pasteToCanvas(img){
+  // crossOriginなしでキャンバスに描画（taintedになるがdrawImageは可）
+  const sc=Math.min(state.width/img.naturalWidth,state.height/img.naturalHeight,1);
+  const dw=Math.round(img.naturalWidth*sc),dh=Math.round(img.naturalHeight*sc);
+  const dx=Math.round((state.width-dw)/2),dy=Math.round((state.height-dh)/2);
+  // 現在の描画内容の上に重ねる
+  try{
+    ctx.drawImage(img,dx,dy,dw,dh);
+  }catch(e){
+    // taintedでも描画自体は可能（toDataURLが失敗するだけ）
+    console.warn('drawImage error:',e);
+  }
+}
+
 function applyChoyen(){
   const img=document.getElementById('c5Img');
-  if(!img.src) return;
-  const tmp=new Image(); tmp.crossOrigin='anonymous';
-  tmp.onload=()=>{
-    const sc=Math.min(state.width/tmp.width,state.height/tmp.height,1);
-    const dw=Math.round(tmp.width*sc),dh=Math.round(tmp.height*sc);
-    const dx=Math.round((state.width-dw)/2),dy=Math.round((state.height-dh)/2);
-    ctx.drawImage(tmp,dx,dy,dw,dh);
-  };
-  tmp.onerror=()=>alert(lang==='ja'?'取り込みに失敗しました（CORS制限）。画像を長押しして保存してください。':'Failed to apply (CORS). Long press the image to save.');
-  tmp.src=img.src+'&_='+Date.now();
+  if(!img.src||!img.complete) return;
+  pasteToCanvas(img);
 }
 
 // download
 function doDownload(){
   const fmt=document.getElementById('dlFmt').value;
   const mime=fmt==='jpeg'?'image/jpeg':fmt==='webp'?'image/webp':'image/png';
-  const url=canvas.toDataURL(mime,.95);
-  if(/iP(hone|ad|od)/.test(navigator.userAgent)){
-    document.getElementById('dlMImg').src=url;
-    document.getElementById('dlModal').classList.add('on');
-  } else {
-    const a=document.createElement('a');a.href=url;a.download=`textimg.${fmt}`;a.click();
+  try{
+    const url=canvas.toDataURL(mime,.95);
+    if(/iP(hone|ad|od)/.test(navigator.userAgent)){
+      document.getElementById('dlMImg').src=url;
+      document.getElementById('dlModal').classList.add('on');
+    } else {
+      const a=document.createElement('a');a.href=url;a.download=`textimg.${fmt}`;a.click();
+    }
+  }catch(e){
+    // tainted canvas: スクリーンショットを促す
+    alert(lang==='ja'
+      ?'5000兆円画像を貼り付けた場合、CORS制限によりダウンロードできません。スクリーンショットで保存してください。'
+      :'Cannot download after applying external image (CORS). Please take a screenshot.');
   }
 }
 
