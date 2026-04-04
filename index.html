@@ -32,10 +32,10 @@ header h1{font-family:'Dela Gothic One',cursive;font-size:18px;letter-spacing:.0
 .sidebar{width:280px;flex-shrink:0;border-right:1px solid var(--border);overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:20px}
 .preview-area{flex:1;overflow:hidden;position:relative;background:repeating-conic-gradient(#1c1c1c 0% 25%,#181818 0% 50%) 0 0/20px 20px;user-select:none;touch-action:none}
 @media(max-width:600px){
-  body{height:auto;overflow-y:auto}
-  .main{flex-direction:column;flex:none;overflow:visible}
-  .preview-area{order:-1;flex:none;height:40svh;border-bottom:1px solid var(--border)}
-  .sidebar{order:1;width:100%;flex:none;border-right:none;overflow-y:visible;padding:12px}
+  body{height:100dvh;overflow:hidden}
+  .main{flex-direction:column;flex:1;overflow:hidden;min-height:0}
+  .preview-area{order:-1;flex:0 0 40svh;border-bottom:1px solid var(--border)}
+  .sidebar{order:1;width:100%;flex:1;border-right:none;overflow-y:auto;padding:12px;min-height:0}
 }
 .sec{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
 label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px}
@@ -403,7 +403,7 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0}
 <div class="dlm" id="dlModal" onclick="this.classList.remove('on')">
   <div class="dlmi" onclick="event.stopPropagation()">
     <img id="dlMImg" src="">
-    <div class="dlmh" id="dlMHint">Long press the image → Save to Photos</div>
+    <div class="dlmh" id="dlMHint">長押し → 「写真に追加」で保存できます<br><span style="font-size:10px;opacity:.6">Long press → Save to Photos</span></div>
     <button class="dlmc" onclick="document.getElementById('dlModal').classList.remove('on')" id="bDlClose">Close</button>
   </div>
 </div>
