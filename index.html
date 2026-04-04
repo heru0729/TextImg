@@ -129,6 +129,7 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0}
   <aside class="sidebar">
     <div class="mt">
       <button class="mb on" id="mTxt" onclick="setMode('text')">Text</button>
+      <button class="mb" id="m5000" onclick="setMode('5000')">5000</button>
       <button class="mb" id="mDot" onclick="setMode('dot')">Dot</button>
     </div>
 
@@ -336,24 +337,35 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0}
       <button class="rb" onclick="clearDots()" id="bClearDot">🗑 Clear dots</button>
     </div><!-- /dPanel -->
 
-    <hr>
-    <!-- 5000兆円 -->
-    <div>
-      <div class="sec" id="s5000">5000 Choyen Generator</div>
-      <label id="l5T">Top text</label>
-      <input type="text" id="c5Top" value="5000兆円" style="margin-bottom:8px">
-      <label id="l5B">Bottom text</label>
-      <input type="text" id="c5Bot" value="欲しい！" style="margin-bottom:8px">
-      <div class="row2" style="margin-bottom:8px">
-        <label class="ck"><input type="checkbox" id="c5Hoshi"><span id="l5H">Fix "Hoshii!"</span></label>
-        <label class="ck"><input type="checkbox" id="c5Rain"><span id="l5R">Rainbow</span></label>
+    <!-- 5000 PANEL -->
+    <div class="dp" id="p5kPanel">
+      <div>
+        <div class="sec" id="s5000">5000 Choyen</div>
+        <label id="l5T">Top text</label>
+        <input type="text" id="c5Top" value="5000兆円" style="margin-bottom:8px">
+        <label id="l5B">Bottom text</label>
+        <input type="text" id="c5Bot" value="欲しい！" style="margin-bottom:8px">
+        <div style="margin-bottom:8px">
+          <label class="ck" style="margin-bottom:6px"><input type="checkbox" id="c5Hoshi" onchange="toggleHoshi()"><span id="l5H">Fix "Hoshii!"</span></label>
+          <label class="ck"><input type="checkbox" id="c5Rain"><span id="l5R">Rainbow</span></label>
+        </div>
+      </div>
+      <div>
+        <label id="l5BG">Background color</label>
+        <div class="color-row">
+          <div class="swatch" id="c5BgSw" style="background:#000000"><input type="color" id="c5Bg" value="#000000"></div>
+          <input type="text" class="chex" id="c5BgHex" value="#000000" maxlength="7">
+        </div>
+      </div>
+      <div>
+        <label><span id="l5Sz">Image width</span> <span id="c5SzVal">1000</span>px</label>
+        <input type="range" id="c5Sz" min="200" max="2000" value="1000" step="100">
       </div>
       <button class="dlb" onclick="genChoyen()" id="b5Gen">🤑 Generate</button>
       <div id="c5Prev" style="display:none;margin-top:8px">
         <img id="c5Img" src="" style="width:100%;border-radius:6px;border:1px solid var(--border)">
-        <button class="rb" onclick="applyChoyen()" id="b5Apply" style="margin-top:6px">↓ Apply to canvas</button>
       </div>
-    </div>
+    </div><!-- /p5kPanel -->
 
     <hr>
     <!-- Download -->
@@ -430,7 +442,7 @@ const L = {
     sSz:'Image size', lW:'Width (px)', lH:'Height (px)',
     pGen:'General', pSq:'Square', pPo:'Portrait', pWi:'Wide',
     sDot:'Dot Mode', lDS:'Grid size', lGrid:'Show grid', lDotHint:'Click=draw　Same cell=erase', lDotCol:'Dot color', bClearDot:'🗑 Clear dots',
-    s5000:'5000 Choyen Generator', l5T:'Top text', l5B:'Bottom text', l5H:'Fix "Hoshii!"', l5R:'Rainbow', b5Gen:'🤑 Generate', b5Apply:'↓ Apply to canvas',
+    s5000:'5000 Choyen', l5T:'Top text', l5B:'Bottom text', l5H:'Fix "Hoshii!"', l5R:'Rainbow', l5BG:'Background color', l5Sz:'Image width', b5Gen:'🤑 Generate',
     sDL:'Download', bSave:'⬇ Save', bReset:'↺ Reset all',
     hint:'Wheel/Pinch=zoom　Drag=pan',
     placeholder:'Enter text here...',
@@ -462,7 +474,7 @@ const L = {
     sSz:'画像サイズ', lW:'幅 (px)', lH:'高さ (px)',
     pGen:'汎用', pSq:'正方形', pPo:'縦長', pWi:'横長',
     sDot:'ドットモード', lDS:'グリッドサイズ', lGrid:'グリッドを表示', lDotHint:'クリック=描画　同じマス=消去', lDotCol:'ドットの色', bClearDot:'🗑 ドットをクリア',
-    s5000:'5000兆円ジェネレーター', l5T:'上段テキスト', l5B:'下段テキスト', l5H:'「欲しい！」固定', l5R:'虹色', b5Gen:'🤑 生成', b5Apply:'↓ キャンバスに取り込む',
+    s5000:'5000兆円', l5T:'上段テキスト', l5B:'下段テキスト', l5H:'「欲しい！」固定', l5R:'虹色', l5BG:'背景色', l5Sz:'画像の幅', b5Gen:'🤑 生成',
     sDL:'ダウンロード', bSave:'⬇ 保存', bReset:'↺ リセット',
     hint:'ホイール/ピンチ=ズーム　ドラッグ=パン',
     placeholder:'ここにテキストを入力...',
@@ -789,33 +801,49 @@ function buildPCL(){
 // dot
 document.getElementById('dotSize').addEventListener('input',e=>{state.dotSize=+e.target.value;document.getElementById('dsVal').textContent=e.target.value;render();});
 document.getElementById('gridCk').addEventListener('change',e=>{state.showGrid=e.target.checked;render();});
+// 5000 bg color sync
+(function(){
+  const p=document.getElementById('c5Bg'),h=document.getElementById('c5BgHex'),s=document.getElementById('c5BgSw');
+  p.addEventListener('input',e=>{h.value=e.target.value;s.style.background=e.target.value;});
+  h.addEventListener('change',e=>{if(/^#[0-9a-fA-F]{6}$/.test(e.target.value)){p.value=e.target.value;s.style.background=e.target.value;}});
+})();
+document.getElementById('c5Sz').addEventListener('input',e=>{document.getElementById('c5SzVal').textContent=e.target.value;});
 function clearDots(){state.dots={};render();saveState();}
 
 function setMode(m){
   state.mode=m;
   document.getElementById('mTxt').classList.toggle('on',m==='text');
+  document.getElementById('m5000').classList.toggle('on',m==='5k');
   document.getElementById('mDot').classList.toggle('on',m==='dot');
   document.getElementById('tPanel').style.display=m==='text'?'flex':'none';
   document.getElementById('tPanel').style.flexDirection=m==='text'?'column':'none';
+  document.getElementById('p5kPanel').classList.toggle('on',m==='5k');
   document.getElementById('dPanel').classList.toggle('on',m==='dot');
   render();
 }
 
 // 5000choyen
+function toggleHoshi(){
+  const hoshi=document.getElementById('c5Hoshi').checked;
+  document.getElementById('c5Bot').disabled=hoshi;
+  document.getElementById('c5Bot').style.opacity=hoshi?'0.4':'1';
+}
+
 function genChoyen(){
   const top=document.getElementById('c5Top').value;
-  const bot=document.getElementById('c5Bot').value;
   const hoshi=document.getElementById('c5Hoshi').checked;
+  const bot=hoshi?'':document.getElementById('c5Bot').value;
   const rain=document.getElementById('c5Rain').checked;
-  let url=`https://gsapi.cbrx.io/image?top=${encodeURIComponent(top)}&bottom=${encodeURIComponent(bot)}&type=png`;
+  const bg=document.getElementById('c5Bg').value.replace('#','');
+  const sz=document.getElementById('c5Sz').value;
+  let url=`https://gsapi.cbrx.io/image?top=${encodeURIComponent(top)}&type=png`;
+  if(!hoshi) url+=`&bottom=${encodeURIComponent(bot)}`;
   if(hoshi) url+='&hoshii=true';
   if(rain) url+='&rainbow=true';
 
-  // プレビュー表示
   const img=document.getElementById('c5Img');
   img.onload=()=>{
     document.getElementById('c5Prev').style.display='block';
-    // キャンバスに自動貼り付け
     pasteToCanvas(img);
   };
   img.onerror=()=>alert(lang==='ja'?'生成に失敗しました':'Generation failed');
@@ -824,17 +852,10 @@ function genChoyen(){
 }
 
 function pasteToCanvas(img){
-  // crossOriginなしでキャンバスに描画（taintedになるがdrawImageは可）
   const sc=Math.min(state.width/img.naturalWidth,state.height/img.naturalHeight,1);
   const dw=Math.round(img.naturalWidth*sc),dh=Math.round(img.naturalHeight*sc);
   const dx=Math.round((state.width-dw)/2),dy=Math.round((state.height-dh)/2);
-  // 現在の描画内容の上に重ねる
-  try{
-    ctx.drawImage(img,dx,dy,dw,dh);
-  }catch(e){
-    // taintedでも描画自体は可能（toDataURLが失敗するだけ）
-    console.warn('drawImage error:',e);
-  }
+  try{ ctx.drawImage(img,dx,dy,dw,dh); }catch(e){ console.warn('drawImage:',e); }
 }
 
 function applyChoyen(){
