@@ -338,7 +338,7 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0}
     </div><!-- /dPanel -->
 
     <!-- 5000 PANEL -->
-    <div class="dp" id="p5kPanel">
+    <div class="dp" id="p5000Panel">
       <div>
         <div class="sec" id="s5000">5000 Choyen</div>
         <label id="l5T">Top text</label>
@@ -365,7 +365,7 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0}
       <div id="c5Prev" style="display:none;margin-top:8px">
         <img id="c5Img" src="" style="width:100%;border-radius:6px;border:1px solid var(--border)">
       </div>
-    </div><!-- /p5kPanel -->
+    </div><!-- /p5000Panel -->
 
     <hr>
     <!-- Download -->
@@ -812,12 +812,14 @@ function clearDots(){state.dots={};render();saveState();}
 
 function setMode(m){
   state.mode=m;
-  document.getElementById('mTxt').classList.toggle('on',m==='text');
-  document.getElementById('m5000').classList.toggle('on',m==='5k');
-  document.getElementById('mDot').classList.toggle('on',m==='dot');
-  document.getElementById('tPanel').style.display=m==='text'?'flex':'none';
-  document.getElementById('tPanel').style.flexDirection=m==='text'?'column':'none';
-  document.getElementById('p5kPanel').classList.toggle('on',m==='5k');
+  ['mTxt','m5000','mDot'].forEach(id=>document.getElementById(id).classList.remove('on'));
+  if(m==='text') document.getElementById('mTxt').classList.add('on');
+  else if(m==='5000') document.getElementById('m5000').classList.add('on');
+  else if(m==='dot') document.getElementById('mDot').classList.add('on');
+  const tPanel=document.getElementById('tPanel');
+  tPanel.style.display=m==='text'?'flex':'none';
+  if(m==='text') tPanel.style.flexDirection='column';
+  document.getElementById('p5000Panel').classList.toggle('on',m==='5000');
   document.getElementById('dPanel').classList.toggle('on',m==='dot');
   render();
 }
