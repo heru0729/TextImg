@@ -834,13 +834,14 @@ function toggleHoshi(){
 function genChoyen(){
   const top=document.getElementById('c5Top').value;
   const hoshi=document.getElementById('c5Hoshi').checked;
-  const bot=hoshi?'':document.getElementById('c5Bot').value;
+  const bot=document.getElementById('c5Bot').value;
   const rain=document.getElementById('c5Rain').checked;
-  const bg=document.getElementById('c5Bg').value.replace('#','');
-  const sz=document.getElementById('c5Sz').value;
   let url=`https://gsapi.cbrx.io/image?top=${encodeURIComponent(top)}&type=png`;
-  if(!hoshi) url+=`&bottom=${encodeURIComponent(bot)}`;
-  if(hoshi) url+='&hoshii=true';
+  if(hoshi){
+    url+='&hoshii=true';
+  } else if(bot){
+    url+=`&bottom=${encodeURIComponent(bot)}`;
+  }
   if(rain) url+='&rainbow=true';
 
   const img=document.getElementById('c5Img');
