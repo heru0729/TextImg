@@ -518,6 +518,7 @@ let state = {
   grad:false, gradC1:'#ff0080', gradC2:'#0080ff', gradDir:'h',
   neon:false, neonBlur:15, neonColor:'#00ffff',
   dotSize:16, showGrid:true, dotColor:'#000000', dots:{},
+  choyenImg:null, choyenW:500, choyenH:200, choyenX:0, choyenY:0,
 };
 
 // ===== lang =====
@@ -587,6 +588,12 @@ canvas.addEventListener('mousedown',e=>{
     if(state.dots[key]) delete state.dots[key]; else state.dots[key]=state.dotColor;
     render(); saveState(); dotDrawing=true; e.stopPropagation(); return;
   }
+  if(state.mode==='5000' && state.choyenImg){
+    const c=cvCoord(e);
+    if(c.x>=state.choyenX&&c.x<=state.choyenX+state.choyenW&&c.y>=state.choyenY&&c.y<=state.choyenY+state.choyenH){
+      dragMode='choyen'; dtx=c.x-state.choyenX; dty=c.y-state.choyenY; canvas.style.cursor='grabbing'; return;
+    }
+  }
   const c=cvCoord(e);
   if(state.customPos&&overText(c.x,c.y)){ dragMode='text';dtx=c.x-state.textX;dty=c.y-state.textY;canvas.style.cursor='grabbing'; }
   else{ dragMode='pan';dsx=e.clientX;dsy=e.clientY;dpx=panX;dpy=panY;previewArea.style.cursor='grabbing'; }
@@ -601,6 +608,9 @@ window.addEventListener('mousemove',e=>{
   }
   if(!dragMode) return;
   if(dragMode==='pan'){ panX=dpx+(e.clientX-dsx);panY=dpy+(e.clientY-dsy);applyTransform(); }
+  else if(dragMode==='choyen'){
+    const c=cvCoord(e); state.choyenX=Math.round(c.x-dtx); state.choyenY=Math.round(c.y-dty); render();
+  }
   else if(dragMode==='text'){
     const c=cvCoord(e); state.textX=Math.round(c.x-dtx);state.textY=Math.round(c.y-dty);
     document.getElementById('posX').value=state.textX; document.getElementById('posY').value=state.textY;
@@ -706,6 +716,11 @@ function render(){
     });
   }
 
+  // choyen overlay
+  if(state.choyenImg && state.mode==='5000'){
+    try{ ctx.drawImage(state.choyenImg,state.choyenX,state.choyenY,state.choyenW,state.choyenH); }catch(e){}
+  }
+
   document.getElementById('si').textContent=`${W} × ${H} px`;
   applyTransform();
 }
@@ -806,7 +821,15 @@ document.getElementById('gridCk').addEventListener('change',e=>{state.showGrid=e
   p.addEventListener('input',e=>{h.value=e.target.value;s.style.background=e.target.value;});
   h.addEventListener('change',e=>{if(/^#[0-9a-fA-F]{6}$/.test(e.target.value)){p.value=e.target.value;s.style.background=e.target.value;}});
 })();
-document.getElementById('c5Sz').addEventListener('input',e=>{document.getElementById('c5SzVal').textContent=e.target.value;});
+document.getElementById('c5Sz').addEventListener('input',e=>{
+  const sz=+e.target.value;
+  document.getElementById('c5SzVal').textContent=sz;
+  if(state.choyenImg){
+    state.choyenW=sz;
+    state.choyenH=Math.round(state.choyenImg.naturalHeight*(sz/state.choyenImg.naturalWidth));
+    render();
+  }
+});
 function clearDots(){state.dots={};render();saveState();}
 
 function setMode(m){
@@ -837,24 +860,25 @@ function genChoyen(){
   const img=document.getElementById('c5Img');
   img.onload=()=>{
     document.getElementById('c5Prev').style.display='block';
-    pasteToCanvas(img);
+    // stateに保存してrenderで描画
+    state.choyenImg=img;
+    state.choyenW=sz;
+    state.choyenH=Math.round(img.naturalHeight*(sz/img.naturalWidth));
+    state.choyenX=Math.round((state.width-state.choyenW)/2);
+    state.choyenY=Math.round((state.height-state.choyenH)/2);
+    render();
   };
   img.onerror=()=>alert(lang==='ja'?'生成に失敗しました':'Generation failed');
   img.src=url;
   document.getElementById('c5Prev').style.display='none';
 }
 
-function pasteToCanvas(img){
-  const sc=Math.min(state.width/img.naturalWidth,state.height/img.naturalHeight,1);
-  const dw=Math.round(img.naturalWidth*sc),dh=Math.round(img.naturalHeight*sc);
-  const dx=Math.round((state.width-dw)/2),dy=Math.round((state.height-dh)/2);
-  try{ ctx.drawImage(img,dx,dy,dw,dh); }catch(e){ console.warn('drawImage:',e); }
+function pasteToCanvas(img,sz){
+  // 互換用（未使用）
 }
 
 function applyChoyen(){
-  const img=document.getElementById('c5Img');
-  if(!img.src||!img.complete) return;
-  pasteToCanvas(img);
+  // 互換用（未使用）
 }
 
 // download
