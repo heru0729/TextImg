@@ -25,7 +25,7 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0f0f0f;--panel:#1a1a1a;--border:#2e2e2e;--text:#e8e8e8;--muted:#888;--accent:#d4ff00;--radius:8px}
-body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-serif;font-size:13px;height:100dvh;display:flex;flex-direction:column;overflow-y:auto}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-serif;font-size:13px;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
 header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .header-left{display:flex;align-items:center;gap:12px}
 header h1{font-family:'Dela Gothic One',cursive;font-size:18px;letter-spacing:.05em;color:var(--accent)}
@@ -38,8 +38,8 @@ header span{color:var(--muted);font-size:11px}
 .preview-area{flex:1;overflow:hidden;position:relative;background:repeating-conic-gradient(#1c1c1c 0% 25%,#181818 0% 50%) 0 0/20px 20px;user-select:none;touch-action:none}
 /* スマホ: キャンバス上・サイドバー下 */
 @media(max-width:600px){
-  body{overflow-y:auto}
-  .main{flex-direction:column;height:auto;min-height:0}
+  body{overflow:auto;height:auto}
+  .main{flex-direction:column;flex:none}
   .preview-area{order:-1;flex:none;height:40dvh;border-bottom:1px solid var(--border)}
   .sidebar{order:1;width:100%;flex:none;border-right:none;overflow-y:visible;padding:12px;-webkit-overflow-scrolling:touch}
 }
@@ -391,26 +391,34 @@ canvas.dot-mode{cursor:crosshair}
   <div id="footerContent" style="display:none;padding:24px 24px 32px">
   <div style="max-width:900px;margin:0 auto">
     <h2 style="font-family:'Dela Gothic One',cursive;color:var(--accent);font-size:20px;margin-bottom:12px">TextImg — Free Text Image Generator</h2>
-    <p style="color:var(--muted);font-size:13px;line-height:1.8;margin-bottom:24px">TextImg is a free online tool that lets you create custom images from text instantly — no sign-up, no installation required. Choose from multiple fonts, apply effects, and download your image as PNG, JPEG, or WebP. Perfect for creating thumbnails, banners, social media posts, OGP images, and more.</p>
+    <p id="footerDesc" style="color:var(--muted);font-size:13px;line-height:1.8;margin-bottom:24px">TextImg is a free online tool that lets you create custom images from text instantly — no sign-up, no installation required. Choose from multiple fonts, apply effects, and download your image as PNG, JPEG, or WebP. Perfect for creating thumbnails, banners, social media posts, OGP images, and more.</p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;margin-bottom:24px">
       <div>
-        <h3 style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text);margin-bottom:8px">✍️ Text &amp; Fonts</h3>
-        <p style="color:var(--muted);font-size:12px;line-height:1.7">Supports Japanese and English fonts including Noto Sans JP, Noto Serif JP, M PLUS Rounded, Dela Gothic One, and Zen Kaku Gothic New. Adjust font size, line height, bold, and italic freely.</p>
+        <h3 id="ftH1" style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text);margin-bottom:8px">✍️ Text &amp; Fonts</h3>
+        <p id="ftP1" style="color:var(--muted);font-size:12px;line-height:1.7">Supports Japanese and English fonts including Noto Sans JP, Noto Serif JP, M PLUS Rounded, Dela Gothic One, and Zen Kaku Gothic New. Adjust font size, line height, bold, and italic freely.</p>
       </div>
       <div>
-        <h3 style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text);margin-bottom:8px">🎨 Effects</h3>
-        <p style="color:var(--muted);font-size:12px;line-height:1.7">Apply Pixel Mode, Outline, Drop Shadow, Glitch, Gradient Text, and Neon effects to your text. Per-character color and Gaming rainbow mode are also available.</p>
+        <h3 id="ftH2" style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text);margin-bottom:8px">🎨 Effects</h3>
+        <p id="ftP2" style="color:var(--muted);font-size:12px;line-height:1.7">Apply Pixel Mode, Outline, Drop Shadow, Glitch, Gradient Text, and Neon effects to your text. Per-character color and Gaming rainbow mode are also available.</p>
       </div>
       <div>
-        <h3 style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text);margin-bottom:8px">🖼️ Export</h3>
-        <p style="color:var(--muted);font-size:12px;line-height:1.7">Download your creation as PNG, JPEG, or WebP. Supports preset sizes including OGP (1200×630), square (1080×1080), FHD (1920×1080), and custom dimensions up to 4000px.</p>
+        <h3 id="ftH3" style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text);margin-bottom:8px">🖼️ Export</h3>
+        <p id="ftP3" style="color:var(--muted);font-size:12px;line-height:1.7">Download your creation as PNG, JPEG, or WebP. Supports preset sizes including OGP (1200×630), square (1080×1080), FHD (1920×1080), and custom dimensions up to 4000px.</p>
       </div>
       <div>
-        <h3 style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text);margin-bottom:8px">🎮 Dot Mode</h3>
-        <p style="color:var(--muted);font-size:12px;line-height:1.7">Switch to Dot Mode to draw pixel art directly on the canvas. Set grid size with a slider, click to place dots, and click again to erase. Great for retro-style designs.</p>
+        <h3 id="ftH4" style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text);margin-bottom:8px">🎮 Dot Mode</h3>
+        <p id="ftP4" style="color:var(--muted);font-size:12px;line-height:1.7">Switch to Dot Mode to draw pixel art directly on the canvas. Set grid size with a slider, click to place dots, and click again to erase. Great for retro-style designs.</p>
+      </div>
+      <div>
+        <h3 id="ftH5" style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text);margin-bottom:8px">💾 Auto Save</h3>
+        <p id="ftP5" style="color:var(--muted);font-size:12px;line-height:1.7">Your settings are automatically saved to your browser's local storage. When you reopen the page, your last session is restored instantly — no account needed.</p>
+      </div>
+      <div>
+        <h3 id="ftH6" style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text);margin-bottom:8px">📱 Mobile Friendly</h3>
+        <p id="ftP6" style="color:var(--muted);font-size:12px;line-height:1.7">Fully usable on smartphones. The canvas appears at the top and settings below, making it easy to create images on the go without a PC.</p>
       </div>
     </div>
-    <p style="color:var(--muted);font-size:11px;border-top:1px solid var(--border);padding-top:16px">© 2025 TextImg · <a href="https://textimg.net" style="color:var(--muted);text-decoration:none">textimg.net</a></p>
+    <p style="color:var(--muted);font-size:11px;border-top:1px solid var(--border);padding-top:16px">© 2026 TextImg · <a href="https://textimg.net" style="color:var(--muted);text-decoration:none">textimg.net</a></p>
   </div>
   </div>
 </footer>
@@ -531,6 +539,22 @@ function applyLang(){
   });
   document.getElementById('langBtn').textContent = lang==='en' ? '日本語' : 'English';
   updateXShare();
+  document.getElementById('footerToggleLabel').textContent=lang==='ja'?'TextImgについて':'About TextImg';
+
+  // footer i18n
+  const ftH1=document.getElementById('ftH1');if(ftH1){ftH1.textContent=lang==='ja'?'✍️ テキスト＆フォント':'✍️ Text & Fonts';}
+  const ftP1=document.getElementById('ftP1');if(ftP1){ftP1.textContent=lang==='ja'?'Noto Sans JP・Noto Serif JP・M PLUS Rounded・Dela Gothic One・Zen Kaku Gothic Newなど日英対応フォントを搭載。フォントサイズ・行間・太字・斜体を自由に調整できます。':'Supports Japanese and English fonts including Noto Sans JP, Noto Serif JP, M PLUS Rounded, Dela Gothic One, and Zen Kaku Gothic New. Adjust font size, line height, bold, and italic freely.';}
+  const ftH2=document.getElementById('ftH2');if(ftH2){ftH2.textContent=lang==='ja'?'🎨 エフェクト':'🎨 Effects';}
+  const ftP2=document.getElementById('ftP2');if(ftP2){ftP2.textContent=lang==='ja'?'ピクセルモード・アウトライン・ドロップシャドウ・グリッチ・グラデーションテキスト・ネオンを適用できます。文字ごとの色指定やゲーミング虹色モードも搭載。':'Apply Pixel Mode, Outline, Drop Shadow, Glitch, Gradient Text, and Neon effects to your text. Per-character color and Gaming rainbow mode are also available.';}
+  const ftH3=document.getElementById('ftH3');if(ftH3){ftH3.textContent=lang==='ja'?'🖼️ エクスポート':'🖼️ Export';}
+  const ftP3=document.getElementById('ftP3');if(ftP3){ftP3.textContent=lang==='ja'?'PNG・JPEG・WebP形式でダウンロード。OGP（1200×630）・正方形（1080×1080）・FHD（1920×1080）などのプリセットや最大4000pxのカスタムサイズに対応。':'Download your creation as PNG, JPEG, or WebP. Supports preset sizes including OGP (1200×630), square (1080×1080), FHD (1920×1080), and custom dimensions up to 4000px.';}
+  const ftH4=document.getElementById('ftH4');if(ftH4){ftH4.textContent=lang==='ja'?'🎮 ドットモード':'🎮 Dot Mode';}
+  const ftP4=document.getElementById('ftP4');if(ftP4){ftP4.textContent=lang==='ja'?'ドットモードに切り替えてキャンバスに直接ピクセルアートを描けます。グリッドサイズをスライダーで調整し、クリックでドットを打ち、同じマスをクリックで消去。レトロなデザインに最適。':'Switch to Dot Mode to draw pixel art directly on the canvas. Set grid size with a slider, click to place dots, and click again to erase. Great for retro-style designs.';}
+  const ftH5=document.getElementById('ftH5');if(ftH5){ftH5.textContent=lang==='ja'?'💾 自動保存':'💾 Auto Save';}
+  const ftP5=document.getElementById('ftP5');if(ftP5){ftP5.textContent=lang==='ja'?'設定はブラウザのローカルストレージに自動保存されます。ページを再度開くと前回の作業状態が即座に復元されます。アカウント不要。':'Your settings are automatically saved to your browser's local storage. When you reopen the page, your last session is restored instantly — no account needed.';}
+  const ftH6=document.getElementById('ftH6');if(ftH6){ftH6.textContent=lang==='ja'?'📱 スマホ対応':'📱 Mobile Friendly';}
+  const ftP6=document.getElementById('ftP6');if(ftP6){ftP6.textContent=lang==='ja'?'スマートフォンでも快適に使えます。キャンバスが上・設定が下のレイアウトで、PCがなくても外出先で画像を作成できます。':'Fully usable on smartphones. The canvas appears at the top and settings below, making it easy to create images on the go without a PC.';}
+  const fd=document.getElementById('footerDesc');if(fd)fd.textContent=lang==='ja'?'登録不要・インストール不要で使える無料のテキスト画像ジェネレーターです。フォントを選んでエフェクトを適用し、PNG・JPEG・WebP形式でダウンロードできます。サムネイル・バナー・SNS投稿・OGP画像の作成に最適です。':'TextImg is a free online tool that lets you create custom images from text instantly — no sign-up, no installation required. Choose from multiple fonts, apply effects, and download your image as PNG, JPEG, or WebP. Perfect for creating thumbnails, banners, social media posts, OGP images, and more.';
   document.getElementById('textInput').placeholder = tl('placeholder');
   document.getElementById('hint').textContent = tl('hint');
   document.getElementById('autosaveIndicator').textContent = tl('autosaveIdle');
@@ -843,9 +867,11 @@ function buildPerCharList(){
 function toggleFooter(){
   const c=document.getElementById('footerContent');
   const a=document.getElementById('footerArrow');
+  const lbl=document.getElementById('footerToggleLabel');
   const open=c.style.display==='none';
   c.style.display=open?'block':'none';
   a.textContent=open?'▼':'▶';
+  lbl.textContent=lang==='ja'?'TextImgについて':'About TextImg';
 }
 
 function generateChoyen(){
