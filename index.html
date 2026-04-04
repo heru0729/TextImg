@@ -25,15 +25,24 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0f0f0f;--panel:#1a1a1a;--border:#2e2e2e;--text:#e8e8e8;--muted:#888;--accent:#d4ff00;--radius:8px}
-body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-serif;font-size:13px;min-height:100vh;display:flex;flex-direction:column}
-header{padding:16px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-serif;font-size:13px;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .header-left{display:flex;align-items:center;gap:12px}
 header h1{font-family:'Dela Gothic One',cursive;font-size:18px;letter-spacing:.05em;color:var(--accent)}
 header span{color:var(--muted);font-size:11px}
 .lang-btn{background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:4px 12px;border-radius:20px;font-size:11px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:all .15s}
 .lang-btn:hover{border-color:var(--accent);color:var(--accent)}
-.main{display:flex;flex:1;overflow:hidden}
-.sidebar{width:280px;flex-shrink:0;border-right:1px solid var(--border);overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:20px}
+/* PC: 横並び */
+.main{display:flex;flex:1;overflow:hidden;min-height:0}
+.sidebar{width:280px;flex-shrink:0;border-right:1px solid var(--border);overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:20px;-webkit-overflow-scrolling:touch}
+.preview-area{flex:1;overflow:hidden;position:relative;background:repeating-conic-gradient(#1c1c1c 0% 25%,#181818 0% 50%) 0 0/20px 20px;user-select:none;touch-action:none}
+/* スマホ: 縦並び */
+@media(max-width:600px){
+  body{overflow:hidden}
+  .main{flex-direction:column}
+  .preview-area{flex:0 0 45dvh;border-bottom:1px solid var(--border)}
+  .sidebar{width:100%;flex:1;border-right:none;overflow-y:auto;padding:12px}
+}
 .section-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
 label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px}
 textarea{width:100%;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-family:'Noto Sans JP',sans-serif;font-size:13px;padding:10px;resize:vertical;min-height:80px;outline:none;transition:border-color .2s}
@@ -76,17 +85,16 @@ input[type="range"]{width:100%;accent-color:var(--accent)}
 .fx-accordion-body.open{display:flex}
 .autosave-indicator{font-size:10px;color:var(--muted);text-align:right;padding:2px 0;transition:color .3s}
 .autosave-indicator.saved{color:var(--accent)}
-.preview-area{flex:1;overflow:hidden;position:relative;background:repeating-conic-gradient(#1c1c1c 0% 25%,#181818 0% 50%) 0 0/20px 20px;user-select:none;touch-action:none}
 .canvas-wrapper{position:absolute;transform-origin:center center;box-shadow:0 8px 40px rgba(0,0,0,.6)}
 canvas{display:block;cursor:crosshair}
 canvas.grabbing{cursor:grabbing}
-.zoom-hud{position:absolute;bottom:16px;right:16px;display:flex;align-items:center;gap:8px;background:rgba(26,26,26,.92);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;font-family:'Courier New',monospace;color:var(--muted);backdrop-filter:blur(8px);pointer-events:auto}
+.zoom-hud{position:absolute;bottom:12px;right:12px;display:flex;align-items:center;gap:8px;background:rgba(26,26,26,.92);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;font-family:'Courier New',monospace;color:var(--muted);backdrop-filter:blur(8px);pointer-events:auto}
 .zoom-hud button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;line-height:1;padding:0 2px;transition:color .15s}
 .zoom-hud button:hover{color:var(--accent)}
 #zoomLabel{color:var(--text);min-width:42px;text-align:center}
-.size-indicator{position:absolute;bottom:16px;left:16px;color:var(--muted);font-size:11px;font-family:'Courier New',monospace;background:rgba(26,26,26,.8);border:1px solid var(--border);border-radius:12px;padding:4px 10px}
-.pos-indicator{position:absolute;top:16px;right:16px;color:var(--muted);font-size:11px;font-family:'Courier New',monospace;background:rgba(26,26,26,.8);border:1px solid var(--border);border-radius:12px;padding:4px 10px;display:none}
-.hint{position:absolute;top:16px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--muted);background:rgba(26,26,26,.7);border:1px solid var(--border);border-radius:10px;padding:3px 10px;white-space:nowrap;pointer-events:none;opacity:1;transition:opacity 1s}
+.size-indicator{position:absolute;bottom:12px;left:12px;color:var(--muted);font-size:11px;font-family:'Courier New',monospace;background:rgba(26,26,26,.8);border:1px solid var(--border);border-radius:12px;padding:4px 10px}
+.pos-indicator{position:absolute;top:12px;right:12px;color:var(--muted);font-size:11px;font-family:'Courier New',monospace;background:rgba(26,26,26,.8);border:1px solid var(--border);border-radius:12px;padding:4px 10px;display:none}
+.hint{position:absolute;top:12px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--muted);background:rgba(26,26,26,.7);border:1px solid var(--border);border-radius:10px;padding:3px 10px;white-space:nowrap;pointer-events:none;opacity:1;transition:opacity 1s}
 .hint.hidden{opacity:0}
 .reset-btn{width:100%;background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px;border-radius:var(--radius);font-family:'Noto Sans JP',sans-serif;font-size:12px;cursor:pointer;transition:all .15s;margin-top:4px}
 .reset-btn:hover{border-color:#ff4444;color:#ff4444}
@@ -98,6 +106,13 @@ canvas.grabbing{cursor:grabbing}
 .dot-panel.active{display:flex}
 .text-panel{display:flex;flex-direction:column;gap:20px}
 canvas.dot-mode{cursor:crosshair}
+/* ダウンロードモーダル */
+.dl-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:1000;align-items:center;justify-content:center;padding:20px}
+.dl-modal.open{display:flex}
+.dl-modal-inner{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:20px;max-width:340px;width:100%;text-align:center}
+.dl-modal-inner img{max-width:100%;border-radius:8px;margin-bottom:12px;border:1px solid var(--border)}
+.dl-modal-hint{font-size:11px;color:var(--muted);margin-bottom:16px;line-height:1.6}
+.dl-modal-close{background:var(--border);border:none;color:var(--text);padding:8px 24px;border-radius:6px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;font-size:12px}
 </style>
 </head>
 <body>
@@ -346,8 +361,15 @@ canvas.dot-mode{cursor:crosshair}
     <div class="hint" id="hint">Wheel/Pinch=zoom　Drag=pan</div>
   </div>
 </div>
+<!-- download modal for iOS -->
+<div class="dl-modal" id="dlModal" onclick="this.classList.remove('open')">
+  <div class="dl-modal-inner" onclick="event.stopPropagation()">
+    <img id="dlModalImg" src="">
+    <div class="dl-modal-hint" id="dlModalHint">Long press the image → Save to Photos</div>
+    <button class="dl-modal-close" onclick="document.getElementById('dlModal').classList.remove('open')" id="btnDlClose">Close</button>
+  </div>
+</div>
 <script>
-// ---- i18n ----
 const I18N = {
   en: {
     headerSub:'Text Image Generator', secText:'Text', labelInput:'Input',
@@ -374,6 +396,7 @@ const I18N = {
     labelDotColor:'Color (uses text color)', btnClearDot:'🗑 Clear dots', labelShowGrid:'Show grid',
     btnReset:'↺ Reset all settings',
     btnModeText:'Text', btnModeDot:'Dot',
+    dlModalHint:'Long press the image → Save to Photos', btnDlClose:'Close',
   },
   ja: {
     headerSub:'テキスト画像ジェネレーター', secText:'テキスト', labelInput:'入力',
@@ -400,6 +423,7 @@ const I18N = {
     labelDotColor:'色（文字色を使用）', btnClearDot:'🗑 ドットをクリア', labelShowGrid:'グリッドを表示',
     btnReset:'↺ 設定をリセット',
     btnModeText:'テキスト', btnModeDot:'ドット',
+    dlModalHint:'画像を長押し → 写真に保存', btnDlClose:'閉じる',
   }
 };
 
@@ -756,7 +780,14 @@ function buildPerCharList(){
 function download(){
   const fmt=document.getElementById('dlFormat').value;
   const mime=fmt==='jpeg'?'image/jpeg':fmt==='webp'?'image/webp':'image/png';
-  const a=document.createElement('a'); a.href=canvas.toDataURL(mime,.95); a.download=`textimg.${fmt}`; a.click();
+  const dataUrl=canvas.toDataURL(mime,.95);
+  const isIOS=/iP(hone|ad|od)/.test(navigator.userAgent);
+  if(isIOS){
+    document.getElementById('dlModalImg').src=dataUrl;
+    document.getElementById('dlModal').classList.add('open');
+  } else {
+    const a=document.createElement('a'); a.href=dataUrl; a.download=`textimg.${fmt}`; a.click();
+  }
 }
 
 // ---- mode ----
@@ -817,7 +848,7 @@ document.getElementById('showGridCheck').addEventListener('change', e=>{ state.s
 document.getElementById('dotSize').addEventListener('input', e=>{ state.dotSize=+e.target.value; document.getElementById('dotSizeVal').textContent=e.target.value; render(); });
 
 // ---- autosave ----
-const SAVE_KEY='textimg_v2';
+const SAVE_KEY='textimg_v3';
 let saveTimer=null;
 function saveState(){
   clearTimeout(saveTimer);
