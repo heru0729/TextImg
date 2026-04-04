@@ -913,9 +913,20 @@ function doDownload(){
   const mime=fmt==='jpeg'?'image/jpeg':fmt==='webp'?'image/webp':'image/png';
   try{
     const url=canvas.toDataURL(mime,.95);
-    if(/iP(hone|ad|od)/.test(navigator.userAgent)){
+    const isIOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(/Macintosh/.test(navigator.userAgent)&&navigator.maxTouchPoints>1);
+    const isMobile=/Android/.test(navigator.userAgent)||isIOS;
+    if(isIOS){
+      // iOSは<a download>が効かないのでモーダル表示
       document.getElementById('dlMImg').src=url;
       document.getElementById('dlModal').classList.add('on');
+    } else if(isMobile){
+      // Androidはそのままダウンロード試行、失敗したらモーダル
+      try{
+        const a=document.createElement('a');a.href=url;a.download=`textimg.${fmt}`;a.click();
+      }catch(e){
+        document.getElementById('dlMImg').src=url;
+        document.getElementById('dlModal').classList.add('on');
+      }
     } else {
       const a=document.createElement('a');a.href=url;a.download=`textimg.${fmt}`;a.click();
     }
