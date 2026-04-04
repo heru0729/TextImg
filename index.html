@@ -829,6 +829,7 @@ function genChoyen(){
   const top=document.getElementById('c5Top').value;
   const bot=document.getElementById('c5Bot').value;
   const rain=document.getElementById('c5Rain').checked;
+  const sz=+document.getElementById('c5Sz').value;
   let url=`https://gsapi.cbrx.io/image?top=${encodeURIComponent(top)}&type=png`;
   if(bot) url+=`&bottom=${encodeURIComponent(bot)}`;
   if(rain) url+='&rainbow=true';
@@ -896,7 +897,7 @@ function toggleFooter(){
 }
 
 // autosave
-const SAVE_KEY='textimg_v3';
+const SAVE_KEY='textimg_v4';
 let saveTimer=null;
 function saveState(){
   clearTimeout(saveTimer);
