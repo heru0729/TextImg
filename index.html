@@ -688,9 +688,11 @@ function clearDots(){state.dots={};render();saveState();}
 function setMode(m){
   state.mode=m;
   ['mText','m5000','mDot'].forEach(id=>document.getElementById(id).classList.remove('on'));
-  document.getElementById('m'+m==='text'?'mText':m==='5000'?'m5000':'mDot').classList.add('on');
-  document.getElementById('tPanel').style.display=m==='text'?'flex':'none';
-  if(m==='text')document.getElementById('tPanel').style.flexDirection='column';
+  const mId=m==='text'?'mText':m==='5000'?'m5000':'mDot';
+  document.getElementById(mId).classList.add('on');
+  const tp=document.getElementById('tPanel');
+  tp.style.display=m==='text'?'flex':'none';
+  tp.style.flexDirection='column';
   document.getElementById('p5Panel').classList.toggle('on',m==='5000');
   document.getElementById('dPanel').classList.toggle('on',m==='dot');
   render();
@@ -734,7 +736,7 @@ function resetAll(){if(!confirm(lang==='ja'?'リセットしますか？':'Reset
 function toggleFt(){const b=document.getElementById('ftB');const o=b.classList.toggle('on');document.getElementById('ftA').textContent=o?'▼':'▶';}
 
 // autosave
-const SAVE_KEY='ti_v5';
+const SAVE_KEY='ti_v6';
 let saveTimer=null;
 function saveState(){
   clearTimeout(saveTimer);
