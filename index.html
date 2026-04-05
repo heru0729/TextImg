@@ -482,6 +482,12 @@ canvas.addEventListener('mousedown',e=>{
     if(state.dots[k])delete state.dots[k];else state.dots[k]=state.dotCol;
     dotDraw=true;render();saveState();e.stopPropagation();return;
   }
+  if(state.mode==='5000'&&c5img){
+    const dh=Math.round(c5img.naturalHeight*(state.c5W/c5img.naturalWidth));
+    if(c.x>=state.c5X&&c.x<=state.c5X+state.c5W&&c.y>=state.c5Y&&c.y<=state.c5Y+dh){
+      dragMode='c5';dtx=c.x-state.c5X;dty=c.y-state.c5Y;canvas.style.cursor='grabbing';return;
+    }
+  }
   if(state.customPos&&c.x>=state.textX&&c.x<=state.textX+400&&c.y>=state.textY&&c.y<=state.textY+200){
     dragMode='text';dtx=c.x-state.textX;dty=c.y-state.textY;return;
   }
@@ -494,6 +500,13 @@ window.addEventListener('mousemove',e=>{
   }
   if(!dragMode)return;
   if(dragMode==='pan'){panX=dpx+(e.clientX-dsx);panY=dpy+(e.clientY-dsy);applyTr();}
+  else if(dragMode==='c5'){
+    const c=cvC(e);
+    state.c5X=Math.round(c.x-dtx);state.c5Y=Math.round(c.y-dty);
+    document.getElementById('c5X').value=state.c5X;document.getElementById('c5XV').textContent=state.c5X;
+    document.getElementById('c5Y').value=state.c5Y;document.getElementById('c5YV').textContent=state.c5Y;
+    render();
+  }
   else if(dragMode==='text'){
     const c=cvC(e);state.textX=Math.round(c.x-dtx);state.textY=Math.round(c.y-dty);
     document.getElementById('posX').value=state.textX;document.getElementById('posY').value=state.textY;
