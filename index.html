@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -22,6 +23,7 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0f0f0f;--panel:#1a1a1a;--border:#2e2e2e;--text:#e8e8e8;--muted:#888;--accent:#d4ff00;--radius:8px}
+[data-theme="light"]{--bg:#f0f0f0;--panel:#ffffff;--border:#ccc;--text:#111;--muted:#555;--accent:#5500dd;--radius:8px;--checker1:#d8d8d8;--checker2:#e8e8e8}
 body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-serif;font-size:13px;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
 header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .header-left{display:flex;align-items:center;gap:12px}
@@ -30,7 +32,7 @@ header h1{font-family:'Dela Gothic One',cursive;font-size:18px;letter-spacing:.0
 .lang-btn:hover{border-color:var(--accent);color:var(--accent)}
 .main{display:flex;flex:1;overflow:hidden;min-height:0}
 .sidebar{width:280px;flex-shrink:0;border-right:1px solid var(--border);overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:20px}
-.preview-area{flex:1;overflow:hidden;position:relative;background:repeating-conic-gradient(#1c1c1c 0% 25%,#181818 0% 50%) 0 0/20px 20px;user-select:none;touch-action:none}
+.preview-area{flex:1;overflow:hidden;position:relative;background:repeating-conic-gradient(var(--checker1,#1c1c1c) 0% 25%,var(--checker2,#181818) 0% 50%) 0 0/20px 20px;user-select:none;touch-action:none}
 @media(max-width:600px){
   body{height:100dvh;overflow:hidden}
   .main{flex-direction:column;flex:1;overflow:hidden;min-height:0}
@@ -122,6 +124,7 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0}
       <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.912-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       <span id="xLbl">Share on X</span>
     </a>
+    <button class="lang-btn" id="themeBtn" onclick="toggleTheme()" style="font-size:14px">☀️</button>
     <button class="lang-btn" id="langBtn">日本語</button>
   </div>
 </header>
@@ -133,256 +136,259 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0}
       <button class="mb" id="mDot" onclick="setMode('dot')">Dot</button>
     </div>
 
-    <!-- TEXT PANEL -->
-    <div class="tp" id="tPanel">
-      <div>
-        <div class="sec" id="sTxt">Text</div>
-        <label id="lIn">Input</label>
-        <textarea id="textInput" placeholder="Enter text here..."></textarea>
-      </div>
-      <div>
-        <div class="sec" id="sFont">Font</div>
-        <label id="lFF">Font family</label>
-        <select id="fontFamily"></select>
-        <div style="margin-top:8px">
-          <label><span id="lFS">Size</span> <span id="fsVal">64</span>px</label>
-          <input type="range" id="fontSize" min="8" max="300" value="64">
-        </div>
-        <div style="margin-top:8px">
-          <label><span id="lLH">Line height</span> <span id="lhVal">1.4</span></label>
-          <input type="range" id="lineHeight" min="0.8" max="3.0" step="0.1" value="1.4">
-        </div>
-        <div style="margin-top:8px" class="fg">
-          <button class="fb" id="boldBtn" onclick="toggleBold()"><b>B</b></button>
-          <button class="fb" id="italicBtn" onclick="toggleItalic()"><i>I</i></button>
-        </div>
-      </div>
-      <div>
-        <div class="sec" id="sAlign">Alignment</div>
-        <label id="lHA">Horizontal</label>
-        <div class="ag">
-          <button class="ab on" data-align="left" onclick="setAlign('left')">&#9776;</button>
-          <button class="ab" data-align="center" onclick="setAlign('center')">&#8801;</button>
-          <button class="ab" data-align="right" onclick="setAlign('right')">&#9776;</button>
-        </div>
-        <div style="margin-top:8px">
-          <label id="lVA">Vertical</label>
-          <div class="ag">
-            <button class="ab on" data-valign="top" onclick="setVAlign('top')">↑</button>
-            <button class="ab" data-valign="middle" onclick="setVAlign('middle')">↕</button>
-            <button class="ab" data-valign="bottom" onclick="setVAlign('bottom')">↓</button>
-          </div>
-        </div>
-        <div style="margin-top:8px">
-          <label id="lPos">Custom position (px)</label>
-          <div class="row2">
-            <div><label>X</label><input type="number" id="posX" value="0"></div>
-            <div><label>Y</label><input type="number" id="posY" value="0"></div>
-          </div>
-          <div style="margin-top:4px"><label class="ck"><input type="checkbox" id="cpCheck"><span id="lCP">Enable drag position</span></label></div>
-        </div>
-      </div>
-      <div>
-        <div class="sec" id="sCol">Color</div>
-        <label id="lBG">Background</label>
-        <div class="color-row">
-          <div class="swatch" id="bgSw" style="background:#ffffff"><input type="color" id="bgColor" value="#ffffff"></div>
-          <input type="text" class="chex" id="bgHex" value="#ffffff" maxlength="7">
-        </div>
-        <div style="margin-top:8px">
-          <label id="lFG">Text color</label>
-          <div class="color-row">
-            <div class="swatch" id="fgSw" style="background:#000000"><input type="color" id="fgColor" value="#000000"></div>
-            <input type="text" class="chex" id="fgHex" value="#000000" maxlength="7">
-          </div>
-        </div>
-        <div style="margin-top:10px"><label class="ck"><input type="checkbox" id="pcCheck"><span id="lPC">Per-character color</span></label></div>
-        <div id="pcPanel" style="display:none;margin-top:8px"><div id="pcList" style="display:flex;flex-wrap:wrap;gap:6px"></div></div>
-        <div style="margin-top:8px"><label class="ck"><input type="checkbox" id="gmCheck"><span id="lGM">Gaming Text 🌈</span></label></div>
-      </div>
-      <div>
-        <div class="sec" id="sFX">Effects</div>
-        <div class="acc" id="accPixel">
-          <div class="acc-h" onclick="toggleAcc('Pixel')">
-            <div class="acc-l"><input type="checkbox" id="pixelCk" onclick="event.stopPropagation()"><span class="acc-t" id="lPixel">Pixel Mode</span></div>
-            <span class="acc-a">▼</span>
-          </div>
-          <div class="acc-b" id="bPixel">
-            <label><span id="lPS">Pixel size</span> <span id="psVal">8</span>px</label>
-            <input type="range" id="pixelSize" min="2" max="32" value="8">
-          </div>
-        </div>
-        <div class="acc" id="accOutline">
-          <div class="acc-h" onclick="toggleAcc('Outline')">
-            <div class="acc-l"><input type="checkbox" id="outlineCk" onclick="event.stopPropagation()"><span class="acc-t" id="lOutline">Outline</span></div>
-            <span class="acc-a">▼</span>
-          </div>
-          <div class="acc-b" id="bOutline">
-            <label><span id="lOW">Width</span> <span id="owVal">3</span>px</label>
-            <input type="range" id="outlineWidth" min="1" max="20" value="3">
-            <label id="lOC">Color</label>
-            <div class="color-row">
-              <div class="swatch" id="olSw" style="background:#ffffff"><input type="color" id="olColor" value="#ffffff"></div>
-              <input type="text" class="chex" id="olHex" value="#ffffff" maxlength="7">
-            </div>
-          </div>
-        </div>
-        <div class="acc" id="accShadow">
-          <div class="acc-h" onclick="toggleAcc('Shadow')">
-            <div class="acc-l"><input type="checkbox" id="shadowCk" onclick="event.stopPropagation()"><span class="acc-t" id="lShadow">Shadow</span></div>
-            <span class="acc-a">▼</span>
-          </div>
-          <div class="acc-b" id="bShadow">
-            <label><span id="lSB">Blur</span> <span id="sbVal">10</span>px</label>
-            <input type="range" id="shadowBlur" min="0" max="40" value="10">
-            <div class="row2">
-              <div><label>X offset</label><input type="number" id="shadowX" value="4" min="-50" max="50"></div>
-              <div><label>Y offset</label><input type="number" id="shadowY" value="4" min="-50" max="50"></div>
-            </div>
-            <label id="lSC">Color</label>
-            <div class="color-row">
-              <div class="swatch" id="shSw" style="background:#000000"><input type="color" id="shColor" value="#000000"></div>
-              <input type="text" class="chex" id="shHex" value="#000000" maxlength="7">
-            </div>
-          </div>
-        </div>
-        <div class="acc" id="accGlitch">
-          <div class="acc-h" onclick="toggleAcc('Glitch')">
-            <div class="acc-l"><input type="checkbox" id="glitchCk" onclick="event.stopPropagation()"><span class="acc-t" id="lGlitch">Glitch</span></div>
-            <span class="acc-a">▼</span>
-          </div>
-          <div class="acc-b" id="bGlitch">
-            <label><span id="lGA">Amount</span> <span id="gaVal">8</span></label>
-            <input type="range" id="glitchAmt" min="1" max="30" value="8">
-          </div>
-        </div>
-        <div class="acc" id="accGrad">
-          <div class="acc-h" onclick="toggleAcc('Grad')">
-            <div class="acc-l"><input type="checkbox" id="gradCk" onclick="event.stopPropagation()"><span class="acc-t" id="lGrad">Gradient Text</span></div>
-            <span class="acc-a">▼</span>
-          </div>
-          <div class="acc-b" id="bGrad">
-            <label id="lGC1">Color 1</label>
-            <div class="color-row">
-              <div class="swatch" id="gc1Sw" style="background:#ff0080"><input type="color" id="gc1" value="#ff0080"></div>
-              <input type="text" class="chex" id="gc1Hex" value="#ff0080" maxlength="7">
-            </div>
-            <label id="lGC2">Color 2</label>
-            <div class="color-row">
-              <div class="swatch" id="gc2Sw" style="background:#0080ff"><input type="color" id="gc2" value="#0080ff"></div>
-              <input type="text" class="chex" id="gc2Hex" value="#0080ff" maxlength="7">
-            </div>
-            <label id="lGD">Direction</label>
-            <select id="gradDir">
-              <option value="h" id="oH">Horizontal</option>
-              <option value="v" id="oV">Vertical</option>
-              <option value="d" id="oD">Diagonal</option>
-            </select>
-          </div>
-        </div>
-        <div class="acc" id="accNeon">
-          <div class="acc-h" onclick="toggleAcc('Neon')">
-            <div class="acc-l"><input type="checkbox" id="neonCk" onclick="event.stopPropagation()"><span class="acc-t" id="lNeon">Neon</span></div>
-            <span class="acc-a">▼</span>
-          </div>
-          <div class="acc-b" id="bNeon">
-            <label><span id="lNB">Glow size</span> <span id="nbVal">15</span>px</label>
-            <input type="range" id="neonBlur" min="5" max="50" value="15">
-            <label id="lNC">Glow color</label>
-            <div class="color-row">
-              <div class="swatch" id="neSw" style="background:#00ffff"><input type="color" id="neColor" value="#00ffff"></div>
-              <input type="text" class="chex" id="neHex" value="#00ffff" maxlength="7">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="sec" id="sPad">Padding</div>
-        <label><span id="lPad">Padding</span> <span id="padVal">40</span>px</label>
-        <input type="range" id="padding" min="0" max="200" value="40">
-      </div>
-      <div>
-        <div class="sec" id="sSz">Image size</div>
-        <div class="pg">
-          <button class="pb" onclick="setPreset(800,600)">800×600<br><span style="color:#555" id="pGen">General</span></button>
-          <button class="pb" onclick="setPreset(1200,630)">1200×630<br><span style="color:#555">OGP</span></button>
-          <button class="pb" onclick="setPreset(1080,1080)">1080×1080<br><span style="color:#555" id="pSq">Square</span></button>
-          <button class="pb" onclick="setPreset(1920,1080)">1920×1080<br><span style="color:#555">FHD</span></button>
-          <button class="pb" onclick="setPreset(1080,1920)">1080×1920<br><span style="color:#555" id="pPo">Portrait</span></button>
-          <button class="pb" onclick="setPreset(1500,500)">1500×500<br><span style="color:#555" id="pWi">Wide</span></button>
-        </div>
-        <div class="row2" style="margin-top:8px">
-          <div><label id="lW">Width (px)</label><input type="number" id="imgW" value="800" min="1" max="4000"></div>
-          <div><label id="lH">Height (px)</label><input type="number" id="imgH" value="600" min="1" max="4000"></div>
-        </div>
-      </div>
-    </div><!-- /tPanel -->
-
-    <!-- DOT PANEL -->
-    <div class="dp" id="dPanel">
-      <div>
-        <div class="sec" id="sDot">Dot Mode</div>
-        <label><span id="lDS">Grid size</span> <span id="dsVal">16</span>px</label>
-        <input type="range" id="dotSize" min="4" max="64" value="16" step="2">
-        <div style="margin-top:8px"><label class="ck"><input type="checkbox" id="gridCk" checked><span id="lGrid">Show grid</span></label></div>
-        <div style="margin-top:6px;font-size:11px;color:var(--muted)" id="lDotHint">Click=draw　Same cell=erase</div>
-      </div>
-      <div>
-        <label id="lDotCol">Dot color</label>
-        <div class="color-row">
-          <div class="swatch" id="dotSw" style="background:#000000"><input type="color" id="dotColor" value="#000000"></div>
-          <input type="text" class="chex" id="dotHex" value="#000000" maxlength="7">
-        </div>
-      </div>
-      <button class="rb" onclick="clearDots()" id="bClearDot">🗑 Clear dots</button>
-    </div><!-- /dPanel -->
-
-    <!-- 5000 PANEL -->
-    <div class="dp" id="p5000Panel">
-      <div>
-        <div class="sec" id="s5000">5000 Choyen</div>
-        <label id="l5T">Top text</label>
-        <input type="text" id="c5Top" value="5000兆円" style="margin-bottom:8px">
-        <label id="l5B">Bottom text</label>
-        <input type="text" id="c5Bot" value="欲しい！" style="margin-bottom:8px">
-        <div style="margin-bottom:8px">
-        <label class="ck"><input type="checkbox" id="c5Rain"><span id="l5R">Rainbow</span></label>
-        </div>
-      </div>
-      <div>
-        <label id="l5BG">Background color</label>
-        <div class="color-row">
-          <div class="swatch" id="c5BgSw" style="background:#000000"><input type="color" id="c5Bg" value="#000000"></div>
-          <input type="text" class="chex" id="c5BgHex" value="#000000" maxlength="7">
-        </div>
-      </div>
-      <div>
-        <label><span id="l5Sz">Image width</span> <span id="c5SzVal">1000</span>px</label>
-        <input type="range" id="c5Sz" min="200" max="2000" value="1000" step="100">
-      </div>
-      <div>
-        <label>X <span id="c5XVal">0</span>px</label>
-        <input type="range" id="c5X" min="-2000" max="2000" value="0" step="1">
-        <label style="margin-top:6px">Y <span id="c5YVal">0</span>px</label>
-        <input type="range" id="c5Y" min="-2000" max="2000" value="0" step="1">
-      </div>
-      <button class="dlb" onclick="genChoyen()" id="b5Gen">🤑 Generate</button>
-      <div id="c5Prev" style="display:none;margin-top:8px">
-        <img id="c5Img" src="" style="width:100%;border-radius:6px;border:1px solid var(--border)">
-      </div>
-    </div><!-- /p5000Panel -->
-
-    <hr>
-    <!-- Download -->
-    <div>
-      <div class="sec" id="sDL">Download</div>
-      <div class="dlr">
-        <select id="dlFmt" style="width:90px"><option value="png">PNG</option><option value="jpeg">JPEG</option><option value="webp">WebP</option></select>
-        <button class="dlb" onclick="doDownload()" id="bSave">⬇ Save</button>
-      </div>
-      <button class="rb" onclick="resetAll()" id="bReset">↺ Reset all</button>
-      <div class="asi" id="asi">Auto-save: idle</div>
+```
+<!-- TEXT PANEL -->
+<div class="tp" id="tPanel">
+  <div>
+    <div class="sec" id="sTxt">Text</div>
+    <label id="lIn">Input</label>
+    <textarea id="textInput" placeholder="Enter text here..."></textarea>
+  </div>
+  <div>
+    <div class="sec" id="sFont">Font</div>
+    <label id="lFF">Font family</label>
+    <select id="fontFamily"></select>
+    <div style="margin-top:8px">
+      <label><span id="lFS">Size</span> <span id="fsVal">64</span>px</label>
+      <input type="range" id="fontSize" min="8" max="300" value="64">
     </div>
+    <div style="margin-top:8px">
+      <label><span id="lLH">Line height</span> <span id="lhVal">1.4</span></label>
+      <input type="range" id="lineHeight" min="0.8" max="3.0" step="0.1" value="1.4">
+    </div>
+    <div style="margin-top:8px" class="fg">
+      <button class="fb" id="boldBtn" onclick="toggleBold()"><b>B</b></button>
+      <button class="fb" id="italicBtn" onclick="toggleItalic()"><i>I</i></button>
+    </div>
+  </div>
+  <div>
+    <div class="sec" id="sAlign">Alignment</div>
+    <label id="lHA">Horizontal</label>
+    <div class="ag">
+      <button class="ab on" data-align="left" onclick="setAlign('left')">&#9776;</button>
+      <button class="ab" data-align="center" onclick="setAlign('center')">&#8801;</button>
+      <button class="ab" data-align="right" onclick="setAlign('right')">&#9776;</button>
+    </div>
+    <div style="margin-top:8px">
+      <label id="lVA">Vertical</label>
+      <div class="ag">
+        <button class="ab on" data-valign="top" onclick="setVAlign('top')">↑</button>
+        <button class="ab" data-valign="middle" onclick="setVAlign('middle')">↕</button>
+        <button class="ab" data-valign="bottom" onclick="setVAlign('bottom')">↓</button>
+      </div>
+    </div>
+    <div style="margin-top:8px">
+      <label id="lPos">Custom position (px)</label>
+      <div class="row2">
+        <div><label>X</label><input type="number" id="posX" value="0"></div>
+        <div><label>Y</label><input type="number" id="posY" value="0"></div>
+      </div>
+      <div style="margin-top:4px"><label class="ck"><input type="checkbox" id="cpCheck"><span id="lCP">Enable drag position</span></label></div>
+    </div>
+  </div>
+  <div>
+    <div class="sec" id="sCol">Color</div>
+    <label id="lBG">Background</label>
+    <div class="color-row">
+      <div class="swatch" id="bgSw" style="background:#ffffff"><input type="color" id="bgColor" value="#ffffff"></div>
+      <input type="text" class="chex" id="bgHex" value="#ffffff" maxlength="7">
+    </div>
+    <div style="margin-top:8px">
+      <label id="lFG">Text color</label>
+      <div class="color-row">
+        <div class="swatch" id="fgSw" style="background:#000000"><input type="color" id="fgColor" value="#000000"></div>
+        <input type="text" class="chex" id="fgHex" value="#000000" maxlength="7">
+      </div>
+    </div>
+    <div style="margin-top:10px"><label class="ck"><input type="checkbox" id="pcCheck"><span id="lPC">Per-character color</span></label></div>
+    <div id="pcPanel" style="display:none;margin-top:8px"><div id="pcList" style="display:flex;flex-wrap:wrap;gap:6px"></div></div>
+    <div style="margin-top:8px"><label class="ck"><input type="checkbox" id="gmCheck"><span id="lGM">Gaming Text 🌈</span></label></div>
+  </div>
+  <div>
+    <div class="sec" id="sFX">Effects</div>
+    <div class="acc" id="accPixel">
+      <div class="acc-h" onclick="toggleAcc('Pixel')">
+        <div class="acc-l"><input type="checkbox" id="pixelCk" onclick="event.stopPropagation()"><span class="acc-t" id="lPixel">Pixel Mode</span></div>
+        <span class="acc-a">▼</span>
+      </div>
+      <div class="acc-b" id="bPixel">
+        <label><span id="lPS">Pixel size</span> <span id="psVal">8</span>px</label>
+        <input type="range" id="pixelSize" min="2" max="32" value="8">
+      </div>
+    </div>
+    <div class="acc" id="accOutline">
+      <div class="acc-h" onclick="toggleAcc('Outline')">
+        <div class="acc-l"><input type="checkbox" id="outlineCk" onclick="event.stopPropagation()"><span class="acc-t" id="lOutline">Outline</span></div>
+        <span class="acc-a">▼</span>
+      </div>
+      <div class="acc-b" id="bOutline">
+        <label><span id="lOW">Width</span> <span id="owVal">3</span>px</label>
+        <input type="range" id="outlineWidth" min="1" max="20" value="3">
+        <label id="lOC">Color</label>
+        <div class="color-row">
+          <div class="swatch" id="olSw" style="background:#ffffff"><input type="color" id="olColor" value="#ffffff"></div>
+          <input type="text" class="chex" id="olHex" value="#ffffff" maxlength="7">
+        </div>
+      </div>
+    </div>
+    <div class="acc" id="accShadow">
+      <div class="acc-h" onclick="toggleAcc('Shadow')">
+        <div class="acc-l"><input type="checkbox" id="shadowCk" onclick="event.stopPropagation()"><span class="acc-t" id="lShadow">Shadow</span></div>
+        <span class="acc-a">▼</span>
+      </div>
+      <div class="acc-b" id="bShadow">
+        <label><span id="lSB">Blur</span> <span id="sbVal">10</span>px</label>
+        <input type="range" id="shadowBlur" min="0" max="40" value="10">
+        <div class="row2">
+          <div><label>X offset</label><input type="number" id="shadowX" value="4" min="-50" max="50"></div>
+          <div><label>Y offset</label><input type="number" id="shadowY" value="4" min="-50" max="50"></div>
+        </div>
+        <label id="lSC">Color</label>
+        <div class="color-row">
+          <div class="swatch" id="shSw" style="background:#000000"><input type="color" id="shColor" value="#000000"></div>
+          <input type="text" class="chex" id="shHex" value="#000000" maxlength="7">
+        </div>
+      </div>
+    </div>
+    <div class="acc" id="accGlitch">
+      <div class="acc-h" onclick="toggleAcc('Glitch')">
+        <div class="acc-l"><input type="checkbox" id="glitchCk" onclick="event.stopPropagation()"><span class="acc-t" id="lGlitch">Glitch</span></div>
+        <span class="acc-a">▼</span>
+      </div>
+      <div class="acc-b" id="bGlitch">
+        <label><span id="lGA">Amount</span> <span id="gaVal">8</span></label>
+        <input type="range" id="glitchAmt" min="1" max="30" value="8">
+      </div>
+    </div>
+    <div class="acc" id="accGrad">
+      <div class="acc-h" onclick="toggleAcc('Grad')">
+        <div class="acc-l"><input type="checkbox" id="gradCk" onclick="event.stopPropagation()"><span class="acc-t" id="lGrad">Gradient Text</span></div>
+        <span class="acc-a">▼</span>
+      </div>
+      <div class="acc-b" id="bGrad">
+        <label id="lGC1">Color 1</label>
+        <div class="color-row">
+          <div class="swatch" id="gc1Sw" style="background:#ff0080"><input type="color" id="gc1" value="#ff0080"></div>
+          <input type="text" class="chex" id="gc1Hex" value="#ff0080" maxlength="7">
+        </div>
+        <label id="lGC2">Color 2</label>
+        <div class="color-row">
+          <div class="swatch" id="gc2Sw" style="background:#0080ff"><input type="color" id="gc2" value="#0080ff"></div>
+          <input type="text" class="chex" id="gc2Hex" value="#0080ff" maxlength="7">
+        </div>
+        <label id="lGD">Direction</label>
+        <select id="gradDir">
+          <option value="h" id="oH">Horizontal</option>
+          <option value="v" id="oV">Vertical</option>
+          <option value="d" id="oD">Diagonal</option>
+        </select>
+      </div>
+    </div>
+    <div class="acc" id="accNeon">
+      <div class="acc-h" onclick="toggleAcc('Neon')">
+        <div class="acc-l"><input type="checkbox" id="neonCk" onclick="event.stopPropagation()"><span class="acc-t" id="lNeon">Neon</span></div>
+        <span class="acc-a">▼</span>
+      </div>
+      <div class="acc-b" id="bNeon">
+        <label><span id="lNB">Glow size</span> <span id="nbVal">15</span>px</label>
+        <input type="range" id="neonBlur" min="5" max="50" value="15">
+        <label id="lNC">Glow color</label>
+        <div class="color-row">
+          <div class="swatch" id="neSw" style="background:#00ffff"><input type="color" id="neColor" value="#00ffff"></div>
+          <input type="text" class="chex" id="neHex" value="#00ffff" maxlength="7">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="sec" id="sPad">Padding</div>
+    <label><span id="lPad">Padding</span> <span id="padVal">40</span>px</label>
+    <input type="range" id="padding" min="0" max="200" value="40">
+  </div>
+  <div>
+    <div class="sec" id="sSz">Image size</div>
+    <div class="pg">
+      <button class="pb" onclick="setPreset(800,600)">800×600<br><span style="color:#555" id="pGen">General</span></button>
+      <button class="pb" onclick="setPreset(1200,630)">1200×630<br><span style="color:#555">OGP</span></button>
+      <button class="pb" onclick="setPreset(1080,1080)">1080×1080<br><span style="color:#555" id="pSq">Square</span></button>
+      <button class="pb" onclick="setPreset(1920,1080)">1920×1080<br><span style="color:#555">FHD</span></button>
+      <button class="pb" onclick="setPreset(1080,1920)">1080×1920<br><span style="color:#555" id="pPo">Portrait</span></button>
+      <button class="pb" onclick="setPreset(1500,500)">1500×500<br><span style="color:#555" id="pWi">Wide</span></button>
+    </div>
+    <div class="row2" style="margin-top:8px">
+      <div><label id="lW">Width (px)</label><input type="number" id="imgW" value="800" min="1" max="4000"></div>
+      <div><label id="lH">Height (px)</label><input type="number" id="imgH" value="600" min="1" max="4000"></div>
+    </div>
+  </div>
+</div><!-- /tPanel -->
+
+<!-- DOT PANEL -->
+<div class="dp" id="dPanel">
+  <div>
+    <div class="sec" id="sDot">Dot Mode</div>
+    <label><span id="lDS">Grid size</span> <span id="dsVal">16</span>px</label>
+    <input type="range" id="dotSize" min="4" max="64" value="16" step="2">
+    <div style="margin-top:8px"><label class="ck"><input type="checkbox" id="gridCk" checked><span id="lGrid">Show grid</span></label></div>
+    <div style="margin-top:6px;font-size:11px;color:var(--muted)" id="lDotHint">Click=draw　Same cell=erase</div>
+  </div>
+  <div>
+    <label id="lDotCol">Dot color</label>
+    <div class="color-row">
+      <div class="swatch" id="dotSw" style="background:#000000"><input type="color" id="dotColor" value="#000000"></div>
+      <input type="text" class="chex" id="dotHex" value="#000000" maxlength="7">
+    </div>
+  </div>
+  <button class="rb" onclick="clearDots()" id="bClearDot">🗑 Clear dots</button>
+</div><!-- /dPanel -->
+
+<!-- 5000 PANEL -->
+<div class="dp" id="p5000Panel">
+  <div>
+    <div class="sec" id="s5000">5000 Choyen</div>
+    <label id="l5T">Top text</label>
+    <input type="text" id="c5Top" value="5000兆円" style="margin-bottom:8px">
+    <label id="l5B">Bottom text</label>
+    <input type="text" id="c5Bot" value="欲しい！" style="margin-bottom:8px">
+    <div style="margin-bottom:8px">
+    <label class="ck"><input type="checkbox" id="c5Rain"><span id="l5R">Rainbow</span></label>
+    </div>
+  </div>
+  <div>
+    <label id="l5BG">Background color</label>
+    <div class="color-row">
+      <div class="swatch" id="c5BgSw" style="background:#000000"><input type="color" id="c5Bg" value="#000000"></div>
+      <input type="text" class="chex" id="c5BgHex" value="#000000" maxlength="7">
+    </div>
+  </div>
+  <div>
+    <label><span id="l5Sz">Image width</span> <span id="c5SzVal">1000</span>px</label>
+    <input type="range" id="c5Sz" min="200" max="2000" value="1000" step="100">
+  </div>
+  <div>
+    <label>X <span id="c5XVal">0</span>px</label>
+    <input type="range" id="c5X" min="-2000" max="2000" value="0" step="1">
+    <label style="margin-top:6px">Y <span id="c5YVal">0</span>px</label>
+    <input type="range" id="c5Y" min="-2000" max="2000" value="0" step="1">
+  </div>
+  <button class="dlb" onclick="genChoyen()" id="b5Gen">🤑 Generate</button>
+  <div id="c5Prev" style="display:none;margin-top:8px">
+    <img id="c5Img" src="" style="width:100%;border-radius:6px;border:1px solid var(--border)">
+  </div>
+</div><!-- /p5000Panel -->
+
+<hr>
+<!-- Download -->
+<div>
+  <div class="sec" id="sDL">Download</div>
+  <div class="dlr">
+    <select id="dlFmt" style="width:90px"><option value="png">PNG</option><option value="jpeg">JPEG</option><option value="webp">WebP</option></select>
+    <button class="dlb" onclick="doDownload()" id="bSave">⬇ Save</button>
+  </div>
+  <button class="rb" onclick="resetAll()" id="bReset">↺ Reset all</button>
+  <div class="asi" id="asi">Auto-save: idle</div>
+</div>
+```
+
   </aside>
 
   <div class="preview-area" id="previewArea">
@@ -400,6 +406,7 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0}
 </div>
 
 <!-- iOS download modal -->
+
 <div class="dlm" id="dlModal" onclick="this.classList.remove('on')">
   <div class="dlmi" onclick="event.stopPropagation()">
     <img id="dlMImg" src="">
@@ -409,6 +416,7 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0}
 </div>
 
 <!-- Footer -->
+
 <footer>
   <button class="ft-toggle" onclick="toggleFooter()">
     <span id="ftArrow">▶</span> <span id="ftLbl">About TextImg</span>
@@ -541,7 +549,22 @@ function applyLang(){
   // font select
   const sel = document.getElementById('fontFamily');
   sel.innerHTML = FONTS.map(f=>`<option value="${f.v}"${f.v===state.fontFamily?' selected':''}>${f[lang]}</option>`).join('');
-  // X share
+  // theme
+let theme='dark';
+function toggleTheme(){
+  theme=theme==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',theme==='dark'?'':theme);
+  document.getElementById('themeBtn').textContent=theme==='dark'?'☀️':'🌙';
+  try{localStorage.setItem('textimg_theme',theme);}catch(e){}
+}
+function loadTheme(){
+  try{
+    const t=localStorage.getItem('textimg_theme');
+    if(t&&t!=='dark'){theme=t;document.documentElement.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent='🌙';}
+  }catch(e){}
+}
+
+// X share
   updateXShare();
 }
 document.getElementById('langBtn').addEventListener('click', ()=>{ lang=lang==='en'?'ja':'en'; applyLang(); });
@@ -651,7 +674,7 @@ previewArea.addEventListener('touchmove',e=>{
 previewArea.addEventListener('touchend',e=>{lt=[...e.touches];},{passive:false});
 
 // ===== render =====
-function gamingColor(i,n){ return `hsl(${Math.round(i/Math.max(n,1)*360)},100%,55%)`; }
+function gamingColor(i){ return `hsl(${(i*47)%360},100%,55%)`; }
 
 function render(){
   const W=state.width, H=state.height;
@@ -688,11 +711,22 @@ function render(){
       if(state.outline){oc.strokeStyle=state.outlineColor;oc.lineWidth=state.outlineWidth*2;oc.lineJoin='round';oc.strokeText(line,lx,y);}
       oc.shadowColor='transparent';oc.shadowBlur=0;oc.shadowOffsetX=0;oc.shadowOffsetY=0;
       if(!state.perChar&&!state.gaming){ oc.fillStyle=fill;oc.fillText(line,lx,y);gi+=[...line].length; }
+      else if(state.gaming){
+        const g=oc.createLinearGradient(lx,y,lx+lw,y);
+        g.addColorStop(0,'hsl(0,100%,55%)');
+        g.addColorStop(0.17,'hsl(60,100%,55%)');
+        g.addColorStop(0.33,'hsl(120,100%,55%)');
+        g.addColorStop(0.5,'hsl(180,100%,55%)');
+        g.addColorStop(0.67,'hsl(240,100%,55%)');
+        g.addColorStop(0.83,'hsl(300,100%,55%)');
+        g.addColorStop(1,'hsl(360,100%,55%)');
+        oc.fillStyle=g;oc.fillText(line,lx,y);gi+=[...line].length;
+      }
       else{
         let cx2=lx;
         [...line].forEach(ch=>{
           const cw2=oc.measureText(ch).width;
-          const col=state.gaming?gamingColor(gi,allCh.length):(state.charColors[gi]||state.fgColor);
+          const col=state.charColors[gi]||state.fgColor;
           oc.fillStyle=col;oc.fillText(ch,cx2,y);cx2+=cw2;gi++;
         });
       }
@@ -942,91 +976,3 @@ function resetAll(){
   if(!confirm(lang==='ja'?'設定をリセットしますか？':'Reset all settings?')) return;
   localStorage.removeItem(SAVE_KEY); location.reload();
 }
-
-// X share
-function updateXShare(){
-  const tw=lang==='ja'
-    ?'テキストから画像を無料で作成！登録不要 ✍️🖼️ #TextImg #テキスト画像'
-    :'Create images from text for free! No sign-up needed ✍️🖼️ #TextImg #TextToImage';
-  document.getElementById('xBtn').href=`https://twitter.com/intent/tweet?text=${encodeURIComponent(tw)}&url=${encodeURIComponent('https://textimg.net')}`;
-}
-
-// footer
-function toggleFooter(){
-  const b=document.getElementById('ftBody'), on=b.classList.toggle('on');
-  document.getElementById('ftArrow').textContent=on?'▼':'▶';
-}
-
-// autosave
-const SAVE_KEY='textimg_v4';
-let saveTimer=null;
-function saveState(){
-  clearTimeout(saveTimer);
-  saveTimer=setTimeout(()=>{
-    try{
-      localStorage.setItem(SAVE_KEY,JSON.stringify(state));
-      const el=document.getElementById('asi');
-      el.textContent=t('asiSaved');el.classList.add('ok');
-      setTimeout(()=>{el.textContent=t('asiIdle');el.classList.remove('ok');},2000);
-    }catch(e){}
-  },800);
-}
-function loadState(){
-  try{
-    const s=localStorage.getItem(SAVE_KEY); if(!s) return;
-    const sv=JSON.parse(s); Object.assign(state,sv);
-    document.getElementById('textInput').value=state.text;
-    document.getElementById('fontSize').value=state.fontSize;document.getElementById('fsVal').textContent=state.fontSize;
-    document.getElementById('lineHeight').value=state.lineHeight;document.getElementById('lhVal').textContent=state.lineHeight.toFixed(1);
-    document.getElementById('padding').value=state.padding;document.getElementById('padVal').textContent=state.padding;
-    document.getElementById('imgW').value=state.width;document.getElementById('imgH').value=state.height;
-    document.getElementById('posX').value=state.textX;document.getElementById('posY').value=state.textY;
-    document.getElementById('cpCheck').checked=state.customPos;
-    if(state.customPos) document.getElementById('pi').style.display='block';
-    document.getElementById('bgColor').value=state.bgColor;document.getElementById('bgHex').value=state.bgColor;document.getElementById('bgSw').style.background=state.bgColor;
-    document.getElementById('fgColor').value=state.fgColor;document.getElementById('fgHex').value=state.fgColor;document.getElementById('fgSw').style.background=state.fgColor;
-    document.getElementById('boldBtn').classList.toggle('on',state.bold);
-    document.getElementById('italicBtn').classList.toggle('on',state.italic);
-    document.querySelectorAll('[data-align]').forEach(b=>b.classList.toggle('on',b.dataset.align===state.align));
-    document.querySelectorAll('[data-valign]').forEach(b=>b.classList.toggle('on',b.dataset.valign===state.valign));
-    [['pixelCk','bPixel','pixel'],['outlineCk','bOutline','outline'],['shadowCk','bShadow','shadow'],
-     ['glitchCk','bGlitch','glitch'],['gradCk','bGrad','grad'],['neonCk','bNeon','neon']].forEach(([ck,bd,sk])=>{
-      if(state[sk]){
-        document.getElementById(ck).checked=true;
-        document.getElementById(bd).classList.add('on');
-        document.querySelector('#acc'+bd.replace('b','').replace(/^\w/,c=>c)+' .acc-h')?.classList.add('on');
-      }
-    });
-    document.getElementById('pixelSize').value=state.pixelSize;document.getElementById('psVal').textContent=state.pixelSize;
-    document.getElementById('outlineWidth').value=state.outlineWidth;document.getElementById('owVal').textContent=state.outlineWidth;
-    document.getElementById('olColor').value=state.outlineColor;document.getElementById('olHex').value=state.outlineColor;document.getElementById('olSw').style.background=state.outlineColor;
-    document.getElementById('shadowBlur').value=state.shadowBlur;document.getElementById('sbVal').textContent=state.shadowBlur;
-    document.getElementById('shadowX').value=state.shadowX;document.getElementById('shadowY').value=state.shadowY;
-    document.getElementById('shColor').value=state.shadowColor;document.getElementById('shHex').value=state.shadowColor;document.getElementById('shSw').style.background=state.shadowColor;
-    document.getElementById('glitchAmt').value=state.glitchAmt;document.getElementById('gaVal').textContent=state.glitchAmt;
-    document.getElementById('gc1').value=state.gradC1;document.getElementById('gc1Hex').value=state.gradC1;document.getElementById('gc1Sw').style.background=state.gradC1;
-    document.getElementById('gc2').value=state.gradC2;document.getElementById('gc2Hex').value=state.gradC2;document.getElementById('gc2Sw').style.background=state.gradC2;
-    document.getElementById('gradDir').value=state.gradDir;
-    document.getElementById('neonBlur').value=state.neonBlur;document.getElementById('nbVal').textContent=state.neonBlur;
-    document.getElementById('neColor').value=state.neonColor;document.getElementById('neHex').value=state.neonColor;document.getElementById('neSw').style.background=state.neonColor;
-    document.getElementById('dotSize').value=state.dotSize||16;document.getElementById('dsVal').textContent=state.dotSize||16;
-    document.getElementById('gridCk').checked=state.showGrid!==false;
-    document.getElementById('dotColor').value=state.dotColor||'#000000';document.getElementById('dotHex').value=state.dotColor||'#000000';document.getElementById('dotSw').style.background=state.dotColor||'#000000';
-    if(state.perChar){document.getElementById('pcCheck').checked=true;buildPCL();document.getElementById('pcPanel').style.display='block';}
-    if(state.gaming) document.getElementById('gmCheck').checked=true;
-  }catch(e){console.warn('loadState failed',e);}
-}
-
-// ===== init =====
-loadState();
-setMode(state.mode||'text');
-applyLang();
-render();
-setTimeout(()=>{
-  const r=previewArea.getBoundingClientRect();
-  zoom=clampZ(Math.min((r.width-80)/state.width,(r.height-80)/state.height,1));
-  applyTransform();
-},100);
-</script>
-</body>
-</html>
