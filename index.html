@@ -22,8 +22,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Serif+JP:wght@400;700&family=M+PLUS+Rounded+1c:wght@400;700&family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#0f0f0f;--panel:#1a1a1a;--border:#2e2e2e;--text:#e8e8e8;--muted:#888;--accent:#d4ff00;--radius:8px}
-[data-theme="light"]{--bg:#f0f0f0;--panel:#ffffff;--border:#ccc;--text:#111;--muted:#555;--accent:#5500dd;--radius:8px;--checker1:#d8d8d8;--checker2:#e8e8e8}
+:root{--bg:#0f0f0f;--panel:#1a1a1a;--border:#2e2e2e;--text:#e8e8e8;--muted:#888;--accent:#d4ff00;--radius:8px;--checker1:#1c1c1c;--checker2:#181818}
+[data-theme="light"],[data-theme="light"] *{--bg:#f0f0f0;--panel:#ffffff;--border:#ccc;--text:#111;--muted:#555;--accent:#5500dd;--checker1:#d8d8d8;--checker2:#e8e8e8}
+[data-theme="light"] body{background:#f0f0f0;color:#111}
 body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-serif;font-size:13px;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
 header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .header-left{display:flex;align-items:center;gap:12px}
@@ -32,7 +33,7 @@ header h1{font-family:'Dela Gothic One',cursive;font-size:18px;letter-spacing:.0
 .lang-btn:hover{border-color:var(--accent);color:var(--accent)}
 .main{display:flex;flex:1;overflow:hidden;min-height:0}
 .sidebar{width:280px;flex-shrink:0;border-right:1px solid var(--border);overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:20px}
-.preview-area{flex:1;overflow:hidden;position:relative;background:repeating-conic-gradient(var(--checker1,#1c1c1c) 0% 25%,var(--checker2,#181818) 0% 50%) 0 0/20px 20px;user-select:none;touch-action:none}
+.preview-area{flex:1;overflow:hidden;position:relative;background:repeating-conic-gradient(var(--checker1,#1c1c1c) 0% 25%,var(--checker2,#181818) 0% 50%) 0 0/20px 20px;transition:background .3s;user-select:none;touch-action:none}
 @media(max-width:600px){
   body{height:100dvh;overflow:hidden}
   .main{flex-direction:column;flex:1;overflow:hidden;min-height:0}
@@ -71,7 +72,7 @@ hr{border:none;border-top:1px solid var(--border)}
 .acc{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:4px}
 .acc-h{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;cursor:pointer;user-select:none;transition:background .15s}
 .acc-h:hover{background:var(--panel)}
-.acc-h.on{background:rgba(212,255,0,.08);border-bottom:1px solid var(--border)}
+.acc-h.on{background:rgba(128,128,128,.1);border-bottom:1px solid var(--border)}
 .acc-l{display:flex;align-items:center;gap:8px}
 .acc-l input[type="checkbox"]{width:auto;padding:0;accent-color:var(--accent);flex-shrink:0}
 .acc-t{font-size:12px;color:var(--text)}
@@ -83,13 +84,13 @@ hr{border:none;border-top:1px solid var(--border)}
 .asi.ok{color:var(--accent)}
 .cw{position:absolute;transform-origin:center center;box-shadow:0 8px 40px rgba(0,0,0,.6)}
 canvas{display:block;cursor:crosshair}
-.zh{position:absolute;bottom:12px;right:12px;display:flex;align-items:center;gap:8px;background:rgba(26,26,26,.92);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;font-family:'Courier New',monospace;color:var(--muted);backdrop-filter:blur(8px)}
+.zh{position:absolute;bottom:12px;right:12px;display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;font-family:'Courier New',monospace;color:var(--muted);backdrop-filter:blur(8px)}
 .zh button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;line-height:1;padding:0 2px}
 .zh button:hover{color:var(--accent)}
 #zoomLabel{color:var(--text);min-width:42px;text-align:center}
-.si{position:absolute;bottom:12px;left:12px;color:var(--muted);font-size:11px;font-family:'Courier New',monospace;background:rgba(26,26,26,.8);border:1px solid var(--border);border-radius:12px;padding:4px 10px}
-.pi{position:absolute;top:12px;right:12px;color:var(--muted);font-size:11px;font-family:'Courier New',monospace;background:rgba(26,26,26,.8);border:1px solid var(--border);border-radius:12px;padding:4px 10px;display:none}
-.hint{position:absolute;top:12px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--muted);background:rgba(26,26,26,.7);border:1px solid var(--border);border-radius:10px;padding:3px 10px;white-space:nowrap;pointer-events:none;transition:opacity 1s}
+.si{position:absolute;bottom:12px;left:12px;color:var(--muted);font-size:11px;font-family:'Courier New',monospace;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:4px 10px}
+.pi{position:absolute;top:12px;right:12px;color:var(--muted);font-size:11px;font-family:'Courier New',monospace;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:4px 10px;display:none}
+.hint{position:absolute;top:12px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:3px 10px;white-space:nowrap;pointer-events:none;transition:opacity 1s}
 .hint.hid{opacity:0}
 .rb{width:100%;background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px;border-radius:var(--radius);font-family:'Noto Sans JP',sans-serif;font-size:12px;cursor:pointer;transition:all .15s;margin-top:4px}
 .rb:hover{border-color:#f44;color:#f44}
@@ -99,7 +100,7 @@ canvas{display:block;cursor:crosshair}
 .dp{display:none;flex-direction:column;gap:8px}
 .dp.on{display:flex}
 .tp{display:flex;flex-direction:column;gap:20px}
-.dlm{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:1000;align-items:center;justify-content:center;padding:20px}
+.dlm{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;padding:20px}
 .dlm.on{display:flex}
 .dlmi{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:20px;max-width:340px;width:100%;text-align:center}
 .dlmi img{max-width:100%;border-radius:8px;margin-bottom:12px;border:1px solid var(--border)}
@@ -112,8 +113,8 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0}
 .ft-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin:16px 0 20px}
 .ft-item h3{font-size:11px;font-weight:700;color:var(--text);margin-bottom:6px}
 .ft-item p{font-size:11px;color:var(--muted);line-height:1.7}
-.xbtn{display:flex;align-items:center;gap:5px;background:#000;color:#fff;border:1px solid #333;padding:5px 12px;border-radius:20px;font-size:11px;text-decoration:none;transition:background .15s;white-space:nowrap}
-.xbtn:hover{background:#222}
+.xbtn{display:flex;align-items:center;gap:5px;background:var(--text);color:var(--bg);border:1px solid var(--border);padding:5px 12px;border-radius:20px;font-size:11px;text-decoration:none;transition:all .15s;white-space:nowrap}
+.xbtn:hover{opacity:.8}
 </style>
 </head>
 <body>
@@ -121,7 +122,7 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0}
   <div class="header-left"><h1>TextImg</h1><span id="hSub" style="color:var(--muted);font-size:11px">Text Image Generator</span></div>
   <div style="display:flex;align-items:center;gap:8px">
     <a id="xBtn" href="#" target="_blank" rel="noopener" class="xbtn">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.912-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.912-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       <span id="xLbl">Share on X</span>
     </a>
     <button class="lang-btn" id="themeBtn" onclick="toggleTheme()" style="font-size:14px">☀️</button>
@@ -546,28 +547,38 @@ function applyLang(){
   document.getElementById('langBtn').textContent = lang==='en' ? '日本語' : 'English';
   document.getElementById('textInput').placeholder = t('placeholder');
   document.getElementById('asi').textContent = t('asiIdle');
-  // font select
   const sel = document.getElementById('fontFamily');
   sel.innerHTML = FONTS.map(f=>`<option value="${f.v}"${f.v===state.fontFamily?' selected':''}>${f[lang]}</option>`).join('');
-  // theme
+  updateXShare();
+}
+document.getElementById('langBtn').addEventListener('click', ()=>{ lang=lang==='en'?'ja':'en'; applyLang(); });
+
+// ===== theme =====
 let theme='dark';
 function toggleTheme(){
   theme=theme==='dark'?'light':'dark';
-  document.documentElement.setAttribute('data-theme',theme==='dark'?'':theme);
+  document.documentElement.setAttribute('data-theme',theme==='light'?'light':'');
+  document.body.setAttribute('data-theme',theme==='light'?'light':'');
   document.getElementById('themeBtn').textContent=theme==='dark'?'☀️':'🌙';
   try{localStorage.setItem('textimg_theme',theme);}catch(e){}
 }
 function loadTheme(){
   try{
-    const t=localStorage.getItem('textimg_theme');
-    if(t&&t!=='dark'){theme=t;document.documentElement.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent='🌙';}
+    const saved=localStorage.getItem('textimg_theme');
+    if(saved==='light'){theme='light';document.documentElement.setAttribute('data-theme','light');
+    document.body.setAttribute('data-theme','light');
+    document.getElementById('themeBtn').textContent='🌙';}
   }catch(e){}
 }
 
-// X share
-  updateXShare();
+// ===== X share =====
+function updateXShare(){
+  const tw=lang==='ja'
+    ?'テキストから画像を無料で作成！登録不要 ✍️🖼️ #TextImg #テキスト画像'
+    :'Create images from text for free! No sign-up needed ✍️🖼️ #TextImg #TextToImage';
+  const btn=document.getElementById('xBtn');
+  if(btn) btn.href=`https://twitter.com/intent/tweet?text=${encodeURIComponent(tw)}&url=${encodeURIComponent('https://textimg.net')}`;
 }
-document.getElementById('langBtn').addEventListener('click', ()=>{ lang=lang==='en'?'ja':'en'; applyLang(); });
 
 // ===== zoom/pan =====
 const canvas = document.getElementById('canvas');
@@ -976,3 +987,19 @@ function resetAll(){
   if(!confirm(lang==='ja'?'設定をリセットしますか？':'Reset all settings?')) return;
   localStorage.removeItem(SAVE_KEY); location.reload();
 }
+
+// ===== init =====
+loadTheme();
+loadState();
+setMode(state.mode||'text');
+applyLang();
+render();
+setTimeout(()=>{
+  const r=previewArea.getBoundingClientRect();
+  zoom=clampZ(Math.min((r.width-80)/state.width,(r.height-80)/state.height,1));
+  applyTransform();
+},100);
+</script>
+
+</body>
+</html>
