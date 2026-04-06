@@ -109,13 +109,21 @@ canvas{display:block;cursor:crosshair}
 .dlmi img{max-width:100%;border-radius:8px;margin-bottom:12px;border:1px solid var(--border)}
 .dlmh{font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.6}
 .dlmc{background:var(--border);border:none;color:var(--text);padding:8px 24px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:12px}
-footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0}
-.ftt{width:100%;background:none;border:none;color:var(--muted);font-size:11px;padding:10px 24px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:6px;font-family:inherit}
-.ftb{display:none;padding:24px;max-width:900px}
-.ftb.on{display:block}
-.ftg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin:16px 0 20px}
-.fti h3{font-size:11px;font-weight:700;color:var(--text);margin-bottom:6px}
-.fti p{font-size:11px;color:var(--muted);line-height:1.7}
+/* About modal */
+.abm{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:2000;align-items:center;justify-content:center;padding:20px}
+.abm.on{display:flex}
+.abmi{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:560px;width:100%;max-height:80vh;overflow-y:auto}
+.abmi h2{font-family:'Dela Gothic One',cursive;color:var(--accent);font-size:18px;margin-bottom:10px}
+.abmi p{color:var(--muted);font-size:12px;line-height:1.8;margin-bottom:16px}
+.abmg{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:20px}
+.abmg .fti h3{font-size:11px;font-weight:700;color:var(--text);margin-bottom:6px}
+.abmg .fti p{font-size:11px;color:var(--muted);line-height:1.7;margin-bottom:0}
+.abmf{font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:12px}
+.abmf a{color:var(--muted);text-decoration:none}
+.abmc{display:block;margin:0 auto;background:var(--border);border:none;color:var(--text);padding:8px 32px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:12px}
+footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0;padding:8px 16px}
+.ftc{font-size:11px;color:var(--muted)}
+.ftc a{color:var(--muted);text-decoration:none}
 </style>
 </head>
 <body>
@@ -126,6 +134,7 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0}
       <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.912-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       <span id="xLbl">Share</span>
     </a>
+    <button class="lbtn" onclick="toggleAbout()" id="aboutBtn">About</button>
     <button class="lbtn" id="themeBtn" onclick="toggleTheme()">☀️</button>
     <button class="lbtn" id="langBtn" onclick="toggleLang()">日本語</button>
   </div>
@@ -304,13 +313,12 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0}
   </div>
 </div>
 
-<!-- Footer -->
-<footer>
-  <button class="ftt" onclick="toggleFt()"><span id="ftA">▶</span> <span id="ftL">About TextImg</span></button>
-  <div class="ftb" id="ftB">
-    <h2 style="font-family:'Dela Gothic One',cursive;color:var(--accent);font-size:18px;margin-bottom:10px">TextImg — Free Text Image Generator</h2>
-    <p id="ftD" style="color:var(--muted);font-size:12px;line-height:1.8;margin-bottom:16px">TextImg is a free online tool that lets you create custom images from text — no sign-up or installation required.</p>
-    <div class="ftg">
+<!-- About modal -->
+<div class="abm" id="abM" onclick="this.classList.remove('on')">
+  <div class="abmi" onclick="event.stopPropagation()">
+    <h2>TextImg — Free Text Image Generator</h2>
+    <p id="ftD">TextImg is a free online tool that lets you create custom images from text — no sign-up or installation required.</p>
+    <div class="abmg">
       <div class="fti"><h3 id="ftH1">✍️ Text &amp; Fonts</h3><p id="ftP1">Noto Sans JP, Noto Serif JP, M PLUS Rounded, Dela Gothic One, Zen Kaku Gothic New and more.</p></div>
       <div class="fti"><h3 id="ftH2">🎨 Effects</h3><p id="ftP2">Pixel Mode, Outline, Drop Shadow, Glitch, Gradient Text and Neon effects.</p></div>
       <div class="fti"><h3 id="ftH3">🖼️ Export</h3><p id="ftP3">Download as PNG, JPEG or WebP. OGP, Square, FHD and custom sizes up to 4000px.</p></div>
@@ -318,8 +326,15 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0}
       <div class="fti"><h3 id="ftH5">💾 Auto Save</h3><p id="ftP5">Settings saved to local storage and restored automatically on next visit.</p></div>
       <div class="fti"><h3 id="ftH6">📱 Mobile</h3><p id="ftP6">Smartphone friendly. Canvas at top, settings below for easy mobile use.</p></div>
     </div>
-    <p style="color:var(--muted);font-size:11px;border-top:1px solid var(--border);padding-top:12px">© 2026 TextImg · <a href="https://textimg.net" style="color:var(--muted);text-decoration:none">textimg.net</a></p>
+    <p class="abmf">© 2026 TextImg · <a href="https://textimg.net">textimg.net</a></p>
+    <br>
+    <button class="abmc" onclick="document.getElementById('abM').classList.remove('on')" id="bDC2">Close</button>
   </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <p class="ftc">© 2026 TextImg · <a href="https://textimg.net">textimg.net</a></p>
 </footer>
 
 <script>
@@ -344,10 +359,10 @@ const L={
     sDot:'Dot Mode',lDS:'Grid size',lGd:'Show grid',lDC:'Dot color',lDH:'Click=draw  Same cell=erase',bCD:'🗑 Clear dots',
     sDL:'Download',bSave:'⬇ Save',bRe:'↺ Reset all',
     asi:'Auto-save: idle',asiOk:'✓ Saved',
-    xLbl:'Share',
+    xLbl:'Share',aboutBtn:'About',
     ht:'Wheel=zoom  Drag=pan',placeholder:'Enter text here...',
-    dlMH:'Long press → Save to Photos',bDC:'Close',
-    ftL:'About TextImg',ftD:'TextImg is a free online tool that lets you create custom images from text — no sign-up or installation required.',
+    dlMH:'Long press → Save to Photos',bDC:'Close',bDC2:'Close',
+    ftD:'TextImg is a free online tool that lets you create custom images from text — no sign-up or installation required.',
     ftH1:'✍️ Text & Fonts',ftP1:'Noto Sans JP, Noto Serif JP, M PLUS Rounded, Dela Gothic One, Zen Kaku Gothic New and more.',
     ftH2:'🎨 Effects',ftP2:'Pixel Mode, Outline, Drop Shadow, Glitch, Gradient Text and Neon effects.',
     ftH3:'🖼️ Export',ftP3:'Download as PNG, JPEG or WebP. OGP, Square, FHD and custom sizes up to 4000px.',
@@ -374,10 +389,10 @@ const L={
     sDot:'ドットモード',lDS:'グリッドサイズ',lGd:'グリッド表示',lDC:'ドットの色',lDH:'クリック=描画  同じマス=消去',bCD:'🗑 クリア',
     sDL:'ダウンロード',bSave:'⬇ 保存',bRe:'↺ リセット',
     asi:'自動保存: 待機中',asiOk:'✓ 保存済み',
-    xLbl:'シェア',
+    xLbl:'シェア',aboutBtn:'About',
     ht:'ホイール=ズーム  ドラッグ=パン',placeholder:'テキストを入力...',
-    dlMH:'長押し → 写真に追加',bDC:'閉じる',
-    ftL:'TextImgについて',ftD:'登録不要・インストール不要で使える無料のテキスト画像ジェネレーターです。',
+    dlMH:'長押し → 写真に追加',bDC:'閉じる',bDC2:'閉じる',
+    ftD:'登録不要・インストール不要で使える無料のテキスト画像ジェネレーターです。',
     ftH1:'✍️ テキスト＆フォント',ftP1:'Noto Sans JP・Noto Serif JP・M PLUS Rounded・Dela Gothic One・Zen Kaku Gothic Newなど。',
     ftH2:'🎨 エフェクト',ftP2:'ピクセルモード・アウトライン・シャドウ・グリッチ・グラデーション・ネオン。',
     ftH3:'🖼️ エクスポート',ftP3:'PNG・JPEG・WebP形式でダウンロード。OGP・正方形・FHD・最大4000pxに対応。',
@@ -415,6 +430,9 @@ let state={
   c5W:600,c5X:0,c5Y:0,
 };
 let c5img=null;
+
+// ===== About modal =====
+function toggleAbout(){document.getElementById('abM').classList.toggle('on');}
 
 // ===== i18n =====
 function tl(k){return L[lang][k]||L.en[k]||k;}
@@ -746,7 +764,6 @@ function doDownload(){
 }
 
 function resetAll(){if(!confirm(lang==='ja'?'リセットしますか？':'Reset all?'))return;localStorage.removeItem(SAVE_KEY);location.reload();}
-function toggleFt(){const b=document.getElementById('ftB');const o=b.classList.toggle('on');document.getElementById('ftA').textContent=o?'▼':'▶';}
 
 // autosave
 const SAVE_KEY='ti_v6';
@@ -765,7 +782,10 @@ function saveState(){
 function loadState(){
   try{
     const s=localStorage.getItem(SAVE_KEY);if(!s)return;
-    const sv=JSON.parse(s);Object.assign(state,sv);
+    const sv=JSON.parse(s);
+    // mode は常に 'text' で上書き
+    delete sv.mode;
+    Object.assign(state,sv);
     document.getElementById('txtIn').value=state.text;
     document.getElementById('fontSize').value=state.fontSize;document.getElementById('fsV').textContent=state.fontSize;
     document.getElementById('lineH').value=state.lineH;document.getElementById('lhV').textContent=state.lineH.toFixed(1);
@@ -806,7 +826,7 @@ function loadState(){
 // ===== init =====
 loadTheme();
 loadState();
-setMode(state.mode||'text');
+setMode('text'); // 常にtextモードで起動
 applyLang();
 render();
 setTimeout(()=>{
