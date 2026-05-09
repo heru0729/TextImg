@@ -37,7 +37,6 @@ footer{background:#1a1a1a;border-top:1px solid #2e2e2e;padding:12px 24px;text-al
 footer p{font-size:11px;color:#888}
 footer a{color:#888;text-decoration:none}
 .en{display:block}.ja{display:none}
-body[data-lang=ja] .en{display:none}body[data-lang=ja] .ja{display:block}
 </style>
 </head>
 <body>
@@ -173,7 +172,8 @@ body[data-lang=ja] .en{display:none}body[data-lang=ja] .ja{display:block}
 </footer>
 <script>
 function setLang(l){
-  document.body.setAttribute('data-lang',l);
+  document.querySelector('.en').style.display = l==='en' ? 'block' : 'none';
+  document.querySelector('.ja').style.display = l==='ja' ? 'block' : 'none';
   document.querySelectorAll('.lang-toggle button').forEach((b,i)=>b.classList.toggle('on',(l==='en'&&i===0)||(l==='ja'&&i===1)));
   document.documentElement.lang=l;
   try{localStorage.setItem('ti_lang',l);}catch(e){}
