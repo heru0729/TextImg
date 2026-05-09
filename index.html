@@ -460,7 +460,8 @@ function applyLang(){
   const tw=lang==='ja'?'テキストから画像を無料で作成！登録不要 ✍️🖼️ #TextImg #テキスト画像':'Create images from text for free! No sign-up needed ✍️🖼️ #TextImg #TextToImage';
   document.getElementById('xBtn').href=`https://twitter.com/intent/tweet?text=${encodeURIComponent(tw)}&url=${encodeURIComponent('https://textimg.net')}`;
 }
-function toggleLang(){lang=lang==='en'?'ja':'en';applyLang();}
+function toggleLang(){lang=lang==='en'?'ja':'en';try{localStorage.setItem('ti_lang',lang);}catch(e){}applyLang();}
+function loadLang(){try{const l=localStorage.getItem('ti_lang');if(l)lang=l;}catch(e){}}
 
 // ===== theme =====
 function applyTheme(){
@@ -844,6 +845,7 @@ function loadState(){
 
 // ===== init =====
 loadTheme();
+loadLang();
 loadState();
 setMode('text');
 applyLang();
