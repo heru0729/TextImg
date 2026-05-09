@@ -57,7 +57,7 @@ body.ja .en{display:none}body.ja .ja{display:block}
   <!-- English -->
   <div class="en">
     <h2>Privacy Policy</h2>
-    <p class="updated">Last updated: January 1, 2026</p>
+    <p class="updated">Last updated: May 9, 2026</p>
 
     <section>
       <h3>1. Overview</h3>
@@ -101,17 +101,12 @@ body.ja .en{display:none}body.ja .ja{display:block}
     </section>
 
     <section>
-      <h3>7. Children's Privacy</h3>
-      <p>TextImg is not directed at children under the age of 13. We do not knowingly collect personal information from children.</p>
-    </section>
-
-    <section>
-      <h3>8. Changes to This Policy</h3>
+      <h3>7. Changes to This Policy</h3>
       <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated date.</p>
     </section>
 
     <section>
-      <h3>9. Contact</h3>
+      <h3>8. Contact</h3>
       <p>If you have questions about this Privacy Policy, please contact us at: <a href="mailto:textimgnet@gmail.com">textimgnet@gmail.com</a></p>
     </section>
   </div>
@@ -119,7 +114,7 @@ body.ja .en{display:none}body.ja .ja{display:block}
   <!-- Japanese -->
   <div class="ja">
     <h2>プライバシーポリシー</h2>
-    <p class="updated">最終更新日：2026年1月1日</p>
+    <p class="updated">最終更新日：2026年5月9日</p>
 
     <section>
       <h3>1. 概要</h3>
@@ -163,17 +158,12 @@ body.ja .en{display:none}body.ja .ja{display:block}
     </section>
 
     <section>
-      <h3>7. 児童のプライバシー</h3>
-      <p>本サービスは13歳未満の方を対象としていません。13歳未満の方から意図的に個人情報を収集することはありません。</p>
-    </section>
-
-    <section>
-      <h3>8. ポリシーの変更</h3>
+      <h3>7. ポリシーの変更</h3>
       <p>本プライバシーポリシーは予告なく変更される場合があります。変更後のポリシーは本ページに掲載し、更新日を変更します。</p>
     </section>
 
     <section>
-      <h3>9. お問い合わせ</h3>
+      <h3>8. お問い合わせ</h3>
       <p>本プライバシーポリシーに関するお問い合わせは、<a href="mailto:textimgnet@gmail.com">textimgnet@gmail.com</a> までご連絡ください。</p>
     </section>
   </div>
@@ -186,7 +176,13 @@ function setLang(l){
   document.body.className=l;
   document.querySelectorAll('.lang-toggle button').forEach((b,i)=>b.classList.toggle('on',(l==='en'&&i===0)||(l==='ja'&&i===1)));
   document.documentElement.lang=l;
+  try{localStorage.setItem('ti_lang',l);}catch(e){}
 }
+(function(){
+  var l='en';
+  try{l=localStorage.getItem('ti_lang')||'en';}catch(e){}
+  setLang(l);
+})();
 </script>
 </body>
 </html>
