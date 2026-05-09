@@ -22,10 +22,8 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{height:100%}
 body{height:100%;display:flex;flex-direction:column;font-family:'Noto Sans JP',sans-serif;font-size:13px}
-/* ダーク（デフォルト） */
 body{background:#0f0f0f;color:#e8e8e8}
 body.light{background:#f0f0f0;color:#111}
-/* CSS変数 */
 body{--bg:#0f0f0f;--panel:#1a1a1a;--border:#2e2e2e;--text:#e8e8e8;--muted:#888;--accent:#d4ff00;--r:8px;--ck1:#1c1c1c;--ck2:#181818}
 body.light{--bg:#f0f0f0;--panel:#fff;--border:#ccc;--text:#111;--muted:#555;--accent:#5500dd;--ck1:#ddd;--ck2:#eee}
 header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:var(--bg)}
@@ -121,9 +119,13 @@ canvas{display:block;cursor:crosshair}
 .abmf{font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:12px}
 .abmf a{color:var(--muted);text-decoration:none}
 .abmc{display:block;margin:0 auto;background:var(--border);border:none;color:var(--text);padding:8px 32px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:12px}
-footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0;padding:8px 16px}
+footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px}
 .ftc{font-size:11px;color:var(--muted)}
 .ftc a{color:var(--muted);text-decoration:none}
+.ftc a:hover{color:var(--accent)}
+.ftlinks{display:flex;gap:12px}
+.ftlinks a{font-size:11px;color:var(--muted);text-decoration:none}
+.ftlinks a:hover{color:var(--accent)}
 </style>
 </head>
 <body>
@@ -142,7 +144,7 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0;
 <div class="main">
   <aside class="sb">
     <div class="mt">
-      <button class="mb on" id="mText" onclick="setMode('text')" >Text</button>
+      <button class="mb on" id="mText" onclick="setMode('text')">Text</button>
       <button class="mb" id="m5000" onclick="setMode('5000')">5000</button>
       <button class="mb" id="mDot" onclick="setMode('dot')">Dot</button>
     </div>
@@ -169,6 +171,8 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0;
         <div style="margin-top:8px" class="fg">
           <button class="fb" id="boldBtn" onclick="toggleBold()"><b>B</b></button>
           <button class="fb" id="itaBtn" onclick="toggleItalic()"><i>I</i></button>
+          <button class="fb" id="flipHBtn" onclick="toggleFlipH()" title="Flip Horizontal">↔</button>
+          <button class="fb" id="flipVBtn" onclick="toggleFlipV()" title="Flip Vertical">↕</button>
         </div>
       </div>
       <div>
@@ -335,6 +339,11 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0;
 <!-- Footer -->
 <footer>
   <p class="ftc">© 2026 TextImg · <a href="https://textimg.net">textimg.net</a></p>
+  <div class="ftlinks">
+    <a href="/privacy.html" id="ftPrivacy">Privacy Policy</a>
+    <a href="/terms.html" id="ftTerms">Terms of Use</a>
+    <a href="mailto:textimgnet@gmail.com" id="ftContact">Contact</a>
+  </div>
 </footer>
 
 <script>
@@ -369,6 +378,7 @@ const L={
     ftH4:'🎮 Dot Mode',ftP4:'Draw pixel art on the canvas. Adjustable grid, click to draw, click again to erase.',
     ftH5:'💾 Auto Save',ftP5:'Settings saved to local storage and restored automatically on next visit.',
     ftH6:'📱 Mobile',ftP6:'Smartphone friendly. Canvas at top, settings below for easy mobile use.',
+    ftPrivacy:'Privacy Policy',ftTerms:'Terms of Use',ftContact:'Contact',
   },
   ja:{
     hSub:'テキスト画像ジェネレーター',mText:'テキスト',m5000:'5000',mDot:'ドット',
@@ -399,6 +409,7 @@ const L={
     ftH4:'🎮 ドットモード',ftP4:'キャンバスに直接ピクセルアートを描けます。',
     ftH5:'💾 自動保存',ftP5:'設定はローカルストレージに自動保存されます。',
     ftH6:'📱 スマホ対応',ftP6:'キャンバスが上・設定が下のスマホ対応レイアウト。',
+    ftPrivacy:'プライバシーポリシー',ftTerms:'利用規約',ftContact:'お問い合わせ',
   }
 };
 const FONTS=[
@@ -416,6 +427,7 @@ let lang='en', theme='dark';
 let state={
   mode:'text',
   text:'',font:FONTS[0].v,fontSize:64,lineH:1.4,bold:false,italic:false,
+  flipH:false,flipV:false,
   align:'left',valign:'top',customPos:false,textX:40,textY:40,
   bgCol:'#ffffff',fgCol:'#000000',
   perChar:false,gaming:false,charColors:{},
@@ -445,7 +457,6 @@ function applyLang(){
   document.getElementById('ht').textContent=tl('ht');
   const sel=document.getElementById('fontSel');
   sel.innerHTML=FONTS.map(f=>`<option value="${f.v}"${f.v===state.font?' selected':''}>${f[lang]}</option>`).join('');
-  // X share URL
   const tw=lang==='ja'?'テキストから画像を無料で作成！登録不要 ✍️🖼️ #TextImg #テキスト画像':'Create images from text for free! No sign-up needed ✍️🖼️ #TextImg #TextToImage';
   document.getElementById('xBtn').href=`https://twitter.com/intent/tweet?text=${encodeURIComponent(tw)}&url=${encodeURIComponent('https://textimg.net')}`;
 }
@@ -566,6 +577,12 @@ function render(){
     const lines=state.text.split('\n'),lh=state.fontSize*state.lineH,pad=state.padding,th=lines.length*lh;
     const sy=state.customPos?state.textY:state.valign==='top'?pad:state.valign==='middle'?(H-th)/2:H-pad-th;
     let gi=0;
+
+    // flip用にテキスト描画を別canvasに
+    const txt=document.createElement('canvas');txt.width=W;txt.height=H;
+    const tc=txt.getContext('2d');
+    tc.font=fstr;tc.textBaseline='top';
+
     lines.forEach((line,li)=>{
       const lw=oc.measureText(line).width;
       const lx=state.customPos?state.textX:state.align==='left'?pad:state.align==='center'?(W-lw)/2:W-pad-lw;
@@ -573,26 +590,36 @@ function render(){
       let fill=state.fgCol;
       if(state.grad&&!state.perChar&&!state.gaming){
         let g;
-        if(state.gradDir==='h')g=oc.createLinearGradient(lx,y,lx+lw,y);
-        else if(state.gradDir==='v')g=oc.createLinearGradient(lx,y,lx,y+th);
-        else g=oc.createLinearGradient(lx,y,lx+lw,y+th);
+        if(state.gradDir==='h')g=tc.createLinearGradient(lx,y,lx+lw,y);
+        else if(state.gradDir==='v')g=tc.createLinearGradient(lx,y,lx,y+th);
+        else g=tc.createLinearGradient(lx,y,lx+lw,y+th);
         g.addColorStop(0,state.g1);g.addColorStop(1,state.g2);fill=g;
       }
-      if(state.neon){oc.save();oc.shadowColor=state.neCol;oc.shadowBlur=state.neBlur;oc.fillStyle=state.neCol;oc.fillText(line,lx,y);oc.shadowBlur=state.neBlur*.5;oc.fillText(line,lx,y);oc.restore();}
-      if(state.shadow){oc.shadowColor=state.shCol;oc.shadowBlur=state.shBlur;oc.shadowOffsetX=state.shX;oc.shadowOffsetY=state.shY;}
-      else{oc.shadowColor='transparent';oc.shadowBlur=0;oc.shadowOffsetX=0;oc.shadowOffsetY=0;}
-      if(state.outline){oc.strokeStyle=state.olCol;oc.lineWidth=state.olW*2;oc.lineJoin='round';oc.strokeText(line,lx,y);}
-      oc.shadowColor='transparent';oc.shadowBlur=0;oc.shadowOffsetX=0;oc.shadowOffsetY=0;
-      if(!state.perChar&&!state.gaming){oc.fillStyle=fill;oc.fillText(line,lx,y);gi+=[...line].length;}
+      if(state.neon){tc.save();tc.shadowColor=state.neCol;tc.shadowBlur=state.neBlur;tc.fillStyle=state.neCol;tc.fillText(line,lx,y);tc.shadowBlur=state.neBlur*.5;tc.fillText(line,lx,y);tc.restore();}
+      if(state.shadow){tc.shadowColor=state.shCol;tc.shadowBlur=state.shBlur;tc.shadowOffsetX=state.shX;tc.shadowOffsetY=state.shY;}
+      else{tc.shadowColor='transparent';tc.shadowBlur=0;tc.shadowOffsetX=0;tc.shadowOffsetY=0;}
+      if(state.outline){tc.strokeStyle=state.olCol;tc.lineWidth=state.olW*2;tc.lineJoin='round';tc.strokeText(line,lx,y);}
+      tc.shadowColor='transparent';tc.shadowBlur=0;tc.shadowOffsetX=0;tc.shadowOffsetY=0;
+      if(!state.perChar&&!state.gaming){tc.fillStyle=fill;tc.fillText(line,lx,y);gi+=[...line].length;}
       else if(state.gaming){
-        const g=oc.createLinearGradient(lx,y,lx+lw,y);
+        const g=tc.createLinearGradient(lx,y,lx+lw,y);
         ['0,100%,55%','60,100%,55%','120,100%,55%','180,100%,55%','240,100%,55%','300,100%,55%','360,100%,55%'].forEach((c,i)=>g.addColorStop(i/6,`hsl(${c})`));
-        oc.fillStyle=g;oc.fillText(line,lx,y);gi+=[...line].length;
+        tc.fillStyle=g;tc.fillText(line,lx,y);gi+=[...line].length;
       }else{
         let cx2=lx;
-        [...line].forEach(ch=>{const cw2=oc.measureText(ch).width;oc.fillStyle=state.charColors[gi]||state.fgCol;oc.fillText(ch,cx2,y);cx2+=cw2;gi++;});
+        [...line].forEach(ch=>{const cw2=tc.measureText(ch).width;tc.fillStyle=state.charColors[gi]||state.fgCol;tc.fillText(ch,cx2,y);cx2+=cw2;gi++;});
       }
     });
+
+    // flip適用してoffに合成
+    oc.save();
+    if(state.flipH||state.flipV){
+      oc.translate(state.flipH?W:0, state.flipV?H:0);
+      oc.scale(state.flipH?-1:1, state.flipV?-1:1);
+    }
+    oc.drawImage(txt,0,0);
+    oc.restore();
+
     if(state.glitch){
       const amt=state.glAmt;
       for(let i=0;i<8;i++){const sy2=Math.random()*H,sh2=Math.random()*30+5,sx2=Math.random()*amt*2-amt;const id=oc.getImageData(0,sy2,W,sh2);oc.putImageData(id,sx2,sy2);}
@@ -609,7 +636,6 @@ function render(){
     ctx.imageSmoothingEnabled=false;ctx.drawImage(sm,0,0,W,H);
   }else{ctx.drawImage(off,0,0);}
 
-  // dot overlay
   if(state.mode==='dot'){
     const gs=state.dotSz;
     if(state.showGrid){
@@ -620,7 +646,6 @@ function render(){
     Object.entries(state.dots).forEach(([k,col])=>{const[gx,gy]=k.split(',').map(Number);ctx.fillStyle=col;ctx.fillRect(gx*gs,gy*gs,gs,gs);});
   }
 
-  // 5000 overlay
   if(state.mode==='5000'&&c5img){
     try{ctx.drawImage(c5img,state.c5X,state.c5Y,state.c5W,Math.round(c5img.naturalHeight*(state.c5W/c5img.naturalWidth)));}catch(e){}
   }
@@ -683,6 +708,8 @@ function setAlign(a){state.align=a;document.querySelectorAll('[data-align]').for
 function setVAlign(v){state.valign=v;document.querySelectorAll('[data-valign]').forEach(b=>b.classList.toggle('on',b.dataset.valign===v));re();}
 function toggleBold(){state.bold=!state.bold;document.getElementById('boldBtn').classList.toggle('on',state.bold);re();}
 function toggleItalic(){state.italic=!state.italic;document.getElementById('itaBtn').classList.toggle('on',state.italic);re();}
+function toggleFlipH(){state.flipH=!state.flipH;document.getElementById('flipHBtn').classList.toggle('on',state.flipH);re();}
+function toggleFlipV(){state.flipV=!state.flipV;document.getElementById('flipVBtn').classList.toggle('on',state.flipV);re();}
 function setPreset(w,h){state.width=w;state.height=h;document.getElementById('imgW').value=w;document.getElementById('imgH').value=h;re();}
 
 document.getElementById('pcCk').addEventListener('change',e=>{
@@ -710,12 +737,10 @@ function buildPCL(){
   state.charColors=nc;
 }
 
-// dot
 document.getElementById('dotSz').addEventListener('input',e=>{state.dotSz=+e.target.value;document.getElementById('dsV').textContent=e.target.value;render();});
 document.getElementById('gridCk').addEventListener('change',e=>{state.showGrid=e.target.checked;render();});
 function clearDots(){state.dots={};render();saveState();}
 
-// mode
 function setMode(m){
   state.mode=m;
   ['mText','m5000','mDot'].forEach(id=>document.getElementById(id).classList.remove('on'));
@@ -729,7 +754,6 @@ function setMode(m){
   render();
 }
 
-// 5000
 document.getElementById('c5Sz').addEventListener('input',e=>{state.c5W=+e.target.value;document.getElementById('c5SzV').textContent=e.target.value;render();});
 document.getElementById('c5X').addEventListener('input',e=>{state.c5X=+e.target.value;document.getElementById('c5XV').textContent=e.target.value;render();});
 document.getElementById('c5Y').addEventListener('input',e=>{state.c5Y=+e.target.value;document.getElementById('c5YV').textContent=e.target.value;render();});
@@ -742,16 +766,11 @@ function gen5k(){
   if(bot)url+=`&bottom=${encodeURIComponent(bot)}`;
   if(rain)url+='&rainbow=true';
   const img=document.getElementById('c5Img');
-  img.onload=()=>{
-    c5img=img;
-    document.getElementById('c5Pr').style.display='block';
-    render();
-  };
+  img.onload=()=>{c5img=img;document.getElementById('c5Pr').style.display='block';render();};
   img.onerror=()=>alert(lang==='ja'?'生成に失敗しました':'Generation failed');
   img.src=url;
 }
 
-// download
 function doDownload(){
   const fmt=document.getElementById('dlFmt').value;
   const mime=fmt==='jpeg'?'image/jpeg':fmt==='webp'?'image/webp':'image/png';
@@ -765,7 +784,6 @@ function doDownload(){
 
 function resetAll(){if(!confirm(lang==='ja'?'リセットしますか？':'Reset all?'))return;localStorage.removeItem(SAVE_KEY);location.reload();}
 
-// autosave
 const SAVE_KEY='ti_v6';
 let saveTimer=null;
 function saveState(){
@@ -783,7 +801,6 @@ function loadState(){
   try{
     const s=localStorage.getItem(SAVE_KEY);if(!s)return;
     const sv=JSON.parse(s);
-    // mode は常に 'text' で上書き
     delete sv.mode;
     Object.assign(state,sv);
     document.getElementById('txtIn').value=state.text;
@@ -801,6 +818,8 @@ function loadState(){
     });
     document.getElementById('boldBtn').classList.toggle('on',state.bold);
     document.getElementById('itaBtn').classList.toggle('on',state.italic);
+    document.getElementById('flipHBtn').classList.toggle('on',state.flipH||false);
+    document.getElementById('flipVBtn').classList.toggle('on',state.flipV||false);
     document.querySelectorAll('[data-align]').forEach(b=>b.classList.toggle('on',b.dataset.align===state.align));
     document.querySelectorAll('[data-valign]').forEach(b=>b.classList.toggle('on',b.dataset.valign===state.valign));
     [['pixCk','bPixel','pixel'],['olCk','bOutline','outline'],['shCk','bShadow','shadow'],['glCk','bGlitch','glitch'],['grCk','bGrad','grad'],['neCk','bNeon','neon']].forEach(([ck,bd,sk])=>{
@@ -826,7 +845,7 @@ function loadState(){
 // ===== init =====
 loadTheme();
 loadState();
-setMode('text'); // 常にtextモードで起動
+setMode('text');
 applyLang();
 render();
 setTimeout(()=>{
