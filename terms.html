@@ -56,7 +56,7 @@ body.ja .en{display:none}body.ja .ja{display:block}
   <!-- English -->
   <div class="en">
     <h2>Terms of Use</h2>
-    <p class="updated">Last updated: January 1, 2026</p>
+    <p class="updated">Last updated: May 9, 2026</p>
 
     <section>
       <h3>1. Acceptance of Terms</h3>
@@ -122,7 +122,7 @@ body.ja .en{display:none}body.ja .ja{display:block}
   <!-- Japanese -->
   <div class="ja">
     <h2>利用規約</h2>
-    <p class="updated">最終更新日：2026年1月1日</p>
+    <p class="updated">最終更新日：2026年5月9日</p>
 
     <section>
       <h3>1. 規約への同意</h3>
@@ -193,7 +193,13 @@ function setLang(l){
   document.body.className=l;
   document.querySelectorAll('.lang-toggle button').forEach((b,i)=>b.classList.toggle('on',(l==='en'&&i===0)||(l==='ja'&&i===1)));
   document.documentElement.lang=l;
+  try{localStorage.setItem('ti_lang',l);}catch(e){}
 }
+(function(){
+  var l='en';
+  try{l=localStorage.getItem('ti_lang')||'en';}catch(e){}
+  setLang(l);
+})();
 </script>
 </body>
 </html>
