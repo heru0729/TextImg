@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Use TextImg — Free Text Image Generator Guide</title>
+<meta name="description" content="Complete guide on how to use TextImg. Learn how to create text images with custom fonts, colors, effects, and more. Free, no sign-up required.">
+<link rel="canonical" href="https://textimg.net/use.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://textimg.net/use.html">
+<meta property="og:title" content="How to Use TextImg — Free Text Image Generator Guide">
+<meta property="og:description" content="Complete guide on how to use TextImg. Learn how to create text images with custom fonts, colors, effects, and more.">
+<meta property="og:image" content="https://textimg.net/ogp.png">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6CG10ZPVW3"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-6CG10ZPVW3');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9619368699008291" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Dela+Gothic+One&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans JP',sans-serif;font-size:14px;background:#0f0f0f;color:#e8e8e8;min-height:100vh;display:flex;flex-direction:column;line-height:1.8}
+header{padding:14px 24px;border-bottom:1px solid #2e2e2e;display:flex;align-items:center;justify-content:space-between;background:#0f0f0f;position:sticky;top:0;z-index:100}
+header a.logo{color:#d4ff00;text-decoration:none;font-family:'Dela Gothic One',cursive;font-size:18px}
+nav{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+nav a{color:#888;font-size:12px;text-decoration:none;transition:color .15s}
+nav a:hover{color:#d4ff00}
+.lang-toggle{display:flex;gap:6px}
+.lang-toggle button{background:#1a1a1a;border:1px solid #2e2e2e;color:#888;padding:3px 12px;border-radius:20px;font-size:11px;cursor:pointer;font-family:inherit;transition:all .15s}
+.lang-toggle button.on{border-color:#d4ff00;color:#d4ff00}
+.hero{background:linear-gradient(135deg,#1a1a1a 0%,#0f0f0f 100%);border-bottom:1px solid #2e2e2e;padding:48px 24px 40px;text-align:center}
+.hero h1{font-family:'Dela Gothic One',cursive;font-size:clamp(24px,5vw,40px);color:#d4ff00;margin-bottom:12px;line-height:1.2}
+.hero p{color:#aaa;font-size:14px;max-width:600px;margin:0 auto 24px;line-height:1.8}
+.hero-cta{display:inline-block;background:#d4ff00;color:#000;font-weight:700;padding:12px 32px;border-radius:24px;text-decoration:none;font-size:14px;transition:opacity .15s}
+.hero-cta:hover{opacity:.85}
+.wrap{max-width:860px;margin:0 auto;padding:48px 24px;flex:1}
+.toc{background:#1a1a1a;border:1px solid #2e2e2e;border-radius:10px;padding:20px 24px;margin-bottom:48px}
+.toc h2{font-size:12px;font-weight:700;color:#888;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+.toc ol{padding-left:20px}
+.toc li{margin-bottom:6px}
+.toc a{color:#aaa;font-size:13px;text-decoration:none;transition:color .15s}
+.toc a:hover{color:#d4ff00}
+.section{margin-bottom:56px}
+.section h2{font-family:'Dela Gothic One',cursive;font-size:20px;color:#d4ff00;margin-bottom:6px;padding-bottom:10px;border-bottom:1px solid #2e2e2e}
+.section .subtitle{font-size:12px;color:#888;margin-bottom:20px}
+.section h3{font-size:14px;font-weight:700;color:#e8e8e8;margin:24px 0 8px;padding-left:10px;border-left:3px solid #d4ff00}
+.section p{color:#aaa;font-size:13px;line-height:1.9;margin-bottom:12px}
+.section ul,.section ol{color:#aaa;font-size:13px;line-height:1.9;padding-left:22px;margin-bottom:12px}
+.section li{margin-bottom:6px}
+.tip{background:#1a1a1a;border:1px solid #2e2e2e;border-left:3px solid #d4ff00;border-radius:0 8px 8px 0;padding:12px 16px;margin:16px 0;font-size:13px;color:#aaa}
+.tip strong{color:#d4ff00}
+.badge{display:inline-block;background:#2a2a2a;border:1px solid #3a3a3a;color:#aaa;font-size:11px;padding:2px 8px;border-radius:4px;margin:0 2px;font-family:'Courier New',monospace}
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:20px 0}
+.feature-card{background:#1a1a1a;border:1px solid #2e2e2e;border-radius:10px;padding:16px}
+.feature-card h4{font-size:13px;font-weight:700;color:#e8e8e8;margin-bottom:6px}
+.feature-card p{font-size:12px;color:#888;line-height:1.7;margin:0}
+.steps{counter-reset:step;list-style:none;padding:0;margin:16px 0}
+.steps li{counter-increment:step;display:flex;gap:14px;margin-bottom:16px;align-items:flex-start}
+.steps li::before{content:counter(step);background:#d4ff00;color:#000;font-weight:700;font-size:12px;min-width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.steps li p{color:#aaa;font-size:13px;line-height:1.8;margin:0}
+.steps li strong{color:#e8e8e8}
+.faq{margin-top:20px}
+.faq-item{border:1px solid #2e2e2e;border-radius:8px;margin-bottom:10px;overflow:hidden}
+.faq-q{padding:14px 16px;font-size:13px;font-weight:700;color:#e8e8e8;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:#1a1a1a;user-select:none}
+.faq-q:hover{background:#222}
+.faq-q span{color:#888;font-size:11px;transition:transform .2s}
+.faq-item.open .faq-q span{transform:rotate(180deg)}
+.faq-a{display:none;padding:14px 16px;font-size:13px;color:#aaa;line-height:1.9;border-top:1px solid #2e2e2e}
+.faq-item.open .faq-a{display:block}
+.use-cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:16px 0}
+.use-case{background:#1a1a1a;border:1px solid #2e2e2e;border-radius:8px;padding:14px;text-align:center}
+.use-case .icon{font-size:24px;margin-bottom:8px}
+.use-case h4{font-size:12px;font-weight:700;color:#e8e8e8;margin-bottom:4px}
+.use-case p{font-size:11px;color:#888;line-height:1.6;margin:0}
+a{color:#d4ff00;text-decoration:none}
+a:hover{text-decoration:underline}
+footer{background:#1a1a1a;border-top:1px solid #2e2e2e;padding:12px 24px;text-align:center}
+footer p{font-size:11px;color:#888}
+footer a{color:#888}
+.en{display:block}.ja{display:none}
+@media(max-width:600px){.hero{padding:32px 16px 28px}.wrap{padding:32px 16px}}
+</style>
+</head>
+<body>
+<header>
+  <a href="/" class="logo">TextImg</a>
+  <nav>
+    <a href="/">← App</a>
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <div class="lang-toggle">
+      <button class="on" onclick="setLang('en')">EN</button>
+      <button onclick="setLang('ja')">JA</button>
+    </div>
+  </nav>
+</header>
+
+<!-- ===== ENGLISH ===== -->
+<div class="en">
+<div class="hero">
+  <h1>How to Use TextImg</h1>
+  <p>TextImg is a free, browser-based tool for creating custom text images. No account, no installation, no watermark. This guide covers every feature in detail so you can get the most out of it.</p>
+  <a href="/" class="hero-cta">Open TextImg →</a>
+</div>
+<div class="wrap">
+
+  <nav class="toc" aria-label="Table of contents">
+    <h2>Table of Contents</h2>
+    <ol>
+      <li><a href="#en-start">Getting Started</a></li>
+      <li><a href="#en-text">Text Mode</a></li>
+      <li><a href="#en-font">Font &amp; Style</a></li>
+      <li><a href="#en-color">Color Settings</a></li>
+      <li><a href="#en-effects">Effects</a></li>
+      <li><a href="#en-size">Image Size &amp; Padding</a></li>
+      <li><a href="#en-5000">5000 Choyen Mode</a></li>
+      <li><a href="#en-dot">Dot Mode</a></li>
+      <li><a href="#en-export">Saving &amp; Exporting</a></li>
+      <li><a href="#en-usecases">Use Cases</a></li>
+      <li><a href="#en-faq">FAQ</a></li>
+    </ol>
+  </nav>
+
+  <section class="section" id="en-start">
+    <h2>1. Getting Started</h2>
+    <p class="subtitle">No sign-up, no installation required</p>
+    <p>TextImg runs entirely in your browser. Simply visit <a href="https://textimg.net">textimg.net</a> and start creating immediately. Your settings are automatically saved to your browser's local storage, so your work is preserved even if you close the tab.</p>
+    <p>The interface is divided into two main areas: the <strong>sidebar</strong> on the left where you configure all settings, and the <strong>canvas preview</strong> on the right where you can see your image in real time.</p>
+    <h3>Choosing a Mode</h3>
+    <p>At the top of the sidebar, you'll find three mode buttons:</p>
+    <ul>
+      <li><span class="badge">Text</span> — The main mode. Type text and customize its appearance.</li>
+      <li><span class="badge">5000</span> — Generate images in the "5000 Choyen" meme style.</li>
+      <li><span class="badge">Dot</span> — Draw pixel art directly on the canvas.</li>
+    </ul>
+    <p>TextImg always opens in Text mode, regardless of the last mode you used.</p>
+    <h3>Navigating the Canvas</h3>
+    <p>The preview canvas supports zoom and pan:</p>
+    <ul>
+      <li><strong>Zoom:</strong> Scroll the mouse wheel over the canvas, or use the <span class="badge">−</span> / <span class="badge">＋</span> buttons at the bottom right.</li>
+      <li><strong>Pan:</strong> Click and drag on the canvas background.</li>
+      <li><strong>Reset view:</strong> Click the <span class="badge">⌖</span> button to return to center at 100%.</li>
+      <li><strong>Mobile:</strong> Pinch to zoom, one-finger drag to pan.</li>
+    </ul>
+  </section>
+
+  <section class="section" id="en-text">
+    <h2>2. Text Mode</h2>
+    <p class="subtitle">The core feature of TextImg</p>
+    <p>In Text mode, type anything into the input field and it appears on the canvas instantly. You can enter multiple lines by pressing Enter.</p>
+    <h3>Text Input</h3>
+    <p>The text input area supports multi-line text. Each line is rendered separately on the canvas. There is no character limit enforced by the app, but very long texts may extend beyond the canvas boundaries — adjust the font size or image dimensions accordingly.</p>
+    <h3>Alignment</h3>
+    <p>You can control how text is positioned on the canvas:</p>
+    <ul>
+      <li><strong>Horizontal alignment:</strong> Left, Center, or Right.</li>
+      <li><strong>Vertical alignment:</strong> Top, Middle, or Bottom.</li>
+    </ul>
+    <h3>Custom Position &amp; Drag</h3>
+    <p>For precise control, enable <strong>Custom position</strong> by checking the "Enable drag" checkbox. You can then:</p>
+    <ul>
+      <li>Enter exact X and Y pixel coordinates in the input fields.</li>
+      <li>Click and drag the text directly on the canvas to reposition it freely.</li>
+    </ul>
+    <div class="tip"><strong>Tip:</strong> Custom position overrides horizontal and vertical alignment settings. Uncheck it to return to alignment-based positioning.</div>
+    <h3>Flip (Mirror)</h3>
+    <p>Use the <span class="badge">↔</span> and <span class="badge">↕</span> buttons next to Bold/Italic to flip text horizontally or vertically. Both can be enabled at the same time for a 180° rotation effect.</p>
+  </section>
+
+  <section class="section" id="en-font">
+    <h2>3. Font &amp; Style</h2>
+    <p class="subtitle">Japanese and Latin typefaces included</p>
+    <p>TextImg includes several high-quality Google Fonts, with a focus on Japanese-compatible typefaces:</p>
+    <div class="feature-grid">
+      <div class="feature-card"><h4>Noto Sans JP</h4><p>Clean, modern sans-serif. Ideal for general use, UI screenshots, and social media.</p></div>
+      <div class="feature-card"><h4>Noto Serif JP</h4><p>Elegant serif typeface. Great for formal or literary aesthetics.</p></div>
+      <div class="feature-card"><h4>M PLUS Rounded 1c</h4><p>Friendly, rounded sans-serif. Perfect for casual or cute designs.</p></div>
+      <div class="feature-card"><h4>Dela Gothic One</h4><p>Bold, impactful display font. Great for titles and attention-grabbing text.</p></div>
+      <div class="feature-card"><h4>Zen Kaku Gothic New</h4><p>Geometric sans-serif with a modern feel. Works well for minimal designs.</p></div>
+      <div class="feature-card"><h4>serif / monospace</h4><p>Browser-native fallbacks for maximum compatibility.</p></div>
+    </div>
+    <h3>Font Size</h3>
+    <p>Drag the size slider to set font size from 8px to 300px. The current value is shown next to the label. For very large text on small canvases, the text may be clipped — increase canvas dimensions or reduce padding.</p>
+    <h3>Line Height</h3>
+    <p>Controls the vertical spacing between lines. The value is a multiplier of the font size (e.g., 1.4 means 1.4× the font size). Range: 0.8 to 3.0.</p>
+    <h3>Bold &amp; Italic</h3>
+    <p>Toggle <strong>Bold</strong> and <strong>Italic</strong> independently. Note that not all fonts support italic rendering — the browser will simulate it if a true italic variant is unavailable.</p>
+  </section>
+
+  <section class="section" id="en-color">
+    <h2>4. Color Settings</h2>
+    <p class="subtitle">Full color control for background and text</p>
+    <h3>Background &amp; Text Color</h3>
+    <p>Click the color swatch to open a color picker, or type a hex code directly (e.g. <span class="badge">#ff0000</span>). Changes apply immediately to the canvas.</p>
+    <h3>Per-Character Color</h3>
+    <p>Enable <strong>Per-character color</strong> to assign a unique color to each character. A row of small color pickers appears — one per character in your text. This is useful for rainbow text or highlighting specific letters.</p>
+    <div class="tip"><strong>Tip:</strong> Per-character color and Gaming Text are mutually exclusive. Enabling one disables the other.</div>
+    <h3>Gaming Text 🌈</h3>
+    <p>Enable <strong>Gaming Text</strong> to apply a smooth rainbow gradient across the entire text automatically. This is a quick way to create colorful, eye-catching text without setting colors manually.</p>
+  </section>
+
+  <section class="section" id="en-effects">
+    <h2>5. Effects</h2>
+    <p class="subtitle">Six built-in effects to enhance your text</p>
+    <p>Each effect has its own expandable panel. Click the panel header to expand settings, and check the checkbox to enable the effect. Multiple effects can be combined.</p>
+    <h3>Pixel Mode</h3>
+    <p>Renders the canvas at a reduced resolution and scales it back up, creating a pixelated / retro look. Adjust the <strong>Pixel size</strong> slider (2–32px) to control how blocky the result appears. Larger values = more pixelation.</p>
+    <h3>Outline</h3>
+    <p>Adds a stroke around each character. Set the <strong>Width</strong> (1–20px) and choose an outline color. Useful for making text readable over complex or light backgrounds.</p>
+    <h3>Shadow</h3>
+    <p>Adds a drop shadow behind the text. Configure:</p>
+    <ul>
+      <li><strong>Blur:</strong> How soft or hard the shadow edge is (0 = sharp, 40 = very soft).</li>
+      <li><strong>X / Y offset:</strong> Shadow direction. Positive X moves it right, positive Y moves it down.</li>
+      <li><strong>Color:</strong> Shadow color (usually black or a dark version of the text color).</li>
+    </ul>
+    <h3>Glitch</h3>
+    <p>Applies a randomized glitch / data-corruption visual effect. The <strong>Amount</strong> slider controls how strong the distortion is. Because it's randomized, the result changes slightly each time you re-render (e.g., by changing any other setting).</p>
+    <h3>Gradient Text</h3>
+    <p>Fills the text with a linear color gradient instead of a solid color. Choose two colors and a direction:</p>
+    <ul>
+      <li><strong>Horizontal:</strong> Gradient flows left to right.</li>
+      <li><strong>Vertical:</strong> Gradient flows top to bottom across all lines.</li>
+      <li><strong>Diagonal:</strong> Gradient flows from top-left to bottom-right.</li>
+    </ul>
+    <div class="tip"><strong>Tip:</strong> Gradient Text is disabled when Per-character color or Gaming Text is active.</div>
+    <h3>Neon</h3>
+    <p>Simulates a neon glow effect by rendering a colored blur behind the text. Adjust <strong>Glow size</strong> (5–50px) and <strong>Glow color</strong>. Works best with a dark or black background.</p>
+  </section>
+
+  <section class="section" id="en-size">
+    <h2>6. Image Size &amp; Padding</h2>
+    <p class="subtitle">Create images for any platform</p>
+    <h3>Preset Sizes</h3>
+    <p>Six presets are available for common use cases:</p>
+    <ul>
+      <li><strong>800×600</strong> — General purpose.</li>
+      <li><strong>1200×630</strong> — OGP (Open Graph Protocol) for link previews on social media.</li>
+      <li><strong>1080×1080</strong> — Square format for Instagram and other social posts.</li>
+      <li><strong>1920×1080</strong> — Full HD (FHD), suitable for presentations and wallpapers.</li>
+      <li><strong>1080×1920</strong> — Portrait (Stories format for Instagram, TikTok, etc.).</li>
+      <li><strong>1500×500</strong> — Wide banner format.</li>
+    </ul>
+    <h3>Custom Size</h3>
+    <p>Enter any width and height (1–4000px) in the input fields. The canvas will resize immediately. Very large canvases may be slow to render on low-end devices.</p>
+    <h3>Padding</h3>
+    <p>Controls the margin between the text and the canvas edge when using alignment-based positioning (not custom position). Range: 0–200px. Increasing padding moves text away from the edges for a cleaner look.</p>
+  </section>
+
+  <section class="section" id="en-5000">
+    <h2>7. 5000 Choyen Mode</h2>
+    <p class="subtitle">Generate the "5000兆円欲しい！" meme-style image</p>
+    <p>This mode uses the external <a href="https://gsapi.cbrx.io" target="_blank" rel="noopener">gsapi.cbrx.io</a> API to generate a stylized two-line image in the well-known internet meme format.</p>
+    <ol class="steps">
+      <li><p><strong>Enter top text</strong> — Typically a large number or phrase (e.g. "5000兆円").</p></li>
+      <li><p><strong>Enter bottom text</strong> — A short phrase below (e.g. "欲しい！").</p></li>
+      <li><p>Optionally enable <strong>Rainbow</strong> for a colorful variant.</p></li>
+      <li><p>Click <strong>Generate</strong>. The image loads and appears both in the preview and in the panel.</p></li>
+      <li><p>Use the <strong>Width</strong> slider and <strong>X / Y</strong> sliders — or drag the image directly on the canvas — to position it.</p></li>
+    </ol>
+    <div class="tip"><strong>Note:</strong> Generation requires an internet connection. If it fails, the external API may be temporarily unavailable.</div>
+  </section>
+
+  <section class="section" id="en-dot">
+    <h2>8. Dot Mode</h2>
+    <p class="subtitle">Draw pixel art directly on the canvas</p>
+    <p>Dot Mode turns the canvas into a pixel art editor. It can be combined with text from Text Mode since both render on the same canvas.</p>
+    <h3>How to Draw</h3>
+    <ol class="steps">
+      <li><p>Switch to <strong>Dot</strong> mode using the top mode buttons.</p></li>
+      <li><p>Set the <strong>Grid size</strong> (4–64px). This determines the size of each dot.</p></li>
+      <li><p>Choose a <strong>Dot color</strong>.</p></li>
+      <li><p><strong>Click</strong> on the canvas to place a dot. <strong>Click the same cell again</strong> to erase it.</p></li>
+      <li><p><strong>Click and drag</strong> to draw continuously.</p></li>
+    </ol>
+    <h3>Grid Visibility</h3>
+    <p>Check <strong>Show grid</strong> to display a faint grid overlay. This helps with alignment and is hidden in the exported image.</p>
+    <h3>Clear All Dots</h3>
+    <p>Click <strong>🗑 Clear dots</strong> to erase all dots at once. This cannot be undone.</p>
+    <div class="tip"><strong>Tip:</strong> Dot Mode and Text Mode share the same canvas. Switch to Text Mode, type some text, then switch back to Dot Mode to add pixel art around your text.</div>
+  </section>
+
+  <section class="section" id="en-export">
+    <h2>9. Saving &amp; Exporting</h2>
+    <p class="subtitle">Download your image in multiple formats</p>
+    <h3>File Formats</h3>
+    <ul>
+      <li><strong>PNG</strong> — Lossless. Best for images with sharp edges, text, and transparency. Default choice.</li>
+      <li><strong>JPEG</strong> — Lossy compression. Smaller file size, but not ideal for text (may show artifacts). Good for photos.</li>
+      <li><strong>WebP</strong> — Modern format with excellent compression. Supported by all modern browsers.</li>
+    </ul>
+    <h3>Downloading</h3>
+    <ol class="steps">
+      <li><p>Select a format from the dropdown (<span class="badge">PNG</span> / <span class="badge">JPEG</span> / <span class="badge">WebP</span>).</p></li>
+      <li><p>Click <strong>⬇ Save</strong>. The file downloads automatically as <code>textimg.png</code> (or the chosen format).</p></li>
+    </ol>
+    <h3>On iPhone / iPad</h3>
+    <p>Due to iOS restrictions, a modal appears with a preview of your image. <strong>Long-press the image</strong> and select "Add to Photos" or "Save Image" to save it to your camera roll.</p>
+    <h3>Auto Save</h3>
+    <p>All settings (text, font, colors, effects, canvas size, etc.) are automatically saved to your browser's local storage approximately 0.8 seconds after any change. When you revisit TextImg, your previous settings are restored instantly. Note: mode is always reset to Text on load.</p>
+    <h3>Reset</h3>
+    <p>Click <strong>↺ Reset all</strong> to clear all saved settings and reload the app with defaults. This action cannot be undone.</p>
+  </section>
+
+  <section class="section" id="en-usecases">
+    <h2>10. Use Cases</h2>
+    <p class="subtitle">What can you make with TextImg?</p>
+    <div class="use-cases">
+      <div class="use-case"><div class="icon">📱</div><h4>SNS Posts</h4><p>Create eye-catching quote images for Twitter, Instagram, or Threads.</p></div>
+      <div class="use-case"><div class="icon">🔗</div><h4>OGP Images</h4><p>Generate 1200×630 link preview images for your website or blog.</p></div>
+      <div class="use-case"><div class="icon">🎮</div><h4>Game Assets</h4><p>Design pixel art, labels, or UI mockups using Dot Mode and text together.</p></div>
+      <div class="use-case"><div class="icon">🎉</div><h4>Memes</h4><p>Use 5000 Choyen Mode or Glitch / Neon effects for viral-ready content.</p></div>
+      <div class="use-case"><div class="icon">🖼️</div><h4>Thumbnails</h4><p>Create YouTube or blog post thumbnails with bold text and custom colors.</p></div>
+      <div class="use-case"><div class="icon">💌</div><h4>Cards &amp; Invites</h4><p>Make simple greeting cards or event invitations with styled text.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="en-faq">
+    <h2>11. FAQ</h2>
+    <div class="faq">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Is TextImg really free? <span>▼</span></div>
+        <div class="faq-a">Yes. TextImg is completely free to use with no account required, no watermark, and no usage limits. The site is supported by ads.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Can I use the images commercially? <span>▼</span></div>
+        <div class="faq-a">Yes. Images you create with TextImg belong to you. However, you are responsible for ensuring that the fonts and content you use do not infringe any third-party rights.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Is my text uploaded to any server? <span>▼</span></div>
+        <div class="faq-a">No. All rendering happens locally in your browser using the HTML Canvas API. Your text never leaves your device — except in 5000 Choyen Mode, which sends your input to an external API to generate the image.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Why does the image look blurry when I zoom in on the canvas? <span>▼</span></div>
+        <div class="faq-a">The canvas zoom is for preview only and does not affect the actual image resolution. The downloaded image will always be at the exact pixel dimensions you specified (e.g., 800×600).</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Can I add my own fonts? <span>▼</span></div>
+        <div class="faq-a">Not currently. TextImg provides a curated set of Google Fonts. Custom font support may be added in a future update.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">The 5000 Choyen generation failed. What should I do? <span>▼</span></div>
+        <div class="faq-a">This mode relies on an external API (gsapi.cbrx.io). If it fails, the API may be temporarily unavailable. Please try again later. TextImg is not responsible for third-party service availability.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">My settings were lost. Why? <span>▼</span></div>
+        <div class="faq-a">Settings are saved to your browser's local storage. They may be cleared if you use private / incognito mode, clear browser data, or use a different browser or device.</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /wrap -->
+</div><!-- /en -->
+
+<!-- ===== JAPANESE ===== -->
+<div class="ja">
+<div class="hero">
+  <h1>TextImg 使い方ガイド</h1>
+  <p>TextImgは、登録不要・インストール不要でブラウザ上から無料で使えるテキスト画像ジェネレーターです。このページでは全機能を詳しく解説します。</p>
+  <a href="/" class="hero-cta">TextImgを開く →</a>
+</div>
+<div class="wrap">
+
+  <nav class="toc" aria-label="目次">
+    <h2>目次</h2>
+    <ol>
+      <li><a href="#ja-start">はじめに</a></li>
+      <li><a href="#ja-text">テキストモード</a></li>
+      <li><a href="#ja-font">フォント・スタイル</a></li>
+      <li><a href="#ja-color">カラー設定</a></li>
+      <li><a href="#ja-effects">エフェクト</a></li>
+      <li><a href="#ja-size">画像サイズ・余白</a></li>
+      <li><a href="#ja-5000">5000兆円モード</a></li>
+      <li><a href="#ja-dot">ドットモード</a></li>
+      <li><a href="#ja-export">保存・エクスポート</a></li>
+      <li><a href="#ja-usecases">活用例</a></li>
+      <li><a href="#ja-faq">よくある質問</a></li>
+    </ol>
+  </nav>
+
+  <section class="section" id="ja-start">
+    <h2>1. はじめに</h2>
+    <p class="subtitle">アカウント不要・すぐに使える</p>
+    <p><a href="https://textimg.net">textimg.net</a> にアクセスするだけで、すぐに使い始められます。設定はブラウザのローカルストレージに自動保存されるため、タブを閉じても次回訪問時に復元されます。</p>
+    <p>画面は大きく2つに分かれています。左側の<strong>サイドバー</strong>で各種設定を行い、右側の<strong>キャンバスプレビュー</strong>でリアルタイムに確認できます。</p>
+    <h3>モードの選択</h3>
+    <p>サイドバー上部にある3つのボタンでモードを切り替えます：</p>
+    <ul>
+      <li><span class="badge">テキスト</span> — メインモード。テキストを入力して画像を作成します。</li>
+      <li><span class="badge">5000</span> — 「5000兆円欲しい！」スタイルの画像を生成します。</li>
+      <li><span class="badge">ドット</span> — キャンバスに直接ピクセルアートを描きます。</li>
+    </ul>
+    <p>TextImgは常にテキストモードで起動します。</p>
+    <h3>キャンバスの操作</h3>
+    <ul>
+      <li><strong>ズーム：</strong>マウスホイールを回す、または右下の<span class="badge">−</span>/<span class="badge">＋</span>ボタン。</li>
+      <li><strong>パン（移動）：</strong>キャンバス背景をクリック＆ドラッグ。</li>
+      <li><strong>リセット：</strong><span class="badge">⌖</span>ボタンで中央・100%に戻す。</li>
+      <li><strong>スマホ：</strong>ピンチでズーム、1本指ドラッグでパン。</li>
+    </ul>
+  </section>
+
+  <section class="section" id="ja-text">
+    <h2>2. テキストモード</h2>
+    <p class="subtitle">TextImgのメイン機能</p>
+    <p>テキストモードでは、入力欄に文字を入力するとキャンバスにリアルタイムで反映されます。Enterキーで改行でき、複数行のテキストも作成できます。</p>
+    <h3>配置（アライメント）</h3>
+    <ul>
+      <li><strong>水平：</strong>左寄せ・中央・右寄せ</li>
+      <li><strong>垂直：</strong>上・中央・下</li>
+    </ul>
+    <h3>位置指定・ドラッグ移動</h3>
+    <p>「ドラッグで移動」のチェックボックスをオンにすると、テキストの位置を自由に制御できます：</p>
+    <ul>
+      <li>X・Y座標（px）を直接入力して指定</li>
+      <li>キャンバス上でテキストをドラッグして直感的に移動</li>
+    </ul>
+    <div class="tip"><strong>ヒント：</strong>カスタム位置モードはアライメント設定を無効にします。チェックを外すとアライメント基準に戻ります。</div>
+    <h3>反転（ミラー）</h3>
+    <p>太字・斜体ボタンの横にある<span class="badge">↔</span>（左右反転）と<span class="badge">↕</span>（上下反転）ボタンでテキストを鏡像化できます。両方同時にオンにすると180°回転と同じ効果になります。</p>
+  </section>
+
+  <section class="section" id="ja-font">
+    <h2>3. フォント・スタイル</h2>
+    <p class="subtitle">日本語対応フォントを収録</p>
+    <div class="feature-grid">
+      <div class="feature-card"><h4>Noto Sans JP</h4><p>シンプルなゴシック体。汎用性が高くSNSやUI画像に最適。</p></div>
+      <div class="feature-card"><h4>Noto Serif JP</h4><p>上品な明朝体。フォーマルや文芸的なデザインに。</p></div>
+      <div class="feature-card"><h4>M PLUS Rounded 1c</h4><p>丸みのあるゴシック体。カジュアルでかわいい印象に。</p></div>
+      <div class="feature-card"><h4>Dela Gothic One</h4><p>インパクト抜群の極太ディスプレイ体。タイトルに。</p></div>
+      <div class="feature-card"><h4>Zen Kaku Gothic New</h4><p>幾何学的でモダンなゴシック体。シンプルなデザインに。</p></div>
+      <div class="feature-card"><h4>serif / monospace</h4><p>ブラウザ標準フォント。最大互換性が必要なときに。</p></div>
+    </div>
+    <h3>フォントサイズ</h3>
+    <p>スライダーで8〜300pxの範囲で調整できます。大きいサイズのテキストがキャンバスからはみ出す場合は、画像サイズを拡大するかパディングを減らしてください。</p>
+    <h3>行間</h3>
+    <p>フォントサイズに対する倍率で指定します（例：1.4 = フォントサイズの1.4倍）。0.8〜3.0の範囲で調整可能です。</p>
+    <h3>太字・斜体</h3>
+    <p>独立してオン/オフできます。フォントによっては斜体バリアントがなく、ブラウザが擬似的に再現する場合があります。</p>
+  </section>
+
+  <section class="section" id="ja-color">
+    <h2>4. カラー設定</h2>
+    <p class="subtitle">背景色・文字色を自由に設定</p>
+    <h3>背景色・文字色</h3>
+    <p>色見本をクリックしてカラーピッカーを開くか、テキストボックスに直接16進数カラーコード（例：<span class="badge">#ff0000</span>）を入力します。変更はリアルタイムでキャンバスに反映されます。</p>
+    <h3>文字ごとに色指定</h3>
+    <p>「文字ごとに色指定」をオンにすると、テキストの各文字に個別の色を設定できます。文字数分の小さなカラーピッカーが表示されます。特定の文字を強調したいときや、手動でレインボーテキストを作るときに便利です。</p>
+    <div class="tip"><strong>ヒント：</strong>文字ごとの色指定とGaming Textは同時に使えません。どちらかをオンにするともう一方はオフになります。</div>
+    <h3>Gaming Text 🌈</h3>
+    <p>オンにするとテキスト全体に虹色のグラデーションが自動で適用されます。手動で色を設定しなくても、一瞬でカラフルなテキストが作れます。</p>
+  </section>
+
+  <section class="section" id="ja-effects">
+    <h2>5. エフェクト</h2>
+    <p class="subtitle">6種類のエフェクトを組み合わせて使用可能</p>
+    <p>各エフェクトはアコーディオンパネルになっています。パネルのヘッダーをクリックして設定を展開し、チェックボックスでオン/オフを切り替えます。複数のエフェクトを同時に適用できます。</p>
+    <h3>ピクセルモード</h3>
+    <p>キャンバスを一度低解像度で描画してから拡大することで、ドット絵・レトロゲーム風の見た目を作れます。<strong>ピクセルサイズ</strong>（2〜32px）が大きいほど粗くなります。</p>
+    <h3>アウトライン</h3>
+    <p>文字の輪郭線を描きます。<strong>太さ</strong>（1〜20px）と色を設定できます。明るい背景に白い文字を乗せるときなど、視認性を高めるのに役立ちます。</p>
+    <h3>シャドウ</h3>
+    <p>文字の背後にドロップシャドウを追加します：</p>
+    <ul>
+      <li><strong>ぼかし：</strong>影のエッジのぼかし量（0=くっきり、40=ソフト）</li>
+      <li><strong>X / Y：</strong>影のずれ方向（正の値で右・下方向）</li>
+      <li><strong>色：</strong>影の色</li>
+    </ul>
+    <h3>グリッチ</h3>
+    <p>データ破損風のノイズエフェクトをかけます。<strong>強度</strong>スライダーで歪み具合を調整します。ランダム処理のため、他の設定を変更するたびに結果が変わります。</p>
+    <h3>グラデーションテキスト</h3>
+    <p>テキストを単色ではなく2色のグラデーションで塗りつぶします。方向は水平・垂直・斜めから選べます。</p>
+    <div class="tip"><strong>ヒント：</strong>文字ごとの色指定やGaming Textがオンのときはグラデーションテキストは無効になります。</div>
+    <h3>ネオン</h3>
+    <p>テキストの背後に発光（グロウ）エフェクトを追加し、ネオンサイン風の見た目を作ります。<strong>グロウサイズ</strong>（5〜50px）と<strong>グロウカラー</strong>を設定できます。黒い背景との組み合わせが最も効果的です。</p>
+  </section>
+
+  <section class="section" id="ja-size">
+    <h2>6. 画像サイズ・余白</h2>
+    <p class="subtitle">あらゆるプラットフォームに対応</p>
+    <h3>プリセットサイズ</h3>
+    <ul>
+      <li><strong>800×600</strong> — 汎用サイズ</li>
+      <li><strong>1200×630</strong> — OGP（SNSのリンクプレビュー）</li>
+      <li><strong>1080×1080</strong> — 正方形（Instagram投稿など）</li>
+      <li><strong>1920×1080</strong> — フルHD（プレゼン・壁紙など）</li>
+      <li><strong>1080×1920</strong> — 縦長（ストーリーズ形式）</li>
+      <li><strong>1500×500</strong> — 横長バナー</li>
+    </ul>
+    <h3>カスタムサイズ</h3>
+    <p>幅・高さを1〜4000pxの範囲で自由に指定できます。入力後にキャンバスが即座にリサイズされます。</p>
+    <h3>パディング（余白）</h3>
+    <p>アライメント配置のときに、テキストとキャンバス端の間に設ける余白です。0〜200pxの範囲で調整できます。カスタム位置モードではパディングは無視されます。</p>
+  </section>
+
+  <section class="section" id="ja-5000">
+    <h2>7. 5000兆円モード</h2>
+    <p class="subtitle">あのミームスタイルの画像を生成</p>
+    <p>外部API（<a href="https://gsapi.cbrx.io" target="_blank" rel="noopener">gsapi.cbrx.io</a>）を使用して、「5000兆円欲しい！」風のスタイリッシュな2段テキスト画像を生成します。</p>
+    <ol class="steps">
+      <li><p><strong>上段テキスト</strong>を入力します（例：「5000兆円」）。</p></li>
+      <li><p><strong>下段テキスト</strong>を入力します（例：「欲しい！」）。</p></li>
+      <li><p>必要に応じて<strong>虹色</strong>をオンにします。</p></li>
+      <li><p><strong>生成</strong>ボタンをクリック。画像がプレビューとパネルに表示されます。</p></li>
+      <li><p><strong>幅</strong>スライダーとX/Yスライダー、またはキャンバス上で直接ドラッグして位置を調整します。</p></li>
+    </ol>
+    <div class="tip"><strong>注意：</strong>画像の生成にはインターネット接続が必要です。失敗する場合は外部APIが一時的に利用できない可能性があります。</div>
+  </section>
+
+  <section class="section" id="ja-dot">
+    <h2>8. ドットモード</h2>
+    <p class="subtitle">キャンバスに直接ピクセルアートを描く</p>
+    <p>ドットモードではキャンバスをピクセルアートエディターとして使えます。テキストモードと同じキャンバスを共有しているため、テキストとドットアートを組み合わせることもできます。</p>
+    <h3>描き方</h3>
+    <ol class="steps">
+      <li><p>上部の<strong>ドット</strong>モードボタンに切り替えます。</p></li>
+      <li><p><strong>グリッドサイズ</strong>（4〜64px）を設定します。これがドット1つのサイズになります。</p></li>
+      <li><p><strong>ドットの色</strong>を選択します。</p></li>
+      <li><p>キャンバスを<strong>クリック</strong>してドットを置きます。<strong>同じマスをもう一度クリック</strong>すると消去されます。</p></li>
+      <li><p><strong>クリック＆ドラッグ</strong>で連続して描画できます。</p></li>
+    </ol>
+    <h3>グリッド表示</h3>
+    <p>「グリッド表示」をオンにすると薄いグリッド線が表示されます。エクスポートした画像には含まれません。</p>
+    <h3>全消去</h3>
+    <p><strong>🗑 クリア</strong>ボタンで全てのドットを消去します。元に戻すことはできません。</p>
+    <div class="tip"><strong>ヒント：</strong>テキストモードで文字を入力してからドットモードに切り替えると、テキストの周りにドットアートを描き加えられます。</div>
+  </section>
+
+  <section class="section" id="ja-export">
+    <h2>9. 保存・エクスポート</h2>
+    <p class="subtitle">複数形式でダウンロード可能</p>
+    <h3>ファイル形式</h3>
+    <ul>
+      <li><strong>PNG</strong> — 可逆圧縮。テキスト・シャープな画像に最適。デフォルト推奨。</li>
+      <li><strong>JPEG</strong> — 非可逆圧縮。ファイルサイズが小さいが、テキストにはアーティファクトが出やすい。</li>
+      <li><strong>WebP</strong> — 高効率の現代的フォーマット。モダンブラウザ全対応。</li>
+    </ul>
+    <h3>ダウンロード手順</h3>
+    <ol class="steps">
+      <li><p>ドロップダウンから形式を選択します（<span class="badge">PNG</span> / <span class="badge">JPEG</span> / <span class="badge">WebP</span>）。</p></li>
+      <li><p><strong>⬇ 保存</strong>ボタンをクリックすると自動でダウンロードが始まります。</p></li>
+    </ol>
+    <h3>iPhone / iPad の場合</h3>
+    <p>iOSの制限により、画像プレビューのモーダルが表示されます。<strong>画像を長押し</strong>して「写真に追加」または「イメージを保存」を選択してください。</p>
+    <h3>自動保存</h3>
+    <p>テキスト・フォント・色・エフェクト・キャンバスサイズなどの設定は、変更から約0.8秒後にローカルストレージへ自動保存されます。次回訪問時に自動で復元されます。なお、モードはページを開くたびに常にテキストモードにリセットされます。</p>
+    <h3>リセット</h3>
+    <p><strong>↺ リセット</strong>ボタンで保存された全設定を消去し、デフォルト状態に戻します。この操作は元に戻せません。</p>
+  </section>
+
+  <section class="section" id="ja-usecases">
+    <h2>10. 活用例</h2>
+    <p class="subtitle">TextImgでできること</p>
+    <div class="use-cases">
+      <div class="use-case"><div class="icon">📱</div><h4>SNS投稿</h4><p>X（Twitter）・Instagram・Threadsなどの引用画像やサムネイルに。</p></div>
+      <div class="use-case"><div class="icon">🔗</div><h4>OGP画像</h4><p>ブログやWebサイトのリンクプレビュー用1200×630画像を作成。</p></div>
+      <div class="use-case"><div class="icon">🎮</div><h4>ゲーム素材</h4><p>ドットモードとテキストを組み合わせてピクセルアートやUIモックを制作。</p></div>
+      <div class="use-case"><div class="icon">🎉</div><h4>ミーム</h4><p>5000兆円モードやグリッチ・ネオンエフェクトでバズりやすい画像を。</p></div>
+      <div class="use-case"><div class="icon">🖼️</div><h4>サムネイル</h4><p>YouTubeや記事のサムネイルを大きなテキストとカラーで作成。</p></div>
+      <div class="use-case"><div class="icon">💌</div><h4>カード・案内</h4><p>シンプルなグリーティングカードやイベント告知画像に。</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="ja-faq">
+    <h2>11. よくある質問</h2>
+    <div class="faq">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">本当に無料ですか？ <span>▼</span></div>
+        <div class="faq-a">はい、完全無料です。アカウント登録不要、ウォーターマークなし、使用制限もありません。広告収入によって運営されています。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">作成した画像を商用利用できますか？ <span>▼</span></div>
+        <div class="faq-a">はい、作成した画像の権利はユーザーに帰属します。ただし、使用するフォントやコンテンツが第三者の権利を侵害していないかはご自身でご確認ください。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">入力したテキストはサーバーに送信されますか？ <span>▼</span></div>
+        <div class="faq-a">いいえ。すべての描画処理はブラウザ上のHTML Canvas APIで完結します。テキストがデバイス外に送信されることはありません。ただし5000兆円モードのみ、画像生成のために外部APIにテキストが送信されます。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">ズームするとぼやけて見えるのはなぜですか？ <span>▼</span></div>
+        <div class="faq-a">キャンバスのズームはプレビュー表示のみに影響し、実際の画像解像度は変わりません。ダウンロードされる画像は常に指定した寸法（例：800×600px）のままです。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">自分のフォントを追加できますか？ <span>▼</span></div>
+        <div class="faq-a">現時点では対応していません。TextImgはGoogleフォントのセットを提供しています。カスタムフォントは将来のアップデートで追加される可能性があります。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">5000兆円の生成に失敗します <span>▼</span></div>
+        <div class="faq-a">このモードは外部API（gsapi.cbrx.io）に依存しています。失敗する場合、APIが一時的に利用できない状態です。しばらくしてからお試しください。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">設定が消えてしまいました <span>▼</span></div>
+        <div class="faq-a">設定はブラウザのローカルストレージに保存されています。シークレットモードを使用した場合、ブラウザのデータを削除した場合、または別のブラウザ・デバイスでアクセスした場合は設定が引き継がれません。</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /wrap -->
+</div><!-- /ja -->
+
+<footer>
+  <p>© 2026 TextImg · <a href="https://textimg.net">textimg.net</a> · <a href="/use.html">How to Use</a> · <a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Use</a> · <a href="mailto:textimgnet@gmail.com">Contact</a></p>
+</footer>
+<script>
+function toggleFaq(el){
+  const item=el.parentElement;
+  item.classList.toggle('open');
+}
+function setLang(l){
+  document.querySelector('.en').style.display = l==='en' ? 'block' : 'none';
+  document.querySelector('.ja').style.display = l==='ja' ? 'block' : 'none';
+  document.querySelectorAll('.lang-toggle button').forEach((b,i)=>b.classList.toggle('on',(l==='en'&&i===0)||(l==='ja'&&i===1)));
+  document.documentElement.lang=l;
+  try{localStorage.setItem('ti_lang',l);}catch(e){}
+}
+(function(){
+  var l='en';
+  try{l=localStorage.getItem('ti_lang')||'en';}catch(e){}
+  setLang(l);
+})();
+</script>
+</body>
+</html>
