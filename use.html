@@ -21,7 +21,7 @@ nav a{color:#888;font-size:12px;text-decoration:none}
 nav a:hover{color:#d4ff00}
 .hero{background:linear-gradient(135deg,#1a1a00,#0f0f0f);border-bottom:1px solid #2e2e2e;padding:48px 24px;text-align:center}
 .hero h1{font-family:'Dela Gothic One',cursive;font-size:28px;color:#d4ff00;margin-bottom:10px}
-.hero p{font-size:14px;color:#888;line-height:1.8;max-width:560px;margin:0 auto 20px}
+.hero p{font-size:14px;color:#888;line-height:1.8;max-width:680px;margin:0 auto 20px}
 .hero a{display:inline-block;background:#d4ff00;color:#000;font-family:'Dela Gothic One',cursive;font-size:14px;padding:10px 28px;border-radius:24px;text-decoration:none}
 .hero a:hover{opacity:.85}
 .wrap{max-width:860px;margin:0 auto;padding:48px 24px;flex:1}
@@ -70,9 +70,9 @@ footer a{color:#888;text-decoration:none}
 </header>
 
 <div class="hero">
-  <h1>How to Use TextImg</h1>
-  <p>Create images from text, emoji, pixel art, and photos — all in your browser. No sign-up required.</p>
-  <a href="/">Open the App →</a>
+  <h1 id="heroTitle">How to Use TextImg</h1>
+  <p id="heroDesc">Create images from text, emoji, pixel art, and photos — all in your browser. No sign-up required.</p>
+  <a href="/" id="heroCta">Open the App →</a>
 </div>
 
 <div class="wrap">
@@ -85,7 +85,7 @@ footer a{color:#888;text-decoration:none}
   <div class="en">
 
     <div class="toc">
-      <h3>Contents</h3>
+      <h3 id="tocTitle">Contents</h3>
       <ol>
         <li><a href="#en-overview">Overview</a></li>
         <li><a href="#en-layers">Layer Types</a></li>
@@ -497,11 +497,17 @@ footer a{color:#888;text-decoration:none}
 </footer>
 
 <script>
+const UI={
+  en:{heroTitle:'How to Use TextImg',heroDesc:'Create images from text, emoji, pixel art, and photos — all in your browser. No sign-up required.',heroCta:'Open the App →',tocTitle:'Contents'},
+  ja:{heroTitle:'TextImg 使い方ガイド',heroDesc:'テキスト・絵文字・ピクセルアート・写真からブラウザだけで画像を作成。アカウント登録不要。',heroCta:'アプリを開く →',tocTitle:'目次'}
+};
 function setLang(l){
   document.querySelector('.en').style.display=l==='en'?'block':'none';
   document.querySelector('.ja').style.display=l==='ja'?'block':'none';
   document.querySelectorAll('.lang-toggle button').forEach((b,i)=>b.classList.toggle('on',(l==='en'&&i===0)||(l==='ja'&&i===1)));
   document.documentElement.lang=l;
+  const t=UI[l]||UI.en;
+  Object.keys(t).forEach(k=>{const el=document.getElementById(k);if(el)el.textContent=t[k];});
   try{localStorage.setItem('ti_lang',l);}catch(e){}
 }
 function toggleFaq(el){
