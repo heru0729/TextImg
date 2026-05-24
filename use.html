@@ -63,9 +63,9 @@ footer a{color:#888;text-decoration:none}
 <header>
   <a href="/">TextImg</a>
   <nav>
-    <a href="/">← Back to App</a>
-    <a href="/privacy.html">Privacy</a>
-    <a href="/terms.html">Terms</a>
+    <a href="/" id="navBack">← Back to App</a>
+    <a href="/privacy.html" id="navPrivacy">Privacy</a>
+    <a href="/terms.html" id="navTerms">Terms</a>
   </nav>
 </header>
 
@@ -91,6 +91,7 @@ footer a{color:#888;text-decoration:none}
         <li><a href="#en-layers">Layer Types</a></li>
         <li><a href="#en-text">Text Layer</a></li>
         <li><a href="#en-effects">Effects</a></li>
+        <li><a href="#en-mask">Layer Mask</a></li>
         <li><a href="#en-dot">Dot Layer</a></li>
         <li><a href="#en-stamp">Emoji Layer</a></li>
         <li><a href="#en-image">Image Layer</a></li>
@@ -122,6 +123,7 @@ footer a{color:#888;text-decoration:none}
       <h3>5000 (Choyen)</h3>
       <p>Generate a "5000 Choyen" style image via an external API. Enter top and bottom text, optionally enable rainbow mode, and click Generate.</p>
       <div class="tip"><strong>Layer order:</strong> Layers are rendered bottom-to-top. The layer at the top of the list appears on top of the canvas. Use the ↑ ↓ buttons to reorder.</div>
+      <div class="tip"><strong>Renaming layers:</strong> Double-click a layer name in the list to edit it inline. Press Enter to confirm or Escape to cancel.</div>
     </section>
 
     <section id="en-text">
@@ -140,6 +142,10 @@ footer a{color:#888;text-decoration:none}
       <p>Enable "Enable drag" to switch to free positioning mode. You can then drag the text directly on the canvas, or enter exact X/Y coordinates in pixels.</p>
       <h3>Color</h3>
       <p>Set a uniform text color using the color picker and hex field. You can also enable <strong>Per-character color</strong> to assign a different color to each character individually, or enable <strong>Gaming Text 🌈</strong> for an automatic rainbow gradient across the whole line.</p>
+      <h3>Letter spacing</h3>
+      <p>Adjusts the spacing between characters from −10px to 50px. Useful for condensed or wide display typography.</p>
+      <h3>Opacity</h3>
+      <p>Controls the transparency of the entire text layer from 0% (invisible) to 100% (fully opaque). Independent from per-character color alpha.</p>
       <h3>Padding</h3>
       <p>Controls the margin between the text and the canvas edges when using alignment mode (not custom position).</p>
     </section>
@@ -162,8 +168,22 @@ footer a{color:#888;text-decoration:none}
       <div class="tip"><strong>Combining effects:</strong> You can enable multiple effects at the same time. For example, Outline + Shadow gives a bold graphic look; Neon + Gradient Text creates a vivid glowing effect.</div>
     </section>
 
+    <section id="en-mask">
+      <h2>5. Layer Mask</h2>
+      <p>Text and Image layers support a brush-based mask. Enable it by checking "Enable mask" in the layer editor. The mask lets you reveal or hide specific areas of a layer without permanently erasing anything.</p>
+      <ul>
+        <li><strong>White = show, Black = hide.</strong> Painting white reveals the layer; painting black hides it.</li>
+        <li><strong>Brush:</strong> Paint white to reveal areas.</li>
+        <li><strong>Erase:</strong> Paint black to hide areas.</li>
+        <li><strong>Fill:</strong> Fill the entire mask white (fully visible).</li>
+        <li><strong>Clear:</strong> Fill the entire mask black (fully hidden).</li>
+        <li><strong>Brush size:</strong> Adjust the brush radius from 4px to 100px.</li>
+      </ul>
+      <div class="tip"><strong>Non-destructive:</strong> The mask does not modify the original layer content. Toggle the mask checkbox off to restore the full layer instantly.</div>
+    </section>
+
     <section id="en-dot">
-      <h2>5. Dot Layer (Pixel Art)</h2>
+      <h2>6. Dot Layer (Pixel Art)</h2>
       <p>Switch to the Layers tab and add a Dot layer. Each dot layer is an independent pixel art canvas.</p>
       <ul>
         <li><strong>Grid size:</strong> Adjust from 4px to 64px. Larger values = larger pixels.</li>
@@ -176,7 +196,7 @@ footer a{color:#888;text-decoration:none}
     </section>
 
     <section id="en-stamp">
-      <h2>6. Emoji Layer</h2>
+      <h2>7. Emoji Layer</h2>
       <p>Add an Emoji layer to place a single emoji anywhere on the canvas.</p>
       <ul>
         <li><strong>Select emoji:</strong> Click any emoji in the grid picker.</li>
@@ -188,7 +208,7 @@ footer a{color:#888;text-decoration:none}
     </section>
 
     <section id="en-image">
-      <h2>7. Image Layer</h2>
+      <h2>8. Image Layer</h2>
       <p>Add an Image layer to use a photo or graphic from your device as a canvas layer.</p>
       <ul>
         <li><strong>Upload:</strong> Click the file input and select an image (JPEG, PNG, WebP, GIF, etc.).</li>
@@ -199,7 +219,7 @@ footer a{color:#888;text-decoration:none}
     </section>
 
     <section id="en-bg">
-      <h2>8. Background</h2>
+      <h2>9. Background</h2>
       <p>Open the Background tab to set the canvas background. Three modes are available:</p>
       <h3>Solid</h3>
       <p>Fill the background with a single color. Use the color picker or enter a hex code.</p>
@@ -210,7 +230,7 @@ footer a{color:#888;text-decoration:none}
     </section>
 
     <section id="en-canvas">
-      <h2>9. Canvas &amp; Undo</h2>
+      <h2>10. Canvas &amp; Undo</h2>
       <h3>Canvas size</h3>
       <p>Open the Canvas tab to set the image dimensions. Choose a preset or enter custom width/height (up to 4000px each). Common presets include:</p>
       <ul>
@@ -221,6 +241,8 @@ footer a{color:#888;text-decoration:none}
         <li>1080×1920 — Portrait / Stories</li>
         <li>1500×500 — Wide banner</li>
       </ul>
+      <h3>Center line guide</h3>
+      <p>Enable "Show center lines" in the Canvas tab to display a crosshair over the canvas preview. The guide is not included in the exported image — it only appears in the editor.</p>
       <h3>Undo / Redo</h3>
       <p>Up to 50 undo steps are available. Use <strong>Ctrl+Z</strong> (or Cmd+Z on Mac) to undo, and <strong>Ctrl+Y</strong> (or Ctrl+Shift+Z) to redo. Buttons are also available in the Canvas tab.</p>
       <h3>Zoom &amp; Pan</h3>
@@ -228,13 +250,15 @@ footer a{color:#888;text-decoration:none}
     </section>
 
     <section id="en-export">
-      <h2>10. Export</h2>
+      <h2>11. Export</h2>
       <p>Open the Export tab and select a format, then click Save:</p>
       <ul>
         <li><strong>PNG</strong> — lossless, supports transparency. Best for graphics, text, pixel art.</li>
         <li><strong>JPEG</strong> — smaller file size, no transparency. Best for photos.</li>
         <li><strong>WebP</strong> — modern format, good compression with quality. Supported by most modern browsers.</li>
       </ul>
+      <h3>File name</h3>
+      <p>Enter a custom file name in the "File name" field before saving. The format extension is appended automatically (e.g. <code style="font-size:12px;color:var(--accent)">my-image.png</code>). Defaults to <code style="font-size:12px;color:var(--accent)">textimg</code>.</p>
       <div class="tip"><strong>iOS:</strong> On iPhone/iPad, tapping Save shows the image in a modal. Long-press the image and choose "Add to Photos" to save it to your photo library.</div>
       <h3>Auto-save</h3>
       <p>Your layer configuration and settings are saved automatically to your browser's local storage about one second after any change. The "✓ Saved" indicator appears briefly in the Export tab. Image and font file data is not saved (re-upload needed after reload).</p>
@@ -243,7 +267,7 @@ footer a{color:#888;text-decoration:none}
     </section>
 
     <section id="en-faq">
-      <h2>11. FAQ</h2>
+      <h2>12. FAQ</h2>
 
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)">Is TextImg free? <span class="arr">▼</span></div>
@@ -298,6 +322,7 @@ footer a{color:#888;text-decoration:none}
         <li><a href="#ja-layers">レイヤーの種類</a></li>
         <li><a href="#ja-text">テキストレイヤー</a></li>
         <li><a href="#ja-effects">エフェクト</a></li>
+        <li><a href="#ja-mask">レイヤーマスク</a></li>
         <li><a href="#ja-dot">ドットレイヤー</a></li>
         <li><a href="#ja-stamp">絵文字レイヤー</a></li>
         <li><a href="#ja-image">画像レイヤー</a></li>
@@ -329,6 +354,7 @@ footer a{color:#888;text-decoration:none}
       <h3>5000（兆円）</h3>
       <p>「5000兆円欲しい！」スタイルの画像を外部APIで生成します。上段・下段テキストを入力し、必要に応じて虹色モードを有効にして「生成」をクリックします。</p>
       <div class="tip"><strong>重ね順：</strong>レイヤーは下から上へ描画されます。リストの上にあるレイヤーほどキャンバス前面に表示されます。↑↓ボタンで並び替えできます。</div>
+      <div class="tip"><strong>レイヤー名の変更：</strong>レイヤーリストの名前をダブルクリックするとインライン編集できます。Enterで確定、Escapeでキャンセルします。</div>
     </section>
 
     <section id="ja-text">
@@ -347,6 +373,10 @@ footer a{color:#888;text-decoration:none}
       <p>「ドラッグで移動」を有効にすると自由配置モードになります。キャンバス上でテキストを直接ドラッグするか、X/Y座標をピクセル単位で入力できます。</p>
       <h3>カラー</h3>
       <p>カラーピッカーとHexフィールドで文字色を設定します。<strong>文字ごとに色指定</strong>を有効にすると各文字に個別の色を設定でき、<strong>Gaming Text 🌈</strong>を有効にするとライン全体に自動的な虹色グラデーションが適用されます。</p>
+      <h3>文字間隔</h3>
+      <p>文字と文字の間隔を−10px〜50pxで調整します。見出しや装飾テキストのスタイルに活用できます。</p>
+      <h3>不透明度</h3>
+      <p>テキストレイヤー全体の透明度を0%（非表示）〜100%（完全不透明）で調整します。文字色のアルファ値とは独立して動作します。</p>
       <h3>パディング</h3>
       <p>配置モード（カスタム位置無効時）でのテキストとキャンバス端の間隔を制御します。</p>
     </section>
@@ -369,8 +399,22 @@ footer a{color:#888;text-decoration:none}
       <div class="tip"><strong>エフェクトの組み合わせ：</strong>複数のエフェクトを同時に有効にできます。例：アウトライン＋シャドウ → 力強いグラフィック風。ネオン＋グラデーションテキスト → 鮮やかな発光効果。</div>
     </section>
 
+    <section id="ja-mask">
+      <h2>5. レイヤーマスク</h2>
+      <p>テキストレイヤーと画像レイヤーにはブラシで描くマスクを設定できます。レイヤーエディターの「マスクを有効にする」チェックボックスで有効化します。マスクを使うと、レイヤーの内容を破壊せずに特定の領域だけを表示・非表示にできます。</p>
+      <ul>
+        <li><strong>白=表示 / 黒=非表示。</strong>白を塗るとその領域が表示され、黒を塗ると隠れます。</li>
+        <li><strong>ブラシ：</strong>白を塗って領域を表示します。</li>
+        <li><strong>消去：</strong>黒を塗って領域を非表示にします。</li>
+        <li><strong>塗りつぶし（Fill）：</strong>マスク全体を白で塗りつぶします（全体表示）。</li>
+        <li><strong>クリア（Clear）：</strong>マスク全体を黒で塗りつぶします（全体非表示）。</li>
+        <li><strong>ブラシサイズ：</strong>4px〜100pxで調整できます。</li>
+      </ul>
+      <div class="tip"><strong>非破壊編集：</strong>マスクはレイヤーの元のデータを変更しません。チェックを外すだけで即座に全体表示に戻せます。</div>
+    </section>
+
     <section id="ja-dot">
-      <h2>5. ドットレイヤー（ピクセルアート）</h2>
+      <h2>6. ドットレイヤー（ピクセルアート）</h2>
       <p>「レイヤー」タブで「＋ ドット」をクリックしてドットレイヤーを追加します。各ドットレイヤーは独立したピクセルアートキャンバスです。</p>
       <ul>
         <li><strong>グリッドサイズ：</strong>4px〜64pxで調整。大きいほどドットが大きくなります。</li>
@@ -383,7 +427,7 @@ footer a{color:#888;text-decoration:none}
     </section>
 
     <section id="ja-stamp">
-      <h2>6. 絵文字レイヤー</h2>
+      <h2>7. 絵文字レイヤー</h2>
       <p>「＋ 絵文字」からレイヤーを追加して、キャンバス上に絵文字を1つ配置します。</p>
       <ul>
         <li><strong>絵文字の選択：</strong>グリッドから絵文字をクリックして選択します。</li>
@@ -395,7 +439,7 @@ footer a{color:#888;text-decoration:none}
     </section>
 
     <section id="ja-image">
-      <h2>7. 画像レイヤー</h2>
+      <h2>8. 画像レイヤー</h2>
       <p>「＋ 画像」からレイヤーを追加して、デバイスの画像ファイルをキャンバスレイヤーとして使用できます。</p>
       <ul>
         <li><strong>アップロード：</strong>ファイル入力をクリックして画像を選択します（JPEG・PNG・WebP・GIFなど）。</li>
@@ -406,7 +450,7 @@ footer a{color:#888;text-decoration:none}
     </section>
 
     <section id="ja-bg">
-      <h2>8. 背景</h2>
+      <h2>9. 背景</h2>
       <p>「背景」タブでキャンバスの背景を設定します。3つのモードがあります：</p>
       <h3>単色</h3>
       <p>背景を1色で塗りつぶします。カラーピッカーまたはHexコードで色を指定します。</p>
@@ -417,7 +461,7 @@ footer a{color:#888;text-decoration:none}
     </section>
 
     <section id="ja-canvas">
-      <h2>9. キャンバス・Undo/Redo</h2>
+      <h2>10. キャンバス・Undo/Redo</h2>
       <h3>キャンバスサイズ</h3>
       <p>「キャンバス」タブで画像の寸法を設定します。プリセットを選ぶか、幅・高さを直接入力します（各最大4000px）。主なプリセット：</p>
       <ul>
@@ -428,6 +472,8 @@ footer a{color:#888;text-decoration:none}
         <li>1080×1920 — 縦長・ストーリーズ</li>
         <li>1500×500 — 横長バナー</li>
       </ul>
+      <h3>中心線ガイド</h3>
+      <p>「キャンバス」タブの「中心線を表示」を有効にすると、キャンバスプレビューに十字線が表示されます。ガイドは書き出した画像には含まれず、エディター上のみに表示されます。</p>
       <h3>Undo / Redo</h3>
       <p>最大50ステップのUndoが使えます。<strong>Ctrl+Z</strong>（MacはCmd+Z）でUndo、<strong>Ctrl+Y</strong>（またはCtrl+Shift+Z）でRedoします。「キャンバス」タブのボタンからも操作できます。</p>
       <h3>ズーム・パン</h3>
@@ -435,13 +481,15 @@ footer a{color:#888;text-decoration:none}
     </section>
 
     <section id="ja-export">
-      <h2>10. 書き出し</h2>
+      <h2>11. 書き出し</h2>
       <p>「書き出し」タブでフォーマットを選択し、「保存」をクリックします：</p>
       <ul>
         <li><strong>PNG</strong> — ロスレス、透過対応。テキスト・グラフィック・ピクセルアートに最適。</li>
         <li><strong>JPEG</strong> — ファイルサイズが小さい、透過非対応。写真に適しています。</li>
         <li><strong>WebP</strong> — 高品質な圧縮が可能なモダンフォーマット。主要なブラウザに対応。</li>
       </ul>
+      <h3>ファイル名</h3>
+      <p>「ファイル名」欄に任意の名前を入力してから保存すると、その名前でダウンロードされます。拡張子は自動的に付加されます（例：<code style="font-size:12px;color:var(--accent)">my-image.png</code>）。未入力の場合は <code style="font-size:12px;color:var(--accent)">textimg</code> になります。</p>
       <div class="tip"><strong>iOS：</strong>iPhone/iPadでは「保存」タップ後に画像がモーダルで表示されます。画像を長押しして「写真に追加」を選ぶとカメラロールに保存されます。</div>
       <h3>自動保存</h3>
       <p>レイヤー設定などは変更から約1秒後にブラウザのローカルストレージへ自動保存されます。「書き出し」タブに「✓ 保存済み」と一時表示されます。画像ファイルとフォントファイルは保存対象外です（リロード後は再アップロードが必要）。</p>
@@ -450,7 +498,7 @@ footer a{color:#888;text-decoration:none}
     </section>
 
     <section id="ja-faq">
-      <h2>11. よくある質問</h2>
+      <h2>12. よくある質問</h2>
 
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)">TextImgは無料ですか？ <span class="arr">▼</span></div>
@@ -493,7 +541,7 @@ footer a{color:#888;text-decoration:none}
 </div>
 
 <footer>
-  <p>© 2026 TextImg · <a href="https://textimg.net">textimg.net</a> · <a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Use</a> · <a href="mailto:textimgnet@gmail.com">Contact</a></p>
+  <p>© 2026 TextImg · <a href="https://textimg.net">textimg.net</a> · <a href="/privacy.html" id="ftPrivacy">Privacy Policy</a> · <a href="/terms.html" id="ftTerms">Terms of Use</a> · <a href="mailto:textimgnet@gmail.com" id="ftContact">Contact</a></p>
 </footer>
 
 <script>
