@@ -1,0 +1,22 @@
+{
+  "name": "TextImg — テキスト画像ジェネレーター",
+  "short_name": "TextImg",
+  "description": "登録不要・無料で使えるブラウザ型テキスト画像作成ツール",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0f0f",
+  "theme_color": "#0f0f0f",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "lang": "ja"
+}
