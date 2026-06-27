@@ -3,21 +3,109 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>TextImg — Free Text Image Generator Online</title>
-<meta name="description" content="Free online text image generator. Create images from text with custom fonts, colors, effects and layers. Download as PNG, JPEG, or WebP. No sign-up required.">
+
+<!-- Primary SEO -->
+<title>TextImg — Free Text Image Generator Online | Fonts, Effects & Layers</title>
+<meta name="description" content="TextImg is a free, browser-based text image generator. No sign-up required. Multi-layer canvas with custom fonts, 6 effects, PNG/JPEG/WebP export. Works on mobile and desktop.">
+<meta name="keywords" content="text image generator,text to image,online image editor,free,PNG,JPEG,font,effects,layers,no watermark">
+<meta name="robots" content="index, follow">
 <link rel="canonical" href="https://textimg.net/">
+
+<!-- OGP -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://textimg.net/">
-<meta property="og:title" content="TextImg — Free Text Image Generator Online">
-<meta property="og:description" content="Create images from text with custom fonts, colors, and effects. Free, no sign-up required.">
+<meta property="og:title" content="TextImg — Free Text Image Generator">
+<meta property="og:description" content="Free browser-based text image generator. Multi-layer canvas, custom fonts, effects, PNG/JPEG/WebP export. No sign-up, no watermark.">
 <meta property="og:image" content="https://textimg.net/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ja_JP">
+<meta property="og:site_name" content="TextImg">
+
+<!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TextImg — Free Text Image Generator">
+<meta name="twitter:description" content="Free browser-based text image generator. Multi-layer canvas, custom fonts, effects. No sign-up, no watermark.">
 <meta name="twitter:image" content="https://textimg.net/ogp.png">
+
+<!-- Icons / PWA -->
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0f0f0f">
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Serif+JP:wght@400;700&family=M+PLUS+Rounded+1c:wght@400;700&family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- Google Analytics (defer-safe via async) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6CG10ZPVW3"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-6CG10ZPVW3');</script>
+
+<!-- Google AdSense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9619368699008291" crossorigin="anonymous"></script>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Serif+JP:wght@400;700&family=M+PLUS+Rounded+1c:wght@400;700&family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- Structured Data: Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "TextImg",
+  "url": "https://textimg.net",
+  "logo": "https://textimg.net/ogp.png",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "textimgnet@gmail.com",
+    "contactType": "customer support"
+  },
+  "sameAs": []
+}
+</script>
+
+<!-- Structured Data: WebSite + SearchAction -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "TextImg",
+  "url": "https://textimg.net",
+  "description": "Free browser-based text image generator. Multi-layer canvas, custom fonts, effects, PNG/JPEG/WebP export. No sign-up required."
+}
+</script>
+
+<!-- Structured Data: WebApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "TextImg",
+  "url": "https://textimg.net",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "Free browser-based tool to create images from text. Supports multiple layers, custom font upload, 6 effects, and PNG/JPEG/WebP export.",
+  "featureList": [
+    "Multiple layers (text, dot, emoji, image)",
+    "Custom font upload",
+    "Outline, Shadow, Glitch, Gradient, Neon, Pixel effects",
+    "PNG/JPEG/WebP export up to 4000px",
+    "Gradient and transparent background",
+    "Layer mask",
+    "Undo/Redo (50 steps)",
+    "Auto-save",
+    "Mobile-friendly"
+  ]
+}
+</script>
+
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{height:100%}
@@ -36,12 +124,7 @@ header span{color:var(--muted);font-size:11px;white-space:nowrap}
 .main{display:flex;flex:1;overflow:hidden;min-height:0}
 .sb{width:290px;flex-shrink:0;border-right:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column;background:var(--bg)}
 .pv{flex:1;overflow:hidden;position:relative;background:repeating-conic-gradient(var(--ck1) 0% 25%,var(--ck2) 0% 50%) 0 0/20px 20px;user-select:none;touch-action:none}
-@media(max-width:640px){
-  body{height:100dvh;overflow:hidden}
-  .main{flex-direction:column;flex:1;overflow:hidden;min-height:0}
-  .pv{order:-1;flex:0 0 38svh;border-bottom:1px solid var(--border)}
-  .sb{order:1;width:100%;flex:1;border-right:none;overflow-y:auto;min-height:0}
-}
+@media(max-width:640px){body{height:100dvh;overflow:hidden}.main{flex-direction:column;flex:1;overflow:hidden;min-height:0}.pv{order:-1;flex:0 0 38svh;border-bottom:1px solid var(--border)}.sb{order:1;width:100%;flex:1;border-right:none;overflow-y:auto;min-height:0}}
 .sb-tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0}
 .sb-tab{flex:1;padding:8px 4px;font-size:11px;color:var(--muted);cursor:pointer;text-align:center;border:none;background:none;font-family:inherit;transition:all .15s;border-bottom:2px solid transparent}
 .sb-tab.on{color:var(--accent);border-bottom-color:var(--accent)}
@@ -86,16 +169,21 @@ hr{border:none;border-top:1px solid var(--border)}
 .acb{display:none;padding:9px;flex-direction:column;gap:7px;background:var(--panel)}
 .acb.on{display:flex}
 .layer-list{display:flex;flex-direction:column;gap:4px}
-.layer-item{display:flex;align-items:center;gap:6px;padding:7px 9px;border:1px solid var(--border);border-radius:7px;cursor:pointer;background:var(--panel);transition:all .15s}
+.layer-item{display:flex;align-items:center;gap:6px;padding:6px 9px;border:1px solid var(--border);border-radius:7px;cursor:pointer;background:var(--panel);transition:all .15s}
 .layer-item:hover{border-color:var(--muted)}
 .layer-item.sel{border-color:var(--accent);background:var(--sel)}
-.layer-name{flex:1;font-size:11px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.layer-name{flex:1;font-size:11px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:text}
+.layer-name-input{flex:1;font-size:11px;background:var(--panel2);border:1px solid var(--accent);border-radius:4px;color:var(--text);padding:1px 5px;outline:none;min-width:0}
 .layer-type{font-size:10px;color:var(--muted);flex-shrink:0}
 .layer-vis{font-size:12px;cursor:pointer;padding:1px 3px;color:var(--muted);flex-shrink:0}
 .layer-vis.off{opacity:.35}
 .layer-add-row{display:flex;gap:5px;flex-wrap:wrap}
 .layer-add-row button{flex:1;background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:6px 4px;border-radius:6px;cursor:pointer;font-size:11px;font-family:inherit;transition:all .15s;text-align:center;min-width:48px}
 .layer-add-row button:hover{border-color:var(--accent);color:var(--accent)}
+/* mask */
+.mask-thumb{width:32px;height:22px;border-radius:3px;border:1px solid var(--border);background:#111;flex-shrink:0;overflow:hidden;position:relative}
+.mask-thumb canvas{width:100%;height:100%;display:block}
+/* canvas */
 .cw{position:absolute;transform-origin:center center;box-shadow:0 8px 40px rgba(0,0,0,.5)}
 canvas{display:block}
 .zh{position:absolute;bottom:10px;right:10px;display:flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;font-family:'Courier New',monospace;color:var(--muted)}
@@ -105,6 +193,9 @@ canvas{display:block}
 .si{position:absolute;bottom:10px;left:10px;color:var(--muted);font-size:11px;font-family:'Courier New',monospace;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:3px 9px}
 .ht{position:absolute;top:10px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:3px 9px;white-space:nowrap;pointer-events:none;transition:opacity 1s}
 .ht.hid{opacity:0}
+/* guide overlay */
+#guideCanvas{position:absolute;top:0;left:0;pointer-events:none;display:none}
+#guideCanvas.on{display:block}
 .pg{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
 .pb{background:var(--panel);border:1px solid var(--border);border-radius:5px;color:var(--muted);padding:4px 3px;cursor:pointer;font-size:10px;text-align:center;line-height:1.3}
 .pb:hover{border-color:var(--accent);color:var(--accent)}
@@ -124,28 +215,33 @@ canvas{display:block}
 .emoji-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;max-height:180px;overflow-y:auto;margin-top:8px}
 .emoji-btn{background:none;border:none;font-size:20px;cursor:pointer;padding:4px;border-radius:4px;line-height:1}
 .emoji-btn:hover{background:var(--panel2)}
+/* mask editor */
+.mask-editor{background:var(--panel2);border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-top:6px}
+.mask-editor canvas{display:block;cursor:crosshair;width:100%}
 footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0;padding:6px 14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px}
 .ftc{font-size:11px;color:var(--muted)}
 .ftlinks{display:flex;gap:10px;flex-wrap:wrap}
 .ftlinks a{font-size:11px;color:var(--muted);text-decoration:none}
 .ftlinks a:hover{color:var(--accent)}
+
 </style>
 </head>
 <body>
-<header>
-  <div class="hl"><h1>TextImg</h1><span id="hSub">Text Image Generator</span></div>
-  <div class="hr">
-    <a id="xBtn" href="https://twitter.com/intent/tweet?text=Create%20images%20from%20text%20for%20free!%20%23TextImg&url=https%3A%2F%2Ftextimg.net" target="_blank" rel="noopener" class="xbtn">
-      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.912-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+<a href="#editor-main" class="sr-only" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;focus:left:0;top:0;width:auto;height:auto">エディターへスキップ</a>
+<header role="banner">
+  <div class="hl"><h1>TextImg</h1><span id="hSub" aria-label="テキスト画像ジェネレーター">Text Image Generator</span></div>
+  <div class="hr" role="navigation" aria-label="メインナビゲーション">
+    <a id="xBtn" href="https://twitter.com/intent/tweet?text=Create%20images%20from%20text%20for%20free!%20%23TextImg&url=https%3A%2F%2Ftextimg.net" target="_blank" rel="noopener noreferrer" class="xbtn" aria-label="TextImgをXでシェア">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.912-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       <span id="xLbl">Share</span>
     </a>
-    <button class="lbtn" onclick="toggleAbout()" id="aboutBtn">About</button>
-    <button class="lbtn" id="themeBtn" onclick="toggleTheme()">☀️</button>
-    <button class="lbtn" id="langBtn" onclick="toggleLang()">日本語</button>
+    <button class="lbtn" onclick="toggleAbout()" id="aboutBtn" aria-haspopup="dialog">About</button>
+    <button class="lbtn" id="themeBtn" onclick="toggleTheme()" aria-label="テーマ切替">☀️</button>
+    <button class="lbtn" id="langBtn" onclick="toggleLang()" aria-label="言語切替">日本語</button>
   </div>
 </header>
 
-<div class="main">
+<div class="main" id="editor-main" role="main" aria-label="画像エディター">
 <aside class="sb">
   <div class="sb-tabs">
     <button class="sb-tab on" onclick="switchTab('Layer')" id="tabLayer">Layers</button>
@@ -174,7 +270,9 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0;
           <div style="margin-top:6px"><label id="lCF">Upload font (.ttf/.otf/.woff)</label><input type="file" id="fontFile" accept=".ttf,.otf,.woff,.woff2" style="font-size:11px;padding:4px"></div>
           <div style="margin-top:6px"><label><span id="lFS">Size</span> <span id="fsV">64</span>px</label><input type="range" id="fontSize" min="8" max="300" value="64"></div>
           <div style="margin-top:6px"><label><span id="lLH">Line height</span> <span id="lhV">1.4</span></label><input type="range" id="lineH" min="0.8" max="3.0" step="0.1" value="1.4"></div>
+          <div style="margin-top:6px"><label><span id="lLS">Letter spacing</span> <span id="lsV">0</span>px</label><input type="range" id="letterSp" min="-10" max="50" value="0" step="1"></div>
           <div style="margin-top:6px"><label><span id="lRot">Rotation</span> <span id="rotV">0</span>°</label><input type="range" id="rotRange" min="-180" max="180" value="0"></div>
+          <div style="margin-top:6px"><label><span id="lTOp">Opacity</span> <span id="tOpV">100</span>%</label><input type="range" id="txtOp" min="0" max="100" value="100"></div>
           <div style="margin-top:6px" class="fg">
             <button class="fb" id="boldBtn" onclick="toggleBold()"><b>B</b></button>
             <button class="fb" id="itaBtn" onclick="toggleItalic()"><i>I</i></button>
@@ -219,6 +317,23 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0;
           <div class="acc" id="aGrad"><div class="ach" onclick="toggleAcc('Grad')"><div class="acl"><input type="checkbox" id="grCk" onclick="event.stopPropagation()"><span class="act" id="lGr">Gradient Text</span></div><span class="aca">▼</span></div><div class="acb" id="bGrad"><label id="lGC1">Color 1</label><div class="cr"><div class="sw" id="g1Sw" style="background:#f08"><input type="color" id="g1Col" value="#ff0080"></div><input type="text" class="chx" id="g1Hex" value="#ff0080" maxlength="7"></div><label id="lGC2" style="margin-top:5px">Color 2</label><div class="cr"><div class="sw" id="g2Sw" style="background:#08f"><input type="color" id="g2Col" value="#0080ff"></div><input type="text" class="chx" id="g2Hex" value="#0080ff" maxlength="7"></div><label id="lGD" style="margin-top:5px">Direction</label><select id="gradDir"><option value="h" id="oH">Horizontal</option><option value="v" id="oV">Vertical</option><option value="d" id="oD">Diagonal</option></select></div></div>
           <div class="acc" id="aNeon"><div class="ach" onclick="toggleAcc('Neon')"><div class="acl"><input type="checkbox" id="neCk" onclick="event.stopPropagation()"><span class="act" id="lNe">Neon</span></div><span class="aca">▼</span></div><div class="acb" id="bNeon"><label><span id="lNB">Glow size</span> <span id="nbV">15</span>px</label><input type="range" id="neBlur" min="5" max="50" value="15"><label id="lNC" style="margin-top:5px">Glow color</label><div class="cr"><div class="sw" id="neSw" style="background:#0ff"><input type="color" id="neCol" value="#00ffff"></div><input type="text" class="chx" id="neHex" value="#00ffff" maxlength="7"></div></div></div>
         </div>
+        <!-- MASK (text layer) -->
+        <div>
+          <div class="sec" id="sMask">Mask</div>
+          <label class="ck"><input type="checkbox" id="maskCk"><span id="lMaskEn">Enable mask</span></label>
+          <div id="maskPanel" style="display:none;margin-top:8px">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:4px" id="lMaskH">Paint white=show, black=hide</div>
+            <div style="display:flex;gap:5px;margin-bottom:5px">
+              <button class="smb on" id="maskBrushBtn" onclick="setMaskTool('brush')" id="lMaskBr">● Brush</button>
+              <button class="smb" id="maskEraBtn" onclick="setMaskTool('erase')" id="lMaskEr">○ Erase</button>
+              <button class="smb" onclick="clearMask()" id="lMaskCl">✕ Clear</button>
+              <button class="smb" onclick="fillMask()" id="lMaskFl">■ Fill</button>
+            </div>
+            <label><span id="lMaskSz">Brush size</span> <span id="maskSzV">20</span>px</label>
+            <input type="range" id="maskSz" min="4" max="100" value="20">
+            <div class="mask-editor" style="margin-top:6px"><canvas id="maskCanvas"></canvas></div>
+          </div>
+        </div>
         <div><div class="sec" id="sPad">Padding</div><label><span id="lPad">Padding</span> <span id="padV">40</span>px</label><input type="range" id="padding" min="0" max="200" value="40"></div>
       </div>
       <!-- DOT -->
@@ -248,6 +363,22 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0;
           <label id="lIF">Upload image</label><input type="file" id="imgFile" accept="image/*" style="font-size:11px;padding:4px">
           <div style="margin-top:8px"><label><span id="lIO">Opacity</span> <span id="imgOpV">100</span>%</label><input type="range" id="imgOp" min="0" max="100" value="100"></div>
           <div style="margin-top:6px"><label id="lIFit">Fit mode</label><select id="imgFit"><option value="cover" id="oFitCover">Cover</option><option value="contain" id="oFitContain">Contain</option><option value="stretch" id="oFitStretch">Stretch</option><option value="none" id="oFitNone">Original size</option></select></div>
+          <!-- MASK (image layer) -->
+          <div style="margin-top:10px"><div class="sec" id="sMaskI">Mask</div>
+            <label class="ck"><input type="checkbox" id="maskCkI"><span id="lMaskEnI">Enable mask</span></label>
+            <div id="maskPanelI" style="display:none;margin-top:8px">
+              <div style="font-size:11px;color:var(--muted);margin-bottom:4px" id="lMaskHI">Paint white=show, black=hide</div>
+              <div style="display:flex;gap:5px;margin-bottom:5px">
+                <button class="smb on" id="maskBrushBtnI" onclick="setMaskTool('brush')" >● Brush</button>
+                <button class="smb" id="maskEraBtnI" onclick="setMaskTool('erase')">○ Erase</button>
+                <button class="smb" onclick="clearMask()" id="lMaskClI">✕ Clear</button>
+                <button class="smb" onclick="fillMask()" id="lMaskFlI">■ Fill</button>
+              </div>
+              <label><span id="lMaskSzI">Brush size</span> <span id="maskSzVI">20</span>px</label>
+              <input type="range" id="maskSzI" min="4" max="100" value="20">
+              <div class="mask-editor" style="margin-top:6px"><canvas id="maskCanvasI"></canvas></div>
+            </div>
+          </div>
         </div>
       </div>
       <!-- 5000 -->
@@ -286,7 +417,9 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0;
       <div id="bgGradPanel" style="display:none;flex-direction:column;gap:8px">
         <label id="lBGC1">Color 1</label><div class="cr"><div class="sw" id="bg1Sw" style="background:#667eea"><input type="color" id="bg1Col" value="#667eea"></div><input type="text" class="chx" id="bg1Hex" value="#667eea" maxlength="7"></div>
         <label id="lBGC2">Color 2</label><div class="cr"><div class="sw" id="bg2Sw" style="background:#764ba2"><input type="color" id="bg2Col" value="#764ba2"></div><input type="text" class="chx" id="bg2Hex" value="#764ba2" maxlength="7"></div>
-        <label id="lBGD">Direction</label><select id="bgGradDir"><option value="h" id="oBgH">Horizontal</option><option value="v" id="oBgV">Vertical</option><option value="d" id="oBgD">Diagonal</option><option value="r" id="oBgR">Radial</option></select>
+        <label id="lBGD">Direction</label>
+        <select id="bgGradDir"><option value="h" id="oBgH">Horizontal</option><option value="v" id="oBgV">Vertical</option><option value="d" id="oBgD">Diagonal</option><option value="r" id="oBgR">Radial</option><option value="a" id="oBgA">Custom angle</option></select>
+        <div id="bgAngleRow" style="display:none"><label><span id="lBGA">Angle</span> <span id="bgAngV">45</span>°</label><input type="range" id="bgAng" min="0" max="359" value="45"></div>
       </div>
       <div id="bgTransPanel" style="display:none"><p style="font-size:11px;color:var(--muted);line-height:1.7;margin-top:6px" id="lBGTr">Background will be transparent. Export as PNG to preserve transparency.</p></div>
     </div>
@@ -309,6 +442,10 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0;
       </div>
     </div>
     <hr>
+    <div><div class="sec" id="sGuide">Guide</div>
+      <label class="ck"><input type="checkbox" id="guideCk" onchange="toggleGuide()"><span id="lGuide">Show center lines</span></label>
+    </div>
+    <hr>
     <div><div class="sec">Undo / Redo</div>
       <div class="r2">
         <button class="smb" onclick="undo()" id="bUndo" style="width:100%;padding:7px">↩ Undo</button>
@@ -321,6 +458,8 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0;
   <!-- EXPORT -->
   <div class="sb-panel" id="panExport">
     <div><div class="sec" id="sDL">Download</div>
+      <label id="lFN">File name</label>
+      <input type="text" id="dlName" value="textimg" style="margin-bottom:6px">
       <select id="dlFmt" style="margin-bottom:8px"><option value="png">PNG</option><option value="jpeg">JPEG</option><option value="webp">WebP</option></select>
       <button class="dlb" onclick="doDownload()" id="bSave">⬇ Save</button>
     </div>
@@ -330,7 +469,10 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0;
 </aside>
 
 <div class="pv" id="pvArea">
-  <div class="cw" id="cw"><canvas id="canvas"></canvas></div>
+  <div class="cw" id="cw">
+    <canvas id="canvas"></canvas>
+    <canvas id="guideCanvas"></canvas>
+  </div>
   <div class="si" id="si">800 × 600 px</div>
   <div class="zh"><button onclick="zStep(-1)">−</button><span id="zL">100%</span><button onclick="zStep(1)">＋</button><button onclick="zReset()">⌖</button></div>
   <div class="ht" id="ht">Wheel=zoom  Drag=pan</div>
@@ -364,7 +506,8 @@ footer{background:var(--panel);border-top:1px solid var(--border);flex-shrink:0;
   </div>
 </div>
 
-<footer>
+
+<footer role="contentinfo">
   <p class="ftc">© 2026 TextImg</p>
   <div class="ftlinks">
     <a href="/use.html"><span id="ftUse">How to Use</span></a>
@@ -380,7 +523,7 @@ const L={
     hSub:'Text Image Generator',aboutBtn:'About',xLbl:'Share',
     tabLayer:'Layers',tabBg:'Background',tabCanvas:'Canvas',tabExport:'Export',
     btnAddText:'＋ Text',btnAddDot:'＋ Dot',btnAddStamp:'＋ Emoji',btnAddImg:'＋ Image',
-    sTxt:'Text',sFont:'Font',lCF:'Upload font (.ttf/.otf/.woff)',lFS:'Size',lLH:'Line height',lRot:'Rotation',
+    sTxt:'Text',sFont:'Font',lCF:'Upload font (.ttf/.otf/.woff)',lFS:'Size',lLH:'Line height',lLS:'Letter spacing',lRot:'Rotation',lTOp:'Opacity',
     sAlign:'Alignment',lHA:'Horizontal',lVA:'Vertical',lPos:'Position (px)',lCP:'Enable drag',
     sCol:'Color',lFG:'Text color',lPC:'Per-character color',lGM:'Gaming Text 🌈',
     sFX:'Effects',lPix:'Pixel Mode',lPS:'Pixel size',
@@ -388,6 +531,8 @@ const L={
     lGl:'Glitch',lGA:'Amount',lGr:'Gradient Text',lGC1:'Color 1',lGC2:'Color 2',lGD:'Direction',
     oH:'Horizontal',oV:'Vertical',oD:'Diagonal',
     lNe:'Neon',lNB:'Glow size',lNC:'Glow color',sPad:'Padding',lPad:'Padding',
+    sMask:'Mask',lMaskEn:'Enable mask',lMaskH:'Paint white=show, black=hide',lMaskSz:'Brush size',
+    sMaskI:'Mask',lMaskEnI:'Enable mask',lMaskHI:'Paint white=show, black=hide',lMaskSzI:'Brush size',
     sDot:'Dot Mode',lDS:'Grid size',lGd:'Show grid',lDC:'Dot color',lDH:'Click=draw  Same cell=erase',bCD:'🗑 Clear dots',
     sStamp:'Emoji / Stamp',lSE:'Select emoji',lSZ:'Size',lSRot:'Rotation',lSPos:'Position (px)',
     sImg:'Image Layer',lIF:'Upload image',lIO:'Opacity',lIFit:'Fit mode',
@@ -396,11 +541,12 @@ const L={
     bLU:'↑',bLD:'↓',bLDup:'⎘ Dup',bL5k:'+5000',bLDel:'✕',
     sBgT:'Background Type',bgSolid:'Solid',bgGrad:'Gradient',bgTrans:'None',
     lBG:'Background color',lBGC1:'Color 1',lBGC2:'Color 2',lBGD:'Direction',
-    oBgH:'Horizontal',oBgV:'Vertical',oBgD:'Diagonal',oBgR:'Radial',
+    oBgH:'Horizontal',oBgV:'Vertical',oBgD:'Diagonal',oBgR:'Radial',oBgA:'Custom angle',lBGA:'Angle',
     lBGTr:'Background will be transparent. Export as PNG to preserve transparency.',
     sSz:'Image size',lW:'Width (px)',lH:'Height (px)',pGe:'General',pSq:'Square',pPo:'Portrait',pWi:'Wide',
+    sGuide:'Guide',lGuide:'Show center lines',
     bUndo:'↩ Undo',bRedo:'↪ Redo',undoInfo:'Ctrl+Z / Ctrl+Y',
-    sDL:'Download',bSave:'⬇ Save',bRe:'↺ Reset all',
+    sDL:'Download',lFN:'File name',bSave:'⬇ Save',bRe:'↺ Reset all',
     asi:'Auto-save: idle',asiOk:'✓ Saved',ht:'Wheel=zoom  Drag=pan',
     dlMH:'Long press → Save to Photos',bDC:'Close',bDC2:'Close',
     ftD:'Free online text image generator. No sign-up, no watermark.',
@@ -416,7 +562,7 @@ const L={
     hSub:'テキスト画像ジェネレーター',aboutBtn:'About',xLbl:'シェア',
     tabLayer:'レイヤー',tabBg:'背景',tabCanvas:'キャンバス',tabExport:'書き出し',
     btnAddText:'＋ テキスト',btnAddDot:'＋ ドット',btnAddStamp:'＋ 絵文字',btnAddImg:'＋ 画像',
-    sTxt:'テキスト',sFont:'フォント',lCF:'フォントをアップロード (.ttf/.otf/.woff)',lFS:'サイズ',lLH:'行間',lRot:'回転',
+    sTxt:'テキスト',sFont:'フォント',lCF:'フォントをアップロード (.ttf/.otf/.woff)',lFS:'サイズ',lLH:'行間',lLS:'文字間隔',lRot:'回転',lTOp:'不透明度',
     sAlign:'配置',lHA:'水平',lVA:'垂直',lPos:'位置 (px)',lCP:'ドラッグで移動',
     sCol:'カラー',lFG:'文字色',lPC:'文字ごとに色指定',lGM:'Gaming Text 🌈',
     sFX:'エフェクト',lPix:'ピクセルモード',lPS:'ピクセルサイズ',
@@ -424,6 +570,8 @@ const L={
     lGl:'グリッチ',lGA:'強度',lGr:'グラデーションテキスト',lGC1:'カラー1',lGC2:'カラー2',lGD:'方向',
     oH:'水平',oV:'垂直',oD:'斜め',
     lNe:'ネオン',lNB:'グロウサイズ',lNC:'グロウカラー',sPad:'余白',lPad:'パディング',
+    sMask:'マスク',lMaskEn:'マスクを有効にする',lMaskH:'白=表示 / 黒=非表示',lMaskSz:'ブラシサイズ',
+    sMaskI:'マスク',lMaskEnI:'マスクを有効にする',lMaskHI:'白=表示 / 黒=非表示',lMaskSzI:'ブラシサイズ',
     sDot:'ドットモード',lDS:'グリッドサイズ',lGd:'グリッド表示',lDC:'ドットの色',lDH:'クリック=描画  同じマス=消去',bCD:'🗑 クリア',
     sStamp:'絵文字・スタンプ',lSE:'絵文字を選択',lSZ:'サイズ',lSRot:'回転',lSPos:'位置 (px)',
     sImg:'画像レイヤー',lIF:'画像をアップロード',lIO:'不透明度',lIFit:'フィットモード',
@@ -432,11 +580,12 @@ const L={
     bLU:'↑',bLD:'↓',bLDup:'⎘ 複製',bL5k:'+5000',bLDel:'✕',
     sBgT:'背景タイプ',bgSolid:'単色',bgGrad:'グラデーション',bgTrans:'透過',
     lBG:'背景色',lBGC1:'カラー1',lBGC2:'カラー2',lBGD:'方向',
-    oBgH:'水平',oBgV:'垂直',oBgD:'斜め',oBgR:'放射状',
+    oBgH:'水平',oBgV:'垂直',oBgD:'斜め',oBgR:'放射状',oBgA:'角度指定',lBGA:'角度',
     lBGTr:'背景を透明にします。透明度を保持するにはPNG形式でエクスポートしてください。',
     sSz:'画像サイズ',lW:'幅 (px)',lH:'高さ (px)',pGe:'汎用',pSq:'正方形',pPo:'縦長',pWi:'横長',
+    sGuide:'ガイド',lGuide:'中心線を表示',
     bUndo:'↩ 元に戻す',bRedo:'↪ やり直す',undoInfo:'Ctrl+Z / Ctrl+Y',
-    sDL:'ダウンロード',bSave:'⬇ 保存',bRe:'↺ リセット',
+    sDL:'ダウンロード',lFN:'ファイル名',bSave:'⬇ 保存',bRe:'↺ リセット',
     asi:'自動保存: 待機中',asiOk:'✓ 保存済み',ht:'ホイール=ズーム  ドラッグ=パン',
     dlMH:'長押し → 写真に追加',bDC:'閉じる',bDC2:'閉じる',
     ftD:'登録不要・ウォーターマークなしの無料テキスト画像ジェネレーター。',
@@ -462,15 +611,18 @@ const EMOJIS=['😀','😂','🥹','😍','🤩','😎','🥳','😭','😱','�
 // state
 let lang='en',theme='dark';
 let customFonts={};
-const mkText=()=>({id:Date.now()+Math.random(),type:'text',visible:true,text:'',font:FONTS[0].v,fontSize:64,lineH:1.4,bold:false,italic:false,flipH:false,flipV:false,rotation:0,align:'left',valign:'top',customPos:false,textX:40,textY:40,fgCol:'#000000',perChar:false,gaming:false,charColors:{},padding:40,pixel:false,pixSz:8,outline:false,olW:3,olCol:'#ffffff',shadow:false,shBlur:10,shX:4,shY:4,shCol:'#000000',glitch:false,glAmt:8,grad:false,g1:'#ff0080',g2:'#0080ff',gradDir:'h',neon:false,neBlur:15,neCol:'#00ffff'});
-const mkDot=()=>({id:Date.now()+Math.random(),type:'dot',visible:true,dotSz:16,showGrid:true,dotCol:'#000000',dots:{}});
-const mkStamp=()=>({id:Date.now()+Math.random(),type:'stamp',visible:true,emoji:'😀',size:80,rotation:0,x:100,y:100});
-const mkImage=()=>({id:Date.now()+Math.random(),type:'image',visible:true,src:null,opacity:100,fit:'cover'});
-const mk5k=()=>({id:Date.now()+Math.random(),type:'5000',visible:true,top:'5000兆円',bottom:'欲しい！',rainbow:false,width:400,src:null});
+const mkText=()=>({id:Date.now()+Math.random(),type:'text',visible:true,name:'',text:'',font:FONTS[0].v,fontSize:64,lineH:1.4,letterSp:0,bold:false,italic:false,flipH:false,flipV:false,rotation:0,opacity:100,align:'left',valign:'top',customPos:false,textX:40,textY:40,fgCol:'#000000',perChar:false,gaming:false,charColors:{},padding:40,pixel:false,pixSz:8,outline:false,olW:3,olCol:'#ffffff',shadow:false,shBlur:10,shX:4,shY:4,shCol:'#000000',glitch:false,glAmt:8,grad:false,g1:'#ff0080',g2:'#0080ff',gradDir:'h',neon:false,neBlur:15,neCol:'#00ffff',mask:false,maskData:null});
+const mkDot=()=>({id:Date.now()+Math.random(),type:'dot',visible:true,name:'',dotSz:16,showGrid:true,dotCol:'#000000',dots:{}});
+const mkStamp=()=>({id:Date.now()+Math.random(),type:'stamp',visible:true,name:'',emoji:'😀',size:80,rotation:0,x:100,y:100});
+const mkImage=()=>({id:Date.now()+Math.random(),type:'image',visible:true,name:'',src:null,opacity:100,fit:'cover',mask:false,maskData:null});
+const mk5k=()=>({id:Date.now()+Math.random(),type:'5000',visible:true,name:'',top:'5000兆円',bottom:'欲しい！',rainbow:false,width:400,src:null});
 
-let doc={width:800,height:600,bgType:'solid',bgCol:'#ffffff',bg1:'#667eea',bg2:'#764ba2',bgGradDir:'v',layers:[]};
+let doc={width:800,height:600,bgType:'solid',bgCol:'#ffffff',bg1:'#667eea',bg2:'#764ba2',bgGradDir:'v',bgAng:45,layers:[]};
 let selId=null,undoStack=[],redoStack=[];
 let dotDrawing=false;
+let showGuide=false;
+// mask state
+let maskTool='brush',maskDrawing=false,activeMaskCanvas=null,activeMaskCtx=null;
 
 // undo/redo
 function pushUndo(){undoStack.push(JSON.stringify(doc));if(undoStack.length>50)undoStack.shift();redoStack=[];}
@@ -523,6 +675,20 @@ function switchTab(id){
 }
 function toggleAbout(){document.getElementById('abM').classList.toggle('on');}
 
+// guide
+function toggleGuide(){showGuide=document.getElementById('guideCk').checked;drawGuide();}
+function drawGuide(){
+  const gc=document.getElementById('guideCanvas');
+  gc.width=doc.width;gc.height=doc.height;
+  gc.style.width=canvas.style.width;gc.style.height=canvas.style.height;
+  gc.classList.toggle('on',showGuide);
+  if(!showGuide)return;
+  const gx=gc.getContext('2d');
+  gx.strokeStyle='rgba(255,0,100,0.5)';gx.lineWidth=1;gx.setLineDash([4,4]);
+  gx.beginPath();gx.moveTo(doc.width/2,0);gx.lineTo(doc.width/2,doc.height);gx.stroke();
+  gx.beginPath();gx.moveTo(0,doc.height/2);gx.lineTo(doc.width,doc.height/2);gx.stroke();
+}
+
 // canvas / zoom
 const canvas=document.getElementById('canvas');
 const ctx=canvas.getContext('2d');
@@ -560,21 +726,101 @@ pvArea.addEventListener('touchstart',e=>{e.preventDefault();lt=[...e.touches];},
 pvArea.addEventListener('touchmove',e=>{e.preventDefault();const ts=[...e.touches],r=pvArea.getBoundingClientRect(),cx=r.width/2,cy=r.height/2;if(ts.length===1&&lt?.length===1){panX+=ts[0].clientX-lt[0].clientX;panY+=ts[0].clientY-lt[0].clientY;}else if(ts.length===2&&lt?.length===2){const pd=Math.hypot(lt[1].clientX-lt[0].clientX,lt[1].clientY-lt[0].clientY);const cd=Math.hypot(ts[1].clientX-ts[0].clientX,ts[1].clientY-ts[0].clientY);const mx=(ts[0].clientX+ts[1].clientX)/2-r.left-cx,my=(ts[0].clientY+ts[1].clientY)/2-r.top-cy;const nz=clZ(zoom*cd/pd),sc=nz/zoom;panX=mx+(panX-mx)*sc;panY=my+(panY-my)*sc;zoom=nz;panX+=(ts[0].clientX+ts[1].clientX)/2-(lt[0].clientX+lt[1].clientX)/2;panY+=(ts[0].clientY+ts[1].clientY)/2-(lt[0].clientY+lt[1].clientY)/2;}lt=ts;applyTr();},{passive:false});
 pvArea.addEventListener('touchend',e=>{lt=[...e.touches];},{passive:false});
 
-// render
+// ===== MASK =====
+function getMaskCanvas(l){
+  // returns off-screen mask canvas for a layer (W x H, white=show black=hide)
+  if(!l._maskEl){
+    l._maskEl=document.createElement('canvas');
+    l._maskEl.width=doc.width;l._maskEl.height=doc.height;
+    const mc=l._maskEl.getContext('2d');
+    if(l.maskData){const img=new Image();img.onload=()=>{mc.drawImage(img,0,0);render();};img.src=l.maskData;}
+    else{mc.fillStyle='#fff';mc.fillRect(0,0,doc.width,doc.height);}
+  }
+  return l._maskEl;
+}
+function saveMaskData(l){
+  if(!l._maskEl)return;
+  l.maskData=l._maskEl.toDataURL();
+}
+function applyMask(ctx,maskEl,W,H){
+  // composites mask: multiply alpha by mask luminance
+  const tmp=document.createElement('canvas');tmp.width=W;tmp.height=H;
+  const tc=tmp.getContext('2d');
+  tc.drawImage(maskEl,0,0);
+  const md=tc.getImageData(0,0,W,H);
+  const src=ctx.getImageData(0,0,W,H);
+  for(let i=0;i<src.data.length;i+=4){
+    const lum=(md.data[i]*0.299+md.data[i+1]*0.587+md.data[i+2]*0.114)/255;
+    src.data[i+3]=Math.round(src.data[i+3]*lum);
+  }
+  ctx.putImageData(src,0,0);
+}
+function buildMaskEditor(l,canvasId,szId,szVId,panelId){
+  const mc=document.getElementById(canvasId);
+  const W=Math.min(262,doc.width),H=Math.round(W*(doc.height/doc.width));
+  mc.width=doc.width;mc.height=doc.height;
+  mc.style.height=H+'px';
+  const mctx=mc.getContext('2d');
+  if(l.maskData){const img=new Image();img.onload=()=>{mctx.drawImage(img,0,0);};img.src=l.maskData;}
+  else{mctx.fillStyle='#fff';mctx.fillRect(0,0,doc.width,doc.height);}
+  l._maskEl=mc;
+  activeMaskCanvas=mc;activeMaskCtx=mctx;
+  const sz=document.getElementById(szId);
+  sz.addEventListener('input',e=>{document.getElementById(szVId).textContent=e.target.value;});
+  mc.onmousedown=ev=>{maskDrawing=true;paintMask(ev,mc,mctx,szId,l);};
+  mc.onmousemove=ev=>{if(maskDrawing)paintMask(ev,mc,mctx,szId,l);};
+  mc.onmouseup=()=>{if(maskDrawing){maskDrawing=false;saveMaskData(l);render();}};
+  mc.onmouseleave=()=>{if(maskDrawing){maskDrawing=false;saveMaskData(l);render();}};
+}
+function paintMask(ev,mc,mctx,szId,l){
+  const r=mc.getBoundingClientRect();
+  const sx=mc.width/r.width,sy=mc.height/r.height;
+  const x=(ev.clientX-r.left)*sx,y=(ev.clientY-r.top)*sy;
+  const sz=+document.getElementById(szId).value;
+  mctx.beginPath();
+  mctx.arc(x,y,sz*sx/2,0,Math.PI*2);
+  mctx.fillStyle=maskTool==='brush'?'#fff':'#000';
+  mctx.fill();
+  render();
+}
+function setMaskTool(t){
+  maskTool=t;
+  ['maskBrushBtn','maskEraBtnI','maskEraBtnI'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('on');});
+  document.getElementById(t==='brush'?'maskBrushBtn':'maskEraBtn')?.classList.add('on');
+  document.getElementById(t==='brush'?'maskBrushBtnI':'maskEraBtnI')?.classList.add('on');
+}
+function clearMask(){
+  const l=selLayer();if(!l||!l._maskEl)return;
+  const mc=l._maskEl,mctx=mc.getContext('2d');
+  mctx.fillStyle='#000';mctx.fillRect(0,0,mc.width,mc.height);
+  saveMaskData(l);render();
+}
+function fillMask(){
+  const l=selLayer();if(!l||!l._maskEl)return;
+  const mc=l._maskEl,mctx=mc.getContext('2d');
+  mctx.fillStyle='#fff';mctx.fillRect(0,0,mc.width,mc.height);
+  saveMaskData(l);render();
+}
+
+// ===== RENDER =====
 const imgCache={};
 function getImg(src){if(!src)return null;if(imgCache[src]instanceof HTMLImageElement&&imgCache[src].complete)return imgCache[src];if(!imgCache[src]){const img=new Image();img.onload=()=>{imgCache[src]=img;render();};img.src=src;imgCache[src]=img;}return null;}
 
 function render(){
   const W=doc.width,H=doc.height;
   canvas.width=W;canvas.height=H;ctx.clearRect(0,0,W,H);
-  // bg
   if(doc.bgType==='solid'){ctx.fillStyle=doc.bgCol;ctx.fillRect(0,0,W,H);}
   else if(doc.bgType==='gradient'){
     let g;
+    const ang=(doc.bgAng||45)*Math.PI/180;
     if(doc.bgGradDir==='h')g=ctx.createLinearGradient(0,0,W,0);
     else if(doc.bgGradDir==='v')g=ctx.createLinearGradient(0,0,0,H);
     else if(doc.bgGradDir==='d')g=ctx.createLinearGradient(0,0,W,H);
-    else g=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H)/2);
+    else if(doc.bgGradDir==='r')g=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H)/2);
+    else{// custom angle
+      const cx=W/2,cy=H/2,len=Math.sqrt(W*W+H*H)/2;
+      g=ctx.createLinearGradient(cx-Math.cos(ang)*len,cy-Math.sin(ang)*len,cx+Math.cos(ang)*len,cy+Math.sin(ang)*len);
+    }
     g.addColorStop(0,doc.bg1);g.addColorStop(1,doc.bg2);ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
   }
   for(const l of doc.layers){
@@ -586,17 +832,20 @@ function render(){
     else if(l.type==='5000')render5k(l,W,H);
   }
   document.getElementById('si').textContent=`${W} × ${H} px`;
-  applyTr();
+  drawGuide();applyTr();
 }
 
 function renderImg(l,W,H){
   if(!l.src)return;const img=getImg(l.src);if(!img)return;
-  ctx.save();ctx.globalAlpha=l.opacity/100;
-  if(l.fit==='cover'){const s=Math.max(W/img.width,H/img.height);ctx.drawImage(img,(W-img.width*s)/2,(H-img.height*s)/2,img.width*s,img.height*s);}
-  else if(l.fit==='contain'){const s=Math.min(W/img.width,H/img.height);ctx.drawImage(img,(W-img.width*s)/2,(H-img.height*s)/2,img.width*s,img.height*s);}
-  else if(l.fit==='stretch')ctx.drawImage(img,0,0,W,H);
-  else ctx.drawImage(img,(W-img.width)/2,(H-img.height)/2);
-  ctx.restore();
+  const off=document.createElement('canvas');off.width=W;off.height=H;
+  const oc=off.getContext('2d');
+  oc.globalAlpha=l.opacity/100;
+  if(l.fit==='cover'){const s=Math.max(W/img.width,H/img.height);oc.drawImage(img,(W-img.width*s)/2,(H-img.height*s)/2,img.width*s,img.height*s);}
+  else if(l.fit==='contain'){const s=Math.min(W/img.width,H/img.height);oc.drawImage(img,(W-img.width*s)/2,(H-img.height*s)/2,img.width*s,img.height*s);}
+  else if(l.fit==='stretch')oc.drawImage(img,0,0,W,H);
+  else oc.drawImage(img,(W-img.width)/2,(H-img.height)/2);
+  if(l.mask&&l._maskEl)applyMask(oc,l._maskEl,W,H);
+  ctx.drawImage(off,0,0);
 }
 
 function renderText(l,W,H){
@@ -605,6 +854,7 @@ function renderText(l,W,H){
   const oc=off.getContext('2d');
   const fstr=`${l.italic?'italic':''} ${l.bold?'bold':''} ${l.fontSize}px ${l.font}`.trim();
   oc.font=fstr;oc.textBaseline='top';
+  if(l.letterSp)oc.letterSpacing=(l.letterSp||0)+'px';
   const lines=l.text.split('\n'),lh=l.fontSize*l.lineH,pad=l.padding,th=lines.length*lh;
   const sy=l.customPos?l.textY:l.valign==='top'?pad:l.valign==='middle'?(H-th)/2:H-pad-th;
   let gi=0;
@@ -626,7 +876,12 @@ function renderText(l,W,H){
   if(l.glitch){const amt=l.glAmt;for(let i=0;i<8;i++){const sy2=Math.random()*H,sh2=Math.random()*30+5,sx2=Math.random()*amt*2-amt;const id=oc.getImageData(0,sy2,W,sh2);oc.putImageData(id,sx2,sy2);}const id2=oc.getImageData(0,0,W,H),d=id2.data;for(let i=0;i<d.length;i+=4){const sh=Math.floor(amt/2)*4;if(i+sh<d.length)d[i]=d[i+sh];if(i-sh>=0)d[i+2]=d[i-sh+2];}oc.putImageData(id2,0,0);}
   let src=off;
   if(l.pixel){const ps=l.pixSz,sw=Math.ceil(W/ps),sh=Math.ceil(H/ps);const sm=document.createElement('canvas');sm.width=sw;sm.height=sh;const sc=sm.getContext('2d');sc.imageSmoothingEnabled=false;sc.drawImage(off,0,0,sw,sh);const tmp=document.createElement('canvas');tmp.width=W;tmp.height=H;const tc=tmp.getContext('2d');tc.imageSmoothingEnabled=false;tc.drawImage(sm,0,0,W,H);src=tmp;}
-  ctx.save();ctx.translate(W/2,H/2);if(l.rotation)ctx.rotate(l.rotation*Math.PI/180);ctx.scale(l.flipH?-1:1,l.flipV?-1:1);ctx.drawImage(src,-W/2,-H/2);ctx.restore();
+  // apply mask before compositing
+  const comp=document.createElement('canvas');comp.width=W;comp.height=H;
+  const cc=comp.getContext('2d');
+  cc.save();cc.translate(W/2,H/2);if(l.rotation)cc.rotate(l.rotation*Math.PI/180);cc.scale(l.flipH?-1:1,l.flipV?-1:1);cc.globalAlpha=(l.opacity??100)/100;cc.drawImage(src,-W/2,-H/2);cc.restore();
+  if(l.mask&&l._maskEl)applyMask(cc,l._maskEl,W,H);
+  ctx.drawImage(comp,0,0);
 }
 
 function renderDot(l,W,H){
@@ -634,18 +889,10 @@ function renderDot(l,W,H){
   if(l.showGrid){ctx.strokeStyle='rgba(128,128,128,0.2)';ctx.lineWidth=0.5;for(let x=0;x<=W;x+=gs){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}for(let y=0;y<=H;y+=gs){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}}
   Object.entries(l.dots).forEach(([k,col])=>{const[gx,gy]=k.split(',').map(Number);ctx.fillStyle=col;ctx.fillRect(gx*gs,gy*gs,gs,gs);});
 }
+function renderStamp(l,W,H){ctx.save();ctx.translate(l.x,l.y);if(l.rotation)ctx.rotate(l.rotation*Math.PI/180);ctx.font=`${l.size}px serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(l.emoji,0,0);ctx.restore();}
+function render5k(l,W,H){if(!l.src)return;const img=getImg(l.src);if(!img)return;try{ctx.drawImage(img,0,0,l.width,Math.round(img.naturalHeight*(l.width/img.naturalWidth)));}catch(e){}}
 
-function renderStamp(l,W,H){
-  ctx.save();ctx.translate(l.x,l.y);if(l.rotation)ctx.rotate(l.rotation*Math.PI/180);
-  ctx.font=`${l.size}px serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(l.emoji,0,0);ctx.restore();
-}
-
-function render5k(l,W,H){
-  if(!l.src)return;const img=getImg(l.src);if(!img)return;
-  try{ctx.drawImage(img,0,0,l.width,Math.round(img.naturalHeight*(l.width/img.naturalWidth)));}catch(e){}
-}
-
-// layer list UI
+// ===== LAYER LIST =====
 function rebuildAll(){buildLayerList();buildLayerEditor();render();}
 
 function buildLayerList(){
@@ -656,7 +903,16 @@ function buildLayerList(){
     const vis=document.createElement('span');vis.className='layer-vis'+(l.visible?'':' off');vis.textContent='👁';
     vis.onclick=e=>{e.stopPropagation();pushUndo();l.visible=!l.visible;rebuildAll();saveState();};
     const name=document.createElement('span');name.className='layer-name';
-    name.textContent=l.type==='text'?(l.text.substring(0,20)||'(empty)'):l.type==='dot'?'Dot Layer':l.type==='stamp'?l.emoji:l.type==='image'?'Image':'5000';
+    const defaultName=l.type==='text'?(l.text.substring(0,16)||'(empty)'):l.type==='dot'?'Dot':l.type==='stamp'?l.emoji:l.type==='image'?'Image':'5000';
+    name.textContent=l.name||defaultName;
+    // double-click to rename
+    name.ondblclick=e=>{
+      e.stopPropagation();
+      const inp=document.createElement('input');inp.className='layer-name-input';inp.value=l.name||defaultName;inp.onclick=ev=>ev.stopPropagation();
+      inp.onblur=()=>{l.name=inp.value.trim();rebuildAll();saveState();};
+      inp.onkeydown=ev=>{if(ev.key==='Enter')inp.blur();if(ev.key==='Escape'){inp.value=l.name||defaultName;inp.blur();}};
+      name.replaceWith(inp);setTimeout(()=>inp.select(),0);
+    };
     const type=document.createElement('span');type.className='layer-type';type.textContent=l.type;
     item.appendChild(vis);item.appendChild(name);item.appendChild(type);list.appendChild(item);
   });
@@ -677,7 +933,9 @@ function buildLayerEditor(){
     document.getElementById('txtIn').value=l.text;
     document.getElementById('fontSize').value=l.fontSize;document.getElementById('fsV').textContent=l.fontSize;
     document.getElementById('lineH').value=l.lineH;document.getElementById('lhV').textContent=l.lineH.toFixed(1);
+    document.getElementById('letterSp').value=l.letterSp||0;document.getElementById('lsV').textContent=l.letterSp||0;
     document.getElementById('rotRange').value=l.rotation||0;document.getElementById('rotV').textContent=l.rotation||0;
+    document.getElementById('txtOp').value=l.opacity??100;document.getElementById('tOpV').textContent=l.opacity??100;
     document.getElementById('padding').value=l.padding;document.getElementById('padV').textContent=l.padding;
     document.getElementById('posX').value=l.textX;document.getElementById('posY').value=l.textY;
     document.getElementById('cpCk').checked=!!l.customPos;
@@ -701,11 +959,20 @@ function buildLayerEditor(){
     document.getElementById('glAmt').value=l.glAmt;document.getElementById('gaV').textContent=l.glAmt;
     sws('g1Col','g1Hex','g1Sw',l.g1);sws('g2Col','g2Hex','g2Sw',l.g2);document.getElementById('gradDir').value=l.gradDir;
     document.getElementById('neBlur').value=l.neBlur;document.getElementById('nbV').textContent=l.neBlur;sws('neCol','neHex','neSw',l.neCol);
+    // mask
+    document.getElementById('maskCk').checked=!!l.mask;
+    document.getElementById('maskPanel').style.display=l.mask?'block':'none';
+    if(l.mask)buildMaskEditor(l,'maskCanvas','maskSz','maskSzV','maskPanel');
     applyLang();
   }
   if(l.type==='dot'){document.getElementById('dotSz').value=l.dotSz;document.getElementById('dsV').textContent=l.dotSz;document.getElementById('gridCk').checked=l.showGrid!==false;sws('dtCol','dtHex','dtSw',l.dotCol);}
   if(l.type==='stamp'){document.getElementById('stampDisplay').textContent=l.emoji;document.getElementById('stSz').value=l.size;document.getElementById('stSzV').textContent=l.size;document.getElementById('stRot').value=l.rotation||0;document.getElementById('stRotV').textContent=l.rotation||0;document.getElementById('stX').value=l.x;document.getElementById('stY').value=l.y;}
-  if(l.type==='image'){document.getElementById('imgOp').value=l.opacity;document.getElementById('imgOpV').textContent=l.opacity;document.getElementById('imgFit').value=l.fit||'cover';}
+  if(l.type==='image'){
+    document.getElementById('imgOp').value=l.opacity;document.getElementById('imgOpV').textContent=l.opacity;document.getElementById('imgFit').value=l.fit||'cover';
+    document.getElementById('maskCkI').checked=!!l.mask;
+    document.getElementById('maskPanelI').style.display=l.mask?'block':'none';
+    if(l.mask)buildMaskEditor(l,'maskCanvasI','maskSzI','maskSzVI','maskPanelI');
+  }
   if(l.type==='5000'){document.getElementById('c5T').value=l.top;document.getElementById('c5B').value=l.bottom;document.getElementById('c5R').checked=!!l.rainbow;document.getElementById('c5Sz').value=l.width;document.getElementById('c5SzV').textContent=l.width;document.getElementById('c5Pr').style.display=l.src?'block':'none';if(l.src)document.getElementById('c5Img').src=l.src;}
 }
 
@@ -717,11 +984,16 @@ document.getElementById('txtIn').addEventListener('input',e=>{const l=selLayer()
 document.getElementById('fontSel').addEventListener('change',e=>{reL({font:e.target.value});});
 document.getElementById('fontSize').addEventListener('input',e=>{reL({fontSize:+e.target.value});document.getElementById('fsV').textContent=e.target.value;});
 document.getElementById('lineH').addEventListener('input',e=>{reL({lineH:+e.target.value});document.getElementById('lhV').textContent=(+e.target.value).toFixed(1);});
+document.getElementById('letterSp').addEventListener('input',e=>{reL({letterSp:+e.target.value});document.getElementById('lsV').textContent=e.target.value;});
 document.getElementById('rotRange').addEventListener('input',e=>{reL({rotation:+e.target.value});document.getElementById('rotV').textContent=e.target.value;});
+document.getElementById('txtOp').addEventListener('input',e=>{reL({opacity:+e.target.value});document.getElementById('tOpV').textContent=e.target.value;});
 document.getElementById('padding').addEventListener('input',e=>{reL({padding:+e.target.value});document.getElementById('padV').textContent=e.target.value;});
 document.getElementById('posX').addEventListener('input',e=>{reL({textX:+e.target.value});});
 document.getElementById('posY').addEventListener('input',e=>{reL({textY:+e.target.value});});
 document.getElementById('cpCk').addEventListener('change',e=>{reL({customPos:e.target.checked});});
+// mask toggles
+document.getElementById('maskCk').addEventListener('change',e=>{const l=selLayer();if(!l)return;l.mask=e.target.checked;if(l.mask&&!l.maskData){l._maskEl=null;}document.getElementById('maskPanel').style.display=l.mask?'block':'none';if(l.mask)buildMaskEditor(l,'maskCanvas','maskSz','maskSzV','maskPanel');re();});
+document.getElementById('maskCkI').addEventListener('change',e=>{const l=selLayer();if(!l)return;l.mask=e.target.checked;if(l.mask&&!l.maskData){l._maskEl=null;}document.getElementById('maskPanelI').style.display=l.mask?'block':'none';if(l.mask)buildMaskEditor(l,'maskCanvasI','maskSzI','maskSzVI','maskPanelI');re();});
 
 function syncCol(cid,hid,sid,key){
   const p=document.getElementById(cid),h=document.getElementById(hid),s=document.getElementById(sid);
@@ -816,35 +1088,41 @@ function setBgType(t){
 }
 function syncBgCol(cid,hid,sid,key){const p=document.getElementById(cid),h=document.getElementById(hid),s=document.getElementById(sid);p.addEventListener('input',e=>{doc[key]=e.target.value;h.value=e.target.value;s.style.background=e.target.value;re();});h.addEventListener('change',e=>{if(/^#[0-9a-fA-F]{6}$/.test(e.target.value)){doc[key]=e.target.value;p.value=e.target.value;s.style.background=e.target.value;re();}});}
 syncBgCol('bgCol','bgHex','bgSw','bgCol');syncBgCol('bg1Col','bg1Hex','bg1Sw','bg1');syncBgCol('bg2Col','bg2Hex','bg2Sw','bg2');
-document.getElementById('bgGradDir').addEventListener('change',e=>{doc.bgGradDir=e.target.value;re();});
+document.getElementById('bgGradDir').addEventListener('change',e=>{
+  doc.bgGradDir=e.target.value;
+  document.getElementById('bgAngleRow').style.display=e.target.value==='a'?'block':'none';
+  re();
+});
+document.getElementById('bgAng').addEventListener('input',e=>{doc.bgAng=+e.target.value;document.getElementById('bgAngV').textContent=e.target.value;re();});
 
 // canvas size
-document.getElementById('imgW').addEventListener('change',e=>{doc.width=+e.target.value||800;re();});
-document.getElementById('imgH').addEventListener('change',e=>{doc.height=+e.target.value||600;re();});
-function setPreset(w,h){doc.width=w;doc.height=h;document.getElementById('imgW').value=w;document.getElementById('imgH').value=h;re();}
+document.getElementById('imgW').addEventListener('change',e=>{doc.width=+e.target.value||800;doc.layers.forEach(l=>{l._maskEl=null;});re();});
+document.getElementById('imgH').addEventListener('change',e=>{doc.height=+e.target.value||600;doc.layers.forEach(l=>{l._maskEl=null;});re();});
+function setPreset(w,h){doc.width=w;doc.height=h;document.getElementById('imgW').value=w;document.getElementById('imgH').value=h;doc.layers.forEach(l=>{l._maskEl=null;});re();}
 
 // download
 function doDownload(){
   const fmt=document.getElementById('dlFmt').value;
+  const name=(document.getElementById('dlName').value.trim()||'textimg').replace(/[^\w\-]/g,'_');
   const mime=fmt==='jpeg'?'image/jpeg':fmt==='webp'?'image/webp':'image/png';
   try{
     const url=canvas.toDataURL(mime,.95);
     const isIOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(/Mac/.test(navigator.userAgent)&&navigator.maxTouchPoints>1);
     if(isIOS){document.getElementById('dlMI').src=url;document.getElementById('dlM').classList.add('on');}
-    else{const a=document.createElement('a');a.href=url;a.download=`textimg.${fmt}`;a.click();}
+    else{const a=document.createElement('a');a.href=url;a.download=`${name}.${fmt}`;a.click();}
   }catch(e){alert(lang==='ja'?'ダウンロードできません。スクリーンショットで保存してください。':'Cannot download. Please take a screenshot.');}
 }
 function resetAll(){if(!confirm(lang==='ja'?'リセットしますか？':'Reset all?'))return;try{localStorage.removeItem(SAVE_KEY);}catch(e){}location.reload();}
 
 // autosave
-const SAVE_KEY='ti_v8';
+const SAVE_KEY='ti_v9';
 let saveTimer=null;
 function saveState(){
   clearTimeout(saveTimer);
   saveTimer=setTimeout(()=>{
     try{
       const sd=JSON.parse(JSON.stringify(doc));
-      sd.layers.forEach(l=>{if(l.type==='image')l.src=null;if(l.type==='5000')l.src=null;});
+      sd.layers.forEach(l=>{if(l.type==='image')l.src=null;if(l.type==='5000')l.src=null;delete l._maskEl;});
       localStorage.setItem(SAVE_KEY,JSON.stringify({doc:sd,zoom,panX,panY}));
       const el=document.getElementById('asi');el.textContent=tl('asiOk');el.classList.add('ok');
       setTimeout(()=>{el.textContent=tl('asi');el.classList.remove('ok');},2000);
@@ -864,9 +1142,12 @@ function loadState(){
     const bg1=doc.bg1||'#667eea';document.getElementById('bg1Col').value=bg1;document.getElementById('bg1Hex').value=bg1;document.getElementById('bg1Sw').style.background=bg1;
     const bg2=doc.bg2||'#764ba2';document.getElementById('bg2Col').value=bg2;document.getElementById('bg2Hex').value=bg2;document.getElementById('bg2Sw').style.background=bg2;
     document.getElementById('bgGradDir').value=doc.bgGradDir||'v';
+    document.getElementById('bgAngleRow').style.display=(doc.bgGradDir==='a')?'block':'none';
+    document.getElementById('bgAng').value=doc.bgAng||45;document.getElementById('bgAngV').textContent=doc.bgAng||45;
     if(doc.layers&&doc.layers.length)selId=doc.layers[doc.layers.length-1].id;
   }catch(e){console.warn('loadState:',e);}
 }
+
 
 // init
 loadTheme();loadLang();loadState();buildEmojiGrid();
