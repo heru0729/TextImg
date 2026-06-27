@@ -6,6 +6,34 @@
 <title>How to Use — TextImg</title>
 <meta name="description" content="How to use TextImg — free online text image generator. Learn about layers, effects, fonts, export, and more.">
 <link rel="canonical" href="https://textimg.net/use.html">
+<!-- Structured Data: BreadcrumbList -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"TextImg","item":"https://textimg.net/"},
+    {"@type":"ListItem","position":2,"name":"How to Use","item":"https://textimg.net/use.html"}
+  ]
+}
+</script>
+<!-- Structured Data: FAQPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Is TextImg free?","acceptedAnswer":{"@type":"Answer","text":"Yes. TextImg is completely free to use with no registration required. The service is supported by Google AdSense advertisements."}},
+    {"@type":"Question","name":"Do my images or files get uploaded to a server?","acceptedAnswer":{"@type":"Answer","text":"No. All image processing happens in your browser. Files you upload (images, fonts) never leave your device. The only exception is the 5000 Choyen mode, which sends text to an external API (gsapi.cbrx.io) to generate the image."}},
+    {"@type":"Question","name":"Can I use the images commercially?","acceptedAnswer":{"@type":"Answer","text":"Yes. You own the images you create. However, if you use custom fonts, make sure you have the appropriate license for commercial use of those fonts. Built-in web fonts (Google Fonts) are available under the SIL Open Font License, which generally permits commercial use."}},
+    {"@type":"Question","name":"My font upload doesn't work — what should I check?","acceptedAnswer":{"@type":"Answer","text":"Supported formats are .ttf, .otf, .woff, and .woff2. Make sure the file is not corrupted. After uploading, the font is applied to the currently selected text layer. If it still doesn't appear, try refreshing and re-uploading."}},
+    {"@type":"Question","name":"Why does the emoji look different on my friend's screen?","acceptedAnswer":{"@type":"Answer","text":"Emoji are rendered using your operating system's emoji font (e.g. Apple Color Emoji on iOS/macOS, Noto Emoji on Android/Linux). The visual style varies between platforms. The exported PNG captures the emoji as rendered on your device."}},
+    {"@type":"Question","name":"My work disappeared after reloading — why?","acceptedAnswer":{"@type":"Answer","text":"Layer settings are saved automatically, but uploaded image and font files are not stored in local storage (to avoid exceeding storage limits). After reloading, you need to re-upload those files. The layer structure and all other settings will be restored."}},
+    {"@type":"Question","name":"Can I save a project and come back later?","acceptedAnswer":{"@type":"Answer","text":"Your settings are automatically saved to your browser's local storage. As long as you use the same browser and device, your layers and settings will be there when you return. Note that clearing browser data or private/incognito mode will erase saved settings."}},
+    {"@type":"Question","name":"The canvas export is blurry — how do I get a sharp image?","acceptedAnswer":{"@type":"Answer","text":"The export resolution matches the canvas size you set. For a sharper image, increase the canvas size (e.g. 1920×1080 instead of 800×600) and scale up your font size accordingly. Export as PNG for the sharpest result with text."}}
+  ]
+}
+</script>
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6CG10ZPVW3"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-6CG10ZPVW3');</script>
@@ -56,6 +84,10 @@ footer{background:#1a1a1a;border-top:1px solid #2e2e2e;padding:12px 24px;text-al
 footer p{font-size:11px;color:#888}
 footer a{color:#888;text-decoration:none}
 .en{display:block}.ja{display:none}
+.history-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.history-item{display:flex;gap:14px;align-items:baseline;padding:10px 0;border-bottom:1px solid #2e2e2e}
+.history-date{font-size:12px;color:#888;white-space:nowrap;min-width:90px;font-family:'Courier New',monospace}
+.history-desc{font-size:13px;color:#aaa;line-height:1.7}
 @media(max-width:600px){.hero h1{font-size:22px}.hero{padding:32px 16px}.wrap{padding:32px 16px}}
 </style>
 </head>
@@ -99,6 +131,8 @@ footer a{color:#888;text-decoration:none}
         <li><a href="#en-canvas">Canvas &amp; Undo</a></li>
         <li><a href="#en-export">Export</a></li>
         <li><a href="#en-faq">FAQ</a></li>
+        <li><a href="#en-changelog">Changelog</a></li>
+        <li><a href="#en-siteinfo">About this site</a></li>
       </ol>
     </div>
 
@@ -310,6 +344,29 @@ footer a{color:#888;text-decoration:none}
       </div>
     </section>
 
+    <section id="en-changelog">
+      <h2>Changelog</h2>
+      <div class="history-list">
+        <div class="history-item"><span class="history-date">2026-06-27</span><span class="history-desc">Separated tool and documentation: index.html is now the editor, this page holds the full guide, FAQ, changelog, and site info. Added FAQPage structured data.</span></div>
+        <div class="history-item"><span class="history-date">2026-05-24</span><span class="history-desc">Added layer mask (text &amp; image layers), letter spacing, text opacity, double-click layer rename, center line guide, custom-angle background gradient, and custom download filename.</span></div>
+        <div class="history-item"><span class="history-date">2026-05-14</span><span class="history-desc">Major rewrite: multi-layer canvas (text, dot, emoji, image, 5000), Undo/Redo (50 steps), background gradient &amp; transparency, custom font upload.</span></div>
+        <div class="history-item"><span class="history-date">2026-05-09</span><span class="history-desc">Revised Privacy Policy, Terms of Use, and this guide.</span></div>
+        <div class="history-item"><span class="history-date">2026-04-03</span><span class="history-desc">Initial release.</span></div>
+      </div>
+    </section>
+
+    <section id="en-siteinfo">
+      <h2>About this site</h2>
+      <h3>Purpose</h3>
+      <p>TextImg exists to give everyone a simple, free way to create text images in their browser — no sign-ups, no installs, no watermarks.</p>
+      <h3>Update policy</h3>
+      <p>Features and fixes are released as needed. Major changes are recorded in the Changelog above.</p>
+      <h3>Contact</h3>
+      <p>Bug reports and feature requests: <a href="mailto:textimgnet@gmail.com">textimgnet@gmail.com</a></p>
+      <h3>Policies</h3>
+      <p><a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Use</a></p>
+    </section>
+
   </div><!-- /en -->
 
   <!-- ===== JAPANESE ===== -->
@@ -330,6 +387,8 @@ footer a{color:#888;text-decoration:none}
         <li><a href="#ja-canvas">キャンバス・Undo</a></li>
         <li><a href="#ja-export">書き出し</a></li>
         <li><a href="#ja-faq">よくある質問</a></li>
+        <li><a href="#ja-changelog">更新履歴</a></li>
+        <li><a href="#ja-siteinfo">運営情報</a></li>
       </ol>
     </div>
 
@@ -534,6 +593,29 @@ footer a{color:#888;text-decoration:none}
         <div class="faq-q" onclick="toggleFaq(this)">書き出した画像がぼやける場合は？ <span class="arr">▼</span></div>
         <div class="faq-a">書き出し解像度は設定したキャンバスサイズと同じです。より鮮明な画像が必要な場合は、キャンバスサイズを大きくして（例：800×600 → 1920×1080）フォントサイズも合わせて拡大してください。テキストを含む画像にはPNG形式での書き出しが最も鮮明です。</div>
       </div>
+    </section>
+
+    <section id="ja-changelog">
+      <h2>更新履歴</h2>
+      <div class="history-list">
+        <div class="history-item"><span class="history-date">2026-06-27</span><span class="history-desc">ツールとドキュメントを分離。index.htmlはエディター本体、このページに使い方・FAQ・更新履歴・運営情報を集約。FAQPage構造化データを追加。</span></div>
+        <div class="history-item"><span class="history-date">2026-05-24</span><span class="history-desc">レイヤーマスク（テキスト・画像レイヤー）、文字間隔、テキスト不透明度、レイヤー名のダブルクリックリネーム、中心線ガイド、背景グラデーションの角度自由指定、ダウンロードファイル名のカスタムを追加。</span></div>
+        <div class="history-item"><span class="history-date">2026-05-14</span><span class="history-desc">複数レイヤー対応の大規模リニューアル（テキスト・ドット・絵文字・画像・5000）。Undo/Redo（50ステップ）、背景グラデーション・透過、カスタムフォントアップロードを追加。</span></div>
+        <div class="history-item"><span class="history-date">2026-05-09</span><span class="history-desc">プライバシーポリシー・利用規約・本ガイドを改訂。</span></div>
+        <div class="history-item"><span class="history-date">2026-04-03</span><span class="history-desc">初回公開。</span></div>
+      </div>
+    </section>
+
+    <section id="ja-siteinfo">
+      <h2>運営情報</h2>
+      <h3>サイトの目的</h3>
+      <p>TextImgは「誰でも手軽にブラウザでテキスト画像を作れる環境」を提供するために運営しています。登録不要・無料・透かしなしにこだわっています。</p>
+      <h3>更新方針</h3>
+      <p>機能追加・修正は随時行います。主要な変更は上記の更新履歴に記録します。</p>
+      <h3>お問い合わせ</h3>
+      <p>バグ報告・機能要望は <a href="mailto:textimgnet@gmail.com">textimgnet@gmail.com</a> まで。</p>
+      <h3>各種ポリシー</h3>
+      <p><a href="/privacy.html">プライバシーポリシー</a> · <a href="/terms.html">利用規約</a></p>
     </section>
 
   </div><!-- /ja -->
